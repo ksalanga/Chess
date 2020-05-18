@@ -1,15 +1,13 @@
-public class ChessPiece {
+public interface ChessPiece {
 
-    public ChessPiece() {
+    public String move(String inputPosition, ChessPiece[][] boardPositions);
 
-    }
+    public String getCurrentPosition();
 
-    public String move(String inputPosition, ChessPiece[][] boardPositions) {
-        return "";
-    }
+    public String getColor();
 
-    public String getCurrentPosition() {
-        return "";
-    }
+    public void setPosition(String position);
+
+    public void setColor(String color);
 
 }

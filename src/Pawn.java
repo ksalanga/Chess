@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Pawn extends ChessPiece{
+public class Pawn implements ChessPiece{
     private String name = "P";
     private boolean enPassant = false;
     private boolean starting = true;
@@ -37,8 +37,6 @@ public class Pawn extends ChessPiece{
             availablePositions.add(Integer.toString(r - 1) + (c - 1));
         }
 
-        System.out.println(availablePositions);
-
         starting = false;
 
         if (!availablePositions.contains(inputPosition)) {
@@ -50,6 +48,21 @@ public class Pawn extends ChessPiece{
 
     public String getCurrentPosition() {
         return currentPosition;
+    }
+
+    @Override
+    public String getColor() {
+        return null;
+    }
+
+    @Override
+    public void setPosition(String position) {
+
+    }
+
+    @Override
+    public void setColor(String color) {
+
     }
 
 }
