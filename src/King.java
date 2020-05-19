@@ -1,6 +1,13 @@
+import java.util.ArrayList;
+
 public class King implements ChessPiece {
-    public String move(String inputPosition, ChessPiece[][] boardPositions) {
-        return "";
+    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+        return false;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     public String getCurrentPosition() {
@@ -10,6 +17,11 @@ public class King implements ChessPiece {
     @Override
     public String getColor() {
         return null;
+    }
+
+    @Override
+    public void setName(String name) {
+
     }
 
     @Override

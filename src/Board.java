@@ -1,8 +1,10 @@
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Board {
 
     private ChessPiece[][] Pieces;
+    private ArrayList<ChessPiece> whiteCaptures;
+    private ArrayList<ChessPiece> blackCaptures;
 
 //    8 0 1 2 3 4 5 6 7
 //    7 0 1 2 3 4 5 6 7
@@ -29,7 +31,7 @@ public class Board {
         Pieces = new ChessPiece[8][8];
 
         Pieces[6][4] = new Pawn("64", "white");
-        Pieces[6][4].move(Pieces[6][4].getCurrentPosition(), Pieces);
+        Pieces[6][4].move(Pieces[6][4].getCurrentPosition(), Pieces, whiteCaptures);
     }
 
     public void setPositions() {

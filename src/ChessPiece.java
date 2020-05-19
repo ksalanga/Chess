@@ -1,10 +1,16 @@
+import java.util.ArrayList;
+
 public interface ChessPiece {
 
-    public String move(String inputPosition, ChessPiece[][] boardPositions);
+    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures);
+
+    public String getName();
 
     public String getCurrentPosition();
 
     public String getColor();
+
+    public void setName(String name);
 
     public void setPosition(String position);
 
