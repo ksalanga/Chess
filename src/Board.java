@@ -29,9 +29,24 @@ public class Board {
 
     public Board() {
         Pieces = new ChessPiece[8][8];
+        Pieces[3][4] = new Knight("34", "white");
 
-        Pieces[6][4] = new Pawn("64", "white");
-        Pieces[6][4].move(Pieces[6][4].getCurrentPosition(), Pieces, whiteCaptures);
+        for (int i = 0; i < Pieces.length; i++) {
+            for (int j = 0; j < Pieces[i].length; j++) {
+                if (Pieces[i][j] == null) System.out.print(" * ");
+                else System.out.print(Pieces[i][j].getName());
+            }
+            System.out.println();
+        }
+        Pieces[3][4].move("77", Pieces, whiteCaptures);
+
+        for (int i = 0; i < Pieces.length; i++) {
+            for (int j = 0; j < Pieces[i].length; j++) {
+                if (Pieces[i][j] == null) System.out.print(" * ");
+                else System.out.print(Pieces[i][j].getName());
+            }
+            System.out.println();
+        }
     }
 
     public void setPositions() {

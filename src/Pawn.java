@@ -68,16 +68,17 @@ public class Pawn implements ChessPiece{
 
         starting = false;
 
-        if (!availablePositions.contains(inputPosition)) {
-            return false;
-        } else {
+        if (availablePositions.contains(inputPosition)) {
             if (boardPositions[rInput][cInput] != null) {
                 ChessPiece p = boardPositions[rInput][cInput];
                 whiteCaptures.add(p);
             }
             boardPositions[rInput][cInput] = boardPositions[r][c];
+            currentPosition = Integer.toString(rInput) + cInput;
             boardPositions[r][c] = null;
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -137,41 +138,28 @@ public class Pawn implements ChessPiece{
                 blackCaptures.add(p);
             }
             boardPositions[rInput][cInput] = boardPositions[r][c];
+            currentPosition = Integer.toString(rInput) + cInput;
             boardPositions[r][c] = null;
             return true;
         }
     }
 
-    public boolean isEnPassant() {
-        return enPassant;
-    }
+    public boolean isEnPassant() { return enPassant; }
 
     @Override
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public String getCurrentPosition() {
-        return currentPosition;
-    }
+    public String getCurrentPosition() { return currentPosition; }
 
     @Override
-    public String getColor() {
-        return color;
-    }
+    public String getColor() { return color; }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     @Override
-    public void setPosition(String position) {
-        this.currentPosition = position;
-    }
+    public void setPosition(String position) { this.currentPosition = position; }
 
     @Override
-    public void setColor(String color) {
-        this.color = color;
-    }
+    public void setColor(String color) { this.color = color; }
 }
