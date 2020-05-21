@@ -45,7 +45,9 @@ public class Bishop implements ChessPiece {
             return;
         }
         availablePositions.add(position);
-        move(r += y, c += x, x, y, availablePositions, boardPositions);
+        r += y;
+        c += x;
+        move(r, c, x, y, availablePositions, boardPositions);
     }
 
 
