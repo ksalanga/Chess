@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Knight implements ChessPiece {
-    private String name = "Kn";
+    private String name = "N";
     private String currentPosition;
     private String color;
 
@@ -12,6 +12,7 @@ public class Knight implements ChessPiece {
 
     public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
         ArrayList<String> availablePositions = new ArrayList<>();
+
         int r = Character.getNumericValue(currentPosition.charAt(0));
         int c = Character.getNumericValue(currentPosition.charAt(1));
         int rInput = Character.getNumericValue(inputPosition.charAt(0));
