@@ -29,7 +29,7 @@ public class Board {
 
     public Board() {
         Pieces = new ChessPiece[8][8];
-        Pieces[3][4] = new Knight("34", "white");
+        Pieces[3][4] = new Bishop("34", "white");
 
         for (int i = 0; i < Pieces.length; i++) {
             for (int j = 0; j < Pieces[i].length; j++) {
@@ -38,7 +38,7 @@ public class Board {
             }
             System.out.println();
         }
-        Pieces[3][4].move("77", Pieces, whiteCaptures);
+        Pieces[3][4].move("70", Pieces, whiteCaptures);
 
         for (int i = 0; i < Pieces.length; i++) {
             for (int j = 0; j < Pieces[i].length; j++) {

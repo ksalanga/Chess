@@ -1,9 +1,22 @@
 import java.util.ArrayList;
 
 public class King implements ChessPiece {
-    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
-        return false;
+    private String name = "K";
+    private String currentPosition;
+    private String color;
+    private boolean starting = true;
+
+    public King (String currentPosition, String color) {
+        this.currentPosition = currentPosition;
+        this.color = color;
     }
+
+    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+        starting = false;
+        return starting;
+    }
+
+    public boolean castle()
 
     @Override
     public String getName() {

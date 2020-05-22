@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Knight implements ChessPiece {
+public class Knight extends PieceMoves implements ChessPiece {
     private String name = "N";
     private String currentPosition;
     private String color;
@@ -29,20 +29,7 @@ public class Knight implements ChessPiece {
             }
         }
 
-        System.out.println(availablePositions);
-
-        if (availablePositions.contains(inputPosition)) {
-            if (boardPositions[rInput][cInput] != null) {
-                ChessPiece p = boardPositions[rInput][cInput];
-                captures.add(p);
-            }
-            boardPositions[rInput][cInput] = boardPositions[r][c];
-            currentPosition = Integer.toString(rInput) + cInput;
-            boardPositions[r][c] = null;
-            return true;
-        } else {
-            return false;
-        }
+        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
     }
 
     @Override

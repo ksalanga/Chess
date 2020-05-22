@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Bishop implements ChessPiece {
+public class Bishop extends PieceMoves implements ChessPiece {
     private String name = "B";
     private String currentPosition;
     private String color;
@@ -18,65 +18,28 @@ public class Bishop implements ChessPiece {
         int rInput = Character.getNumericValue(inputPosition.charAt(0));
         int cInput = Character.getNumericValue(inputPosition.charAt(1));
 
-        move(r, c, 1, 1, availablePositions, boardPositions);
-        move(r, c, -1, 1, availablePositions, boardPositions);
-        move(r, c, 1, -1, availablePositions, boardPositions);
-        move(r, c, -1, -1, availablePositions, boardPositions);
+        move(r + 1, c + 1, 1, 1, availablePositions, boardPositions);
+        move(r + 1, c - 1, -1, 1, availablePositions, boardPositions);
+        move(r - 1, c + 1, 1, -1, availablePositions, boardPositions);
+        move(r - 1, c - 1, -1, -1, availablePositions, boardPositions);
 
-        if (availablePositions.contains(inputPosition)) {
-            if (boardPositions[rInput][cInput] != null) {
-                ChessPiece p = boardPositions[rInput][cInput];
-                captures.add(p);
-            }
-            boardPositions[rInput][cInput] = boardPositions[r][c];
-            currentPosition = Integer.toString(rInput) + cInput;
-            boardPositions[r][c] = null;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void move(int r, int c, int x, int y, ArrayList<String> availablePositions, ChessPiece[][] boardPositions) {
-        if (r < 0 || r > 7 || c < 0 || c > 7) return;
-        String position = Integer.toString(r) + c;
-        if (boardPositions[r][c] != null) {
-            availablePositions.add(position);
-            return;
-        }
-        availablePositions.add(position);
-        r += y;
-        c += x;
-        move(r, c, x, y, availablePositions, boardPositions);
-    }
-
-
-    @Override
-    public String getName() {
-        return null;
-    }
-
-    public String getCurrentPosition() {
-        return "";
+        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
     }
 
     @Override
-    public String getColor() {
-        return null;
-    }
+    public String getName() { return name; }
+
+    public String getCurrentPosition() { return currentPosition; }
 
     @Override
-    public void setName(String name) {
-
-    }
+    public String getColor() { return color; }
 
     @Override
-    public void setPosition(String position) {
-
-    }
+    public void setName(String name) { this.name = name; }
 
     @Override
-    public void setColor(String color) {
+    public void setPosition(String position) { this.currentPosition = position; }
 
-    }
+    @Override
+    public void setColor(String color) { this.color = color; }
 }

@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Pawn implements ChessPiece{
+public class Pawn extends PieceMoves implements ChessPiece{
     private String name = "P";
     private boolean enPassant;
     private boolean starting = true;
@@ -102,18 +102,7 @@ public class Pawn implements ChessPiece{
 
         starting = false;
 
-        if (availablePositions.contains(inputPosition)) {
-            if (boardPositions[rInput][cInput] != null) {
-                ChessPiece p = boardPositions[rInput][cInput];
-                captures.add(p);
-            }
-            boardPositions[rInput][cInput] = boardPositions[r][c];
-            currentPosition = Integer.toString(rInput) + cInput;
-            boardPositions[r][c] = null;
-            return true;
-        } else {
-            return false;
-        }
+        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
     }
 
     public boolean isEnPassant() { return enPassant; }
