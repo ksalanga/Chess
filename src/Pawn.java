@@ -100,9 +100,11 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
         }
 
-        starting = false;
+        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        if (moveAvailable) return true;
 
-        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        starting = false;
+        return false;
     }
 
     public boolean isEnPassant() { return enPassant; }

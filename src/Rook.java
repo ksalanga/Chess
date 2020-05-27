@@ -4,6 +4,7 @@ public class Rook extends PieceMoves implements ChessPiece {
     private String name = "R";
     private String currentPosition;
     private String color;
+    private boolean starting = true;
 
     public Rook (String currentPosition, String color) {
         this.currentPosition = currentPosition;
@@ -23,7 +24,15 @@ public class Rook extends PieceMoves implements ChessPiece {
         move(r, c + 1, 1, 0, availablePositions, boardPositions);
         move(r, c - 1, -1, 0, availablePositions, boardPositions);
 
-        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        if (moveAvailable) return true;
+
+        starting = false;
+        return false;
+    }
+
+    public boolean isStarting() {
+        return starting;
     }
 
     @Override
