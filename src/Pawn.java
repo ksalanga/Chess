@@ -4,6 +4,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     private String name = "P";
     private boolean enPassant;
     private boolean starting = true;
+    private boolean promotion = false;
     private String color;
     private String currentPosition;
 
@@ -101,11 +102,21 @@ public class Pawn extends PieceMoves implements ChessPiece{
         }
 
         boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
-        if (moveAvailable) return true;
+        if (moveAvailable) {
+            if (color.equals("white") && rInput == 0) {
+                promotion = true;
+            }
+            if (color.equals("black") && rInput == 7) {
+                promotion = true;
+            }
+            return true;
+        }
 
         starting = false;
         return false;
     }
+
+    public boolean isPromoted() { return promotion; }
 
     public boolean isEnPassant() { return enPassant; }
 
