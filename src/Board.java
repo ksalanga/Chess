@@ -43,29 +43,19 @@ public class Board {
         }
     }
 
-    public String convertToCoords(String tile) {
+    public int[] convertToCoords(String tile) {
         int row = 8 - Character.getNumericValue(tile.charAt(1));
         char c = Character.toLowerCase(tile.charAt(0));
         int column = c % 97;
 
-        String coords = Integer.toString(row) + column;
-        return coords;
+        return new int[] {row, column};
     }
 
-    public String convertToTiles(String coords) {
+    public String convertToTiles(int[] coords) {
         char[] files = new char[]{'a', 'b' , 'c', 'd', 'e', 'f', 'g', 'h'};
-        int row = 8 - Character.getNumericValue(coords.charAt(0));
+        int row = 8 - Character.getNumericValue(coords[0]);
 
-        String tile = files[Integer.parseInt(String.valueOf(coords.charAt(1)))] + Integer.toString(row);
+        String tile = files[coords[1]] + Integer.toString(row);
         return tile;
-
-
-        int[][] jeff = new int[8][8];
-
-        for (int i = 0; i < jeff.length; i++) {
-            for (int j = 0; j < jeff[i].length; j++) {
-                jeff[j][i] =
-            }
-        }
     }
 }
