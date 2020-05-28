@@ -2,22 +2,22 @@ import java.util.ArrayList;
 
 public class Rook extends PieceMoves implements ChessPiece {
     private String name = "R";
-    private String currentPosition;
+    private int[] currentPosition;
     private String color;
     private boolean starting = true;
 
-    public Rook (String currentPosition, String color) {
+    public Rook (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
     }
 
-    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
-        ArrayList<String> availablePositions = new ArrayList<>();
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+        ArrayList<int[]> availablePositions = new ArrayList<>();
 
-        int r = Character.getNumericValue(currentPosition.charAt(0));
-        int c = Character.getNumericValue(currentPosition.charAt(1));
-        int rInput = Character.getNumericValue(inputPosition.charAt(0));
-        int cInput = Character.getNumericValue(inputPosition.charAt(1));
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+        int rInput = inputPosition[0];
+        int cInput = inputPosition[1];
 
         move(r + 1, c, 0, 1, availablePositions, boardPositions);
         move(r - 1, c, 0, -1, availablePositions, boardPositions);
@@ -40,7 +40,7 @@ public class Rook extends PieceMoves implements ChessPiece {
         return name;
     }
 
-    public String getCurrentPosition() {
+    public int[] getCurrentPosition() {
         return currentPosition;
     }
 
@@ -53,7 +53,7 @@ public class Rook extends PieceMoves implements ChessPiece {
     public void setName(String name) { this.name = name; }
 
     @Override
-    public void setPosition(String position) { this.currentPosition = position; }
+    public void setPosition(int[] position) { this.currentPosition = position; }
 
     @Override
     public void setColor(String color) { this.color = color; }

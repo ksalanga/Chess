@@ -6,37 +6,37 @@ public class Pawn extends PieceMoves implements ChessPiece{
     private boolean starting = true;
     private boolean promotion = false;
     private String color;
-    private String currentPosition;
+    private int[] currentPosition;
 
-    public Pawn(String currentPosition, String color) {
+    public Pawn(int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
     }
 
-    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
-        ArrayList<String> availablePositions = new ArrayList<String>();
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+        ArrayList<int[]> availablePositions = new ArrayList<>();
         enPassant = false;
 
-        int r = Character.getNumericValue(currentPosition.charAt(0));
-        int c = Character.getNumericValue(currentPosition.charAt(1));
-        int rInput = Character.getNumericValue(inputPosition.charAt(0));
-        int cInput = Character.getNumericValue(inputPosition.charAt(1));
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+        int rInput = inputPosition[0];
+        int cInput = inputPosition[1];
 
         if (color.toLowerCase().equals("white")) {
             //one space move
             if (r - 1 > 0 && boardPositions[r - 1][c] == null) {
-                availablePositions.add(Integer.toString(r - 1) + c);
+                availablePositions.add(new int[] {r - 1, c});
             }
 
             //starting two space move
             if (starting && r - 2 > 0 && boardPositions[r - 2][c] == null) {
-                availablePositions.add(Integer.toString(r - 2) + c);
+                availablePositions.add(new int[] {r - 2, c});
                 if (rInput == r - 2 && cInput == c) enPassant = true;
             }
 
             //captures right
             if (r - 1 > 0 && c + 1 < 8) {
-                if (boardPositions[r - 1][c + 1] != null) availablePositions.add(Integer.toString(r - 1) + (c + 1));
+                if (boardPositions[r - 1][c + 1] != null) availablePositions.add(new int[] {r - 1, c + 1});
                 //captures enpassant, right : special case
                 if (boardPositions[r][c + 1] instanceof Pawn) {
                     Pawn p = (Pawn) boardPositions[r][c + 1];
@@ -51,7 +51,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures left
             if (r - 1 > 0 && c - 1 > 0) {
-                if (boardPositions[r - 1][c - 1] != null) availablePositions.add(Integer.toString(r - 1) + (c - 1));
+                if (boardPositions[r - 1][c - 1] != null) availablePositions.add(new int[] {r - 1, c - 1});
                 //captures enpassant, left : special case
                 if (boardPositions[r][c - 1] instanceof Pawn) {
                     Pawn p = (Pawn) boardPositions[r][c - 1];
@@ -65,18 +65,18 @@ public class Pawn extends PieceMoves implements ChessPiece{
         } else {
             //one space move
             if (r + 1 < 8 && boardPositions[r + 1][c] == null) {
-                availablePositions.add(Integer.toString(r + 1) + c);
+                availablePositions.add(new int[] {r + 1, c});
             }
 
             //starting two space move
             if (starting && r + 2 < 8 && boardPositions[r + 2][c] == null) {
-                availablePositions.add(Integer.toString(r + 2) + c);
+                availablePositions.add(new int[] {r + 2, c});
                 if (rInput == r + 2 && cInput == c) enPassant = true;
             }
 
             //captures right
             if (r + 1 < 8 && c + 1 < 8) {
-                if (boardPositions[r + 1][c + 1] != null) availablePositions.add(Integer.toString(r + 1) + (c + 1));
+                if (boardPositions[r + 1][c + 1] != null) availablePositions.add(new int[] {r + 1, c + 1});
                 if (boardPositions[r][c + 1] instanceof Pawn) {
                     Pawn p = (Pawn) boardPositions[r][c + 1];
                     if (p.isEnPassant() && rInput == r + 1
@@ -89,7 +89,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures left
             if (r + 1 < 8 && c - 1 > 0) {
-                if (boardPositions[r + 1][c - 1] != null) availablePositions.add(Integer.toString(r + 1) + (c - 1));
+                if (boardPositions[r + 1][c - 1] != null) availablePositions.add(new int[] {r + 1, c - 1});
                 if (boardPositions[r][c - 1] instanceof Pawn) {
                     Pawn p = (Pawn) boardPositions[r][c - 1];
                     if (p.isEnPassant() && rInput == r + 1
@@ -123,7 +123,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     @Override
     public String getName() { return name; }
 
-    public String getCurrentPosition() { return currentPosition; }
+    public int[] getCurrentPosition() { return currentPosition; }
 
     @Override
     public String getColor() { return color; }
@@ -132,7 +132,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     public void setName(String name) { this.name = name; }
 
     @Override
-    public void setPosition(String position) { this.currentPosition = position; }
+    public void setPosition(int[] position) { this.currentPosition = position; }
 
     @Override
     public void setColor(String color) { this.color = color; }

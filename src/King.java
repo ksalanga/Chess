@@ -2,22 +2,22 @@ import java.util.ArrayList;
 
 public class King extends PieceMoves implements ChessPiece {
     private String name = "K";
-    private String currentPosition;
+    private int[] currentPosition;
     private String color;
     private boolean starting = true;
 
-    public King (String currentPosition, String color) {
+    public King (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
     }
 
-    public boolean move(String inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
-        ArrayList<String> availablePositions = new ArrayList<String>();
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+        ArrayList<int[]> availablePositions = new ArrayList<int[]>();
 
-        int r = Character.getNumericValue(currentPosition.charAt(0));
-        int c = Character.getNumericValue(currentPosition.charAt(1));
-        int rInput = Character.getNumericValue(inputPosition.charAt(0));
-        int cInput = Character.getNumericValue(inputPosition.charAt(1));
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+        int rInput = inputPosition[0];
+        int cInput = inputPosition[1];
 
         if (rInput == r && (starting && c + 2 == cInput && boardPositions[r][cInput + 1] instanceof Rook) || (starting && c - 3 == cInput && boardPositions[r][cInput - 1] instanceof Rook)) {
             boolean flag = true;
@@ -54,7 +54,7 @@ public class King extends PieceMoves implements ChessPiece {
         for (int i = Math.max(r - 1, 0); i <= Math.min(r + 1, 7); i++) {
             for (int j = Math.max(c - 1, 0); j <= Math.min(c + 1, 7); j++) {
                 if (i != r && j != c) {
-                    availablePositions.add(Integer.toString(i) + j);
+                    availablePositions.add(new int[] {i, j});
                 }
             }
         }
@@ -72,30 +72,30 @@ public class King extends PieceMoves implements ChessPiece {
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
-    public String getCurrentPosition() {
-        return "";
+    public int[] getCurrentPosition() {
+        return currentPosition;
     }
 
     @Override
     public String getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public void setName(String name) {
-
+        this.name = name;
     }
 
     @Override
-    public void setPosition(String position) {
-
+    public void setPosition(int[] position) {
+        currentPosition = position;
     }
 
     @Override
     public void setColor(String color) {
-
+        this.color = color;
     }
 }

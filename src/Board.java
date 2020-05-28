@@ -29,28 +29,18 @@ public class Board {
 
     public Board() {
         Pieces = new ChessPiece[8][8];
-        Pieces[3][4] = new Bishop("34", "white");
-
-        for (int i = 0; i < Pieces.length; i++) {
-            for (int j = 0; j < Pieces[i].length; j++) {
-                if (Pieces[i][j] == null) System.out.print(" * ");
-                else System.out.print(Pieces[i][j].getName());
-            }
-            System.out.println();
-        }
-        Pieces[3][4].move("70", Pieces, whiteCaptures);
-
-        for (int i = 0; i < Pieces.length; i++) {
-            for (int j = 0; j < Pieces[i].length; j++) {
-                if (Pieces[i][j] == null) System.out.print(" * ");
-                else System.out.print(Pieces[i][j].getName());
-            }
-            System.out.println();
-        }
     }
 
     public void setPositions() {
+        //setting black and white pawns
+        for (int i = 0; i < 8; i++) {
+            Pieces[1][i] = new Pawn(new int[] {1, i}, "black");
+            Pieces[6][i] = new Pawn(new int[] {1, i}, "white");
+        }
 
+        for (int i = 0; i < 8; i++) {
+//            Pieces[0][]
+        }
     }
 
     public String convertToCoords(String tile) {
@@ -68,5 +58,14 @@ public class Board {
 
         String tile = files[Integer.parseInt(String.valueOf(coords.charAt(1)))] + Integer.toString(row);
         return tile;
+
+
+        int[][] jeff = new int[8][8];
+
+        for (int i = 0; i < jeff.length; i++) {
+            for (int j = 0; j < jeff[i].length; j++) {
+                jeff[j][i] =
+            }
+        }
     }
 }
