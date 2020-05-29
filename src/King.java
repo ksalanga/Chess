@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 
 public class King extends PieceMoves implements ChessPiece {
-    private String name = "K";
-    private int[] currentPosition;
     private String color;
+    private String name;
+    private int[] currentPosition;
     private boolean starting = true;
 
     public King (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
+        name = color.equals("white") ? "K" : "k";
     }
 
     public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
@@ -97,5 +98,6 @@ public class King extends PieceMoves implements ChessPiece {
     @Override
     public void setColor(String color) {
         this.color = color;
+        name = this.color.equals("white") ? "K" : "k";
     }
 }

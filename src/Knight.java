@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 
 public class Knight extends PieceMoves implements ChessPiece {
-    private String name = "N";
-    private int[] currentPosition;
     private String color;
+    private String name;
+    private int[] currentPosition;
 
     public Knight (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
+        name = color.equals("white") ? "N" : "n";
     }
 
     public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
@@ -47,5 +48,8 @@ public class Knight extends PieceMoves implements ChessPiece {
     public void setPosition(int[] position) { this.currentPosition = position; }
 
     @Override
-    public void setColor(String color) { this.color = color; }
+    public void setColor(String color) {
+        this.color = color;
+        name = this.color.equals("white") ? "N" : "n";
+    }
 }

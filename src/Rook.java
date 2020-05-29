@@ -1,14 +1,15 @@
 import java.util.ArrayList;
 
 public class Rook extends PieceMoves implements ChessPiece {
-    private String name = "R";
-    private int[] currentPosition;
     private String color;
+    private String name;
+    private int[] currentPosition;
     private boolean starting = true;
 
     public Rook (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
+        name = color.equals("white") ? "R" : "r";
     }
 
     public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
@@ -56,5 +57,8 @@ public class Rook extends PieceMoves implements ChessPiece {
     public void setPosition(int[] position) { this.currentPosition = position; }
 
     @Override
-    public void setColor(String color) { this.color = color; }
+    public void setColor(String color) {
+        this.color = color;
+        name = this.color.equals("white") ? "R" : "r";
+    }
 }

@@ -1,16 +1,17 @@
 import java.util.ArrayList;
 
 public class Pawn extends PieceMoves implements ChessPiece{
-    private String name = "P";
+    private String color;
+    private String name;
     private boolean enPassant;
     private boolean starting = true;
     private boolean promotion = false;
-    private String color;
     private int[] currentPosition;
 
     public Pawn(int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
+        name = color.equals("white") ? "P" : "p";
     }
 
     public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
@@ -135,5 +136,8 @@ public class Pawn extends PieceMoves implements ChessPiece{
     public void setPosition(int[] position) { this.currentPosition = position; }
 
     @Override
-    public void setColor(String color) { this.color = color; }
+    public void setColor(String color) {
+        this.color = color;
+        name = this.color.equals("white") ? "P" : "p";
+    }
 }
