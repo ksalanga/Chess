@@ -6,27 +6,6 @@ public class Board {
     private ArrayList<ChessPiece> whiteCaptures;
     private ArrayList<ChessPiece> blackCaptures;
 
-//    8 0 1 2 3 4 5 6 7
-//    7 0 1 2 3 4 5 6 7
-//    6 0 1 2 3 4 5 6 7
-//    5 0 1 2 3 4 5 6 7
-//    4 0 1 2 3 4 5 6 7
-//    3 0 1 2 3 4 5 6 7
-//    2 0 1 2 3 4 5 6 7
-//    1 0 1 2 3 4 5 6 7
-//      A B C D E F G H
-//
-//    A - 0, B - 1, C - 2, D - 3, E - 4, F - 5, G - 6, H - 7
-//
-//            0 - 8
-//            1 - 7
-//            2 - 6
-//            3 - 5
-//            4 - 4
-//            5 - 3
-//            6 - 2
-//            7 - 1
-
     public Board() {
         Pieces = new ChessPiece[8][8];
     }
@@ -59,6 +38,16 @@ public class Board {
         Pieces[7][3] = new Queen(new int[] {7, 3}, "white");
         Pieces[0][4] = new King(new int[] {0, 4}, "black");
         Pieces[7][4] = new King(new int[] {7, 4}, "white");
+    }
+
+    public void printBoard() {
+        for (int i = 0; i < Pieces.length; i++) {
+            for (int j = 0; j < Pieces[i].length; j++) {
+                if (Pieces[i][j] != null) System.out.print(Pieces[i][j].getName() + " ");
+                else System.out.print(" ");
+            }
+            System.out.println();
+        }
     }
 
     public int[] convertToCoords(String tile) {
