@@ -43,7 +43,10 @@ public class Board {
             System.out.print(8 - i + " ");
             for (int j = 0; j < Pieces[i].length; j++) {
                 if (Pieces[i][j] != null) System.out.print(Pieces[i][j].getName() + " ");
-                else System.out.print(" ");
+                else {
+                    if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) System.out.print("* ");
+                    else System.out.print("  ");
+                }
             }
             System.out.println();
         }
