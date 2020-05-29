@@ -57,11 +57,16 @@ public class Board {
     }
 
     public int[] convertToCoords(String tile) {
+        tile = tile.toLowerCase();
         int row = 8 - Character.getNumericValue(tile.charAt(1));
         char c = Character.toLowerCase(tile.charAt(0));
         int column = c % 97;
 
         return new int[] {row, column};
+    }
+
+    public ChessPiece[][] getPieces() {
+        return Pieces;
     }
 
     public String convertToTiles(int[] coords) {
