@@ -12,7 +12,7 @@ public class Board {
         //setting black and white pawns
         for (int i = 0; i < 8; i++) {
             Pieces[1][i] = new Pawn(new int[] {1, i}, "black");
-            Pieces[6][i] = new Pawn(new int[] {1, i}, "white");
+            Pieces[6][i] = new Pawn(new int[] {6, i}, "white");
         }
 
         //White Minor & Major Pieces
