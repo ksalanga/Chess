@@ -17,8 +17,7 @@ public class PieceMoves {
     protected boolean move(int[] currentPosition, int[] inputPosition, int r, int c, int rInput, int cInput, ArrayList<int[]> availablePositions, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
         if (has(inputPosition, availablePositions)) {
             if (boardPositions[rInput][cInput] != null) {
-                ChessPiece p = boardPositions[rInput][cInput];
-                captures.add(p);
+                captures.add(boardPositions[rInput][cInput]);
             }
             boardPositions[rInput][cInput] = boardPositions[r][c];
             currentPosition[0] = rInput;

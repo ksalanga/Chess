@@ -11,6 +11,8 @@ public class Game {
         //start of the game
         board = new Board();
         board.setPositions();
+        whiteCaptures = new ArrayList<>();
+        blackCaptures = new ArrayList<>();
     }
 
     public void start() {
