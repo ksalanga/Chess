@@ -40,19 +40,20 @@ public class Board {
     public void printBoard() {
         char[] alph = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         for (int i = 0; i < Pieces.length; i++) {
-            System.out.print(8 - i + " ");
+            System.out.print(8 - i + "\t");
             for (int j = 0; j < Pieces[i].length; j++) {
-                if (Pieces[i][j] != null) System.out.print(Pieces[i][j].getName() + " ");
+                if (Pieces[i][j] != null) System.out.format("%s\t", Pieces[i][j].getName());
                 else {
-                    if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) System.out.print("* ");
-                    else System.out.print("  ");
+                    if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) System.out.format("%s\t", "⬛");
+                    else System.out.format("%s\t", "⬜");
                 }
             }
             System.out.println();
         }
-        System.out.print("  ");
+
+        System.out.print("\t");
         for (int i = 0; i < alph.length; i++) {
-            System.out.print(alph[i] + " ");
+            System.out.format("%s\t",alph[i]);
         }
     }
 

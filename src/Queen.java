@@ -8,7 +8,7 @@ public class Queen extends PieceMoves implements ChessPiece {
     public Queen (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
-        name = color.equals("white") ? "Q" : "q";
+        name = color.equals("white") ? "♕" : "♛";
     }
 
     public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
