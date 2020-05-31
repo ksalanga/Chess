@@ -37,7 +37,14 @@ public class Board {
 
     }
 
-    public void printBoard() {
+    public void printBoard(ArrayList<ChessPiece> blackCaptures, ArrayList<ChessPiece> whiteCaptures) {
+        if (!blackCaptures.isEmpty()) {
+            System.out.print("\t[ ");
+            for (ChessPiece p : blackCaptures) {
+                System.out.print(p.getName() + " ");
+            }
+            System.out.println("]");
+        }
         char[] alph = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
         for (int i = 0; i < Pieces.length; i++) {
             System.out.print(8 - i + "\t");
@@ -55,9 +62,19 @@ public class Board {
         for (int i = 0; i < alph.length; i++) {
             System.out.format("%s\t",alph[i]);
         }
+
+        if (!whiteCaptures.isEmpty()) {
+            System.out.println();
+            System.out.print("\t[ ");
+            for (ChessPiece p : whiteCaptures) {
+                System.out.print(p.getName() + " ");
+            }
+            System.out.println("]");
+        }
     }
 
     public int[] convertToCoords(String tile) {
+        if (tile.length() != 2) return new int[] {-1, -1};
         tile = tile.toLowerCase();
         int row = 8 - Character.getNumericValue(tile.charAt(1));
         char c = Character.toLowerCase(tile.charAt(0));

@@ -21,9 +21,9 @@ public class Game {
         ChessPiece[][] pieces = board.getPieces();
         //put captures ArrayList when a piece moves.
         while (!end) {
-            board.printBoard();
+            board.printBoard(blackCaptures, whiteCaptures);
             System.out.println();
-            System.out.print("Select a piece: ");
+            System.out.print(whitesTurn? "(White ♙) Select a piece: " : "(Black ♟) " + "Select a piece: ");
             String selection = s.nextLine();
             int [] selectedTile = board.convertToCoords(selection);
             int r = selectedTile[0];
@@ -44,9 +44,7 @@ public class Game {
                 int rInput = selectedTile[0];
                 int cInput = selectedTile[1];
                 if (!(selection.length() != 2 || ((rInput < 0 || rInput > 7) || (cInput < 0 || cInput > 7)))) { //inBounds
-                    if (pieces[r][c].move(selectedTile, pieces, whitesTurn ? whiteCaptures : blackCaptures)) {
-                        pieces[rInput][cInput].setPosition(selectedTile);
-                    } else {
+                    if (!pieces[r][c].move(selectedTile, pieces, whitesTurn ? whiteCaptures : blackCaptures)) {
                         System.out.println("Invalid Input");
                         whitesTurn = !whitesTurn;
                     }
