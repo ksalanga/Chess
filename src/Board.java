@@ -45,7 +45,7 @@ public class Board {
             }
             System.out.println("]");
         }
-        char[] alph = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
+
         for (int i = 0; i < Pieces.length; i++) {
             System.out.print(8 - i + "\t");
             for (int j = 0; j < Pieces[i].length; j++) {
@@ -59,8 +59,8 @@ public class Board {
         }
 
         System.out.print("\t");
-        for (int i = 0; i < alph.length; i++) {
-            System.out.format("%s\t",alph[i]);
+        for (int i = 0; i < 8; i++) {
+            System.out.format("%s\t", (char) (65 + i));
         }
 
         if (!whiteCaptures.isEmpty()) {
