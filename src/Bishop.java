@@ -11,7 +11,7 @@ public class Bishop extends PieceMoves implements ChessPiece {
         name = color.equals("white") ? "♗" : "♝";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
         ArrayList<int[]> availablePositions = new ArrayList<>();
 
         int r = currentPosition[0];
@@ -24,7 +24,7 @@ public class Bishop extends PieceMoves implements ChessPiece {
         move(r - 1, c + 1, 1, -1, availablePositions, boardPositions);
         move(r - 1, c - 1, -1, -1, availablePositions, boardPositions);
 
-        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
         name = color.equals("white") ? "♙" : "♟";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
         ArrayList<int[]> availablePositions = new ArrayList<>();
         enPassant = false;
 
@@ -102,7 +102,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
         }
 
-        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
         if (moveAvailable) {
             if (color.equals("white") && rInput == 0) {
                 promotion = true;

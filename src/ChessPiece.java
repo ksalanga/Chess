@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public interface ChessPiece {
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures);
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs);
 
     public String getName();
 

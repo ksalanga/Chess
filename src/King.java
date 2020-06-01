@@ -12,7 +12,7 @@ public class King extends PieceMoves implements ChessPiece {
         name = color.equals("white") ? "♔" : "♚";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
         ArrayList<int[]> availablePositions = new ArrayList<int[]>();
 
         int r = currentPosition[0];
@@ -60,7 +60,7 @@ public class King extends PieceMoves implements ChessPiece {
             }
         }
 
-        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
         if (moveAvailable) return true;
 
         starting = false;

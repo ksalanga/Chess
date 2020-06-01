@@ -12,7 +12,7 @@ public class Rook extends PieceMoves implements ChessPiece {
         name = color.equals("white") ? "♖" : "♜";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures) {
+    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
         ArrayList<int[]> availablePositions = new ArrayList<>();
 
         int r = currentPosition[0];
@@ -25,7 +25,7 @@ public class Rook extends PieceMoves implements ChessPiece {
         move(r, c + 1, 1, 0, availablePositions, boardPositions);
         move(r, c - 1, -1, 0, availablePositions, boardPositions);
 
-        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures);
+        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
         if (moveAvailable) return true;
 
         starting = false;

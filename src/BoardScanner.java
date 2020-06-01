@@ -1,7 +1,22 @@
 public class BoardScanner {
-    private ChessPiece[][] pieces;
+    private boolean whiteMove;
+    private boolean blackMove;
 
-    public BoardScanner(ChessPiece[][] pieces) {
-        this.pieces = pieces;
+    public BoardScanner() {
+        whiteMove = false;
+        blackMove = false;
+    }
+
+    public void setMove(String color) {
+        if (color.equals("white")) whiteMove = true;
+        else blackMove = true;
+    }
+
+    public boolean whiteMove() {
+        return whiteMove;
+    }
+
+    public boolean blackMove() {
+        return blackMove;
     }
 }

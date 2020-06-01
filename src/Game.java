@@ -5,6 +5,7 @@ public class Game {
     private ArrayList<ChessPiece> whiteCaptures;
     private ArrayList<ChessPiece> blackCaptures;
     Board board;
+    BoardScanner[][] bs;
     private boolean end;
 
     public Game() {
@@ -13,6 +14,7 @@ public class Game {
         board.setPositions();
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
+        bs = new BoardScanner[8][8];
     }
 
     public void start() {
@@ -59,6 +61,12 @@ public class Game {
     }
 
     public boolean checkmate() {
+        //initialize boardScanner
+        for (int i = 0; i < bs.length; i++) {
+            for (int j = 0; j < bs[i].length; j++) {
+                bs[i][j] = new BoardScanner();
+            }
+        }
         return true;
     }
 }
