@@ -78,11 +78,13 @@ public class Board {
     }
 
     public int[] convertToCoords(String tile) {
-        if (tile.length() != 2) return new int[] {-1, -1};
+        if (tile.length() != 2 || !Character.isLetter(tile.charAt(0)) || Character.isLetter(tile.charAt(1))) return new int[] {-1, -1};
         tile = tile.toLowerCase();
         int row = 8 - Character.getNumericValue(tile.charAt(1));
         char c = Character.toLowerCase(tile.charAt(0));
         int column = c % 97;
+
+        if (row < 0 || row > 7 || column < 0 || column > 7) return new int[]{-1, -1};
 
         return new int[] {row, column};
     }
