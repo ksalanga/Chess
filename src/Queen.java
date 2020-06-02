@@ -11,7 +11,7 @@ public class Queen extends PieceMoves implements ChessPiece {
         name = color.equals("white") ? "♕" : "♛";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
+    public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
         ArrayList<int[]> availablePositions = new ArrayList<>();
 
         int r = currentPosition[0];
@@ -20,7 +20,6 @@ public class Queen extends PieceMoves implements ChessPiece {
         int cInput = inputPosition[1];
 
         setAvailablePositions(availablePositions);
-        setBoardPositions(boardPositions);
 
         setR(r + 1); setC(c);
         moveAcross(0, 1);

@@ -7,7 +7,6 @@ public class Game {
     private ArrayList<ChessPiece> blackCaptures;
     private HashMap<ChessPiece, int[]> piecePositions;
     private Board board;
-    private BoardScanner[][] bs;
     private boolean end;
 
     public Game() {
@@ -16,7 +15,6 @@ public class Game {
         board.setPositions();
         whiteCaptures = new ArrayList<>();
         blackCaptures = new ArrayList<>();
-        bs = new BoardScanner[8][8];
     }
 
     public void start() {
@@ -48,7 +46,7 @@ public class Game {
                 int rInput = selectedTile[0];
                 int cInput = selectedTile[1];
                 if (!(selection.length() != 2 || ((rInput < 0 || rInput > 7) || (cInput < 0 || cInput > 7)))) { //inBounds
-                    if (!pieces[r][c].move(selectedTile, pieces, whitesTurn ? whiteCaptures : blackCaptures, bs)) {
+                    if (!pieces[r][c].move(selectedTile, whitesTurn ? whiteCaptures : blackCaptures)) {
                         System.out.println("Invalid Input");
                         whitesTurn = !whitesTurn;
                     }
@@ -64,16 +62,16 @@ public class Game {
 
     public boolean check(String color) {
         //initialize boardScanner
-        for (int i = 0; i < bs.length; i++) {
-            for (int j = 0; j < bs[i].length; j++) {
-                bs[i][j] = new BoardScanner();
-            }
-        }
+//        for (int i = 0; i < bs.length; i++) {
+//            for (int j = 0; j < bs[i].length; j++) {
+//                bs[i][j] = new BoardScanner();
+//            }
+//        }
 
         for (int i = 0; i < board.getPieces().length; i++) {
             for (int j = 0; j < board.getPieces()[i].length; j++) {
                 if (board.getPieces()[i][j] != null && board.getPieces()[i][j].getColor().equals(color)) {
-                    board.getPieces()[i][j].move(new int[] {-1, -1}, board.getPieces(), whiteCaptures, bs);
+                    board.getPieces()[i][j].move(new int[] {-1, -1}, whiteCaptures);
                 }
             }
         }

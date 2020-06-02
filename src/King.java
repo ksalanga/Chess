@@ -12,21 +12,22 @@ public class King extends PieceMoves implements ChessPiece {
         name = color.equals("white") ? "♔" : "♚";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
+    public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
         ArrayList<int[]> availablePositions = new ArrayList<int[]>();
+        ChessPiece[][] board = Board.getPieces();
 
         int r = currentPosition[0];
         int c = currentPosition[1];
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        if (rInput == r && (starting && c + 2 == cInput && boardPositions[r][cInput + 1] instanceof Rook) || (starting && c - 3 == cInput && boardPositions[r][cInput - 1] instanceof Rook)) {
+        if (rInput == r && (starting && c + 2 == cInput && board[r][cInput + 1] instanceof Rook) || (starting && c - 3 == cInput && board[r][cInput - 1] instanceof Rook)) {
             boolean flag = true;
             int rookColumn;
             if (cInput == c + 2) {
                 rookColumn = c + 3;
                 for (int i = 1; i < 3; i++) {
-                    if (boardPositions[r][c + i] != null) {
+                    if (board[r][c + i] != null) {
                         flag = false;
                         break;
                     }
@@ -34,19 +35,19 @@ public class King extends PieceMoves implements ChessPiece {
             } else {
                 rookColumn = c - 4;
                 for (int i = 1; i < 4; i++) {
-                    if (boardPositions[r][c + i] != null) {
+                    if (board[r][c + i] != null) {
                         flag = false;
                         break;
                     }
                 }
             }
 
-            if (flag && ((Rook) boardPositions[r][rookColumn]).isStarting()) {
+            if (flag && ((Rook) board[r][rookColumn]).isStarting()) {
                 //castles
-                boardPositions[rInput][cInput] = boardPositions[r][c];
-                boardPositions[r][c] = null;
-                boardPositions[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = boardPositions[r][rookColumn];
-                boardPositions[r][rookColumn] = null;
+                board[rInput][cInput] = board[r][c];
+                board[r][c] = null;
+                board[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = board[r][rookColumn];
+                board[r][rookColumn] = null;
                 starting = false;
                 return true;
             }
@@ -60,7 +61,7 @@ public class King extends PieceMoves implements ChessPiece {
             }
         }
 
-        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setBoardPositions(boardPositions); setCaptures(captures);
+        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
 
         boolean moveAvailable = move(rInput, cInput);
         if (moveAvailable) return true;

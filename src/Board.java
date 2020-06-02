@@ -2,10 +2,14 @@ import java.util.ArrayList;
 
 public class Board {
 
-    private ChessPiece[][] Pieces;
+    private static ChessPiece[][] Pieces;
+
+    private static BoardScanner[][] boardScanner;
 
     public Board() {
         Pieces = new ChessPiece[8][8];
+        boardScanner = new BoardScanner[8][8];
+        reInitialize();
     }
 
     public void setPositions() {
@@ -83,7 +87,7 @@ public class Board {
         return new int[] {row, column};
     }
 
-    public ChessPiece[][] getPieces() {
+    public static ChessPiece[][] getPieces() {
         return Pieces;
     }
 
@@ -93,5 +97,15 @@ public class Board {
 
         String tile = files[coords[1]] + Integer.toString(row);
         return tile;
+    }
+
+    public static BoardScanner[][] getBoardScanner() { return boardScanner; }
+
+    public static void reInitialize() {
+        for (int i = 0; i < boardScanner.length; i++) {
+            for (int j = 0; j < boardScanner[i].length; j++) {
+                boardScanner[i][j] = new BoardScanner();
+            }
+        }
     }
 }

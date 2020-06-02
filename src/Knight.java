@@ -11,7 +11,7 @@ public class Knight extends PieceMoves implements ChessPiece {
         name = color.equals("white") ? "♘" : "♞";
     }
 
-    public boolean move(int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs) {
+    public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
         ArrayList<int[]> availablePositions = new ArrayList<>();
 
         int r = currentPosition[0];
@@ -30,7 +30,7 @@ public class Knight extends PieceMoves implements ChessPiece {
             }
         }
 
-        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setBoardPositions(boardPositions); setCaptures(captures);
+        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
         return move(rInput, cInput);
     }
 
