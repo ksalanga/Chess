@@ -30,7 +30,8 @@ public class Knight extends PieceMoves implements ChessPiece {
             }
         }
 
-        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
+        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setBoardPositions(boardPositions); setCaptures(captures);
+        return move(rInput, cInput);
     }
 
     @Override

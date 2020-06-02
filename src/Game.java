@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Game {
     private ArrayList<ChessPiece> whiteCaptures;
     private ArrayList<ChessPiece> blackCaptures;
-    Board board;
-    BoardScanner[][] bs;
+    private HashMap<ChessPiece, int[]> piecePositions;
+    private Board board;
+    private BoardScanner[][] bs;
     private boolean end;
 
     public Game() {

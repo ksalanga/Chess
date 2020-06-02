@@ -19,12 +19,23 @@ public class Bishop extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        move(r + 1, c + 1, 1, 1, availablePositions, boardPositions);
-        move(r + 1, c - 1, -1, 1, availablePositions, boardPositions);
-        move(r - 1, c + 1, 1, -1, availablePositions, boardPositions);
-        move(r - 1, c - 1, -1, -1, availablePositions, boardPositions);
+        setAvailablePositions(availablePositions);
+        setBoardPositions(boardPositions);
 
-        return move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
+        setR(r + 1); setC(c + 1);
+        moveAcross(1, 1);
+
+        setR(r + 1); setC(c - 1);
+        moveAcross(-1, 1);
+
+        setR(r - 1); setC(c + 1);
+        moveAcross(1, -1);
+
+        setR(r - 1); setC(c - 1);
+        moveAcross(-1, -1);
+
+        setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
+        return move(rInput, cInput);
     }
 
     @Override

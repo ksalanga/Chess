@@ -102,7 +102,9 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
         }
 
-        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
+        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setBoardPositions(boardPositions); setCaptures(captures);
+
+        boolean moveAvailable = move(rInput, cInput);
         if (moveAvailable) {
             if (color.equals("white") && rInput == 0) {
                 promotion = true;

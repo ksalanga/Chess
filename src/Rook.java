@@ -20,12 +20,23 @@ public class Rook extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        move(r + 1, c, 0, 1, availablePositions, boardPositions);
-        move(r - 1, c, 0, -1, availablePositions, boardPositions);
-        move(r, c + 1, 1, 0, availablePositions, boardPositions);
-        move(r, c - 1, -1, 0, availablePositions, boardPositions);
+        setAvailablePositions(availablePositions);
+        setBoardPositions(boardPositions);
 
-        boolean moveAvailable = move(currentPosition, inputPosition, r, c, rInput, cInput, availablePositions, boardPositions, captures, bs);
+        setR(r + 1); setC(c);
+        moveAcross(0, 1);
+
+        setR(r - 1); setC(c);
+        moveAcross(0, -1);
+
+        setR(r); setC(c + 1);
+        moveAcross(1, 0);
+
+        setR(r); setC(c - 1);
+        move(-1, 0);
+
+        setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
+        boolean moveAvailable = move(rInput, cInput);
         if (moveAvailable) return true;
 
         starting = false;
