@@ -50,8 +50,10 @@ public class Game {
                 whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
             }
 
-            System.out.println();
+            check(whitesTurn ? "black" : "white"); //checks if the opposite king is in check
+
             whitesTurn = !whitesTurn;
+            System.out.println();
         }
     }
 
@@ -70,21 +72,30 @@ public class Game {
         return flag;
     }
 
-    public boolean check(String color) {
+    private void check(String color) {
         //initialize boardScanner
-//        for (int i = 0; i < bs.length; i++) {
-//            for (int j = 0; j < bs[i].length; j++) {
-//                bs[i][j] = new BoardScanner();
-//            }
-//        }
 
-        for (int i = 0; i < board.getPieces().length; i++) {
-            for (int j = 0; j < board.getPieces()[i].length; j++) {
-                if (board.getPieces()[i][j] != null && board.getPieces()[i][j].getColor().equals(color)) {
-                    board.getPieces()[i][j].move(new int[] {-1, -1}, whiteCaptures);
-                }
+        Board.reInitialize();
+
+        if (color.equals("white"))  { //if the white king is in check
+            Board.scanPositions("black"); //checks possible positions for black to attack the king
+            int r = Board.getWhiteKing()[0];
+            int c = Board.getWhiteKing()[1];
+
+            if (Board.getBoardScanner()[r][c].isBlackMove()) {
+                System.out.println("check!!!!!");
+            }
+        } else {
+            Board.scanPositions("white");
+
+            int r = Board.getBlackKing()[0];
+            int c = Board.getBlackKing()[1];
+
+            if (Board.getBoardScanner()[r][c].isWhiteMove()) { //black king under white attack
+                System.out.println("check!!!!!");
             }
         }
-        return true;
+
+
     }
 }

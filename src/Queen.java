@@ -19,6 +19,7 @@ public class Queen extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
+        setCurrentPosition(currentPosition);
         setAvailablePositions(availablePositions);
 
         setR(r + 1); setC(c);
@@ -31,7 +32,7 @@ public class Queen extends PieceMoves implements ChessPiece {
         moveAcross(1, 0);
 
         setR(r); setC(c - 1);
-        move(-1, 0);
+        moveAcross(-1, 0);
 
         setR(r + 1); setC(c + 1);
         moveAcross(1, 1);

@@ -6,38 +6,49 @@ public class Board {
 
     private static BoardScanner[][] boardScanner;
 
+    private static ArrayList<ChessPiece> whitePieces;
+    private static ArrayList<ChessPiece> blackPieces;
+
+
     public Board() {
         Pieces = new ChessPiece[8][8];
         boardScanner = new BoardScanner[8][8];
         reInitialize();
+        whitePieces = new ArrayList<ChessPiece>();
+        blackPieces = new ArrayList<ChessPiece>();
     }
 
     public void setPositions() {
+
+        //setting Kings
+        Pieces[7][4] = new King(new int[] {7, 4}, "white"); whitePieces.add(Pieces[7][4]);
+        Pieces[0][4] = new King(new int[] {0, 4}, "black"); blackPieces.add(Pieces[0][4]);
+
         //setting black and white pawns
         for (int i = 0; i < 8; i++) {
             Pieces[1][i] = new Pawn(new int[] {1, i}, "black");
+            blackPieces.add(Pieces[1][i]);
             Pieces[6][i] = new Pawn(new int[] {6, i}, "white");
+            whitePieces.add(Pieces[6][i]);
         }
 
         //White Minor & Major Pieces
-        Pieces[7][0] = new Rook(new int[]{7, 0}, "white");
-        Pieces[7][1] = new Knight(new int[]{7, 1}, "white");
-        Pieces[7][2] = new Bishop(new int[]{7, 2}, "white");
-        Pieces[7][3] = new Queen(new int[] {7, 3}, "white");
-        Pieces[7][4] = new King(new int[] {7, 4}, "white");
-        Pieces[7][5] = new Bishop(new int[]{7, 5}, "white");
-        Pieces[7][6] = new Knight(new int[]{7, 6}, "white");
-        Pieces[7][7] = new Rook(new int[]{7, 7}, "white");
+        Pieces[7][0] = new Rook(new int[]{7, 0}, "white"); whitePieces.add(Pieces[7][0]);
+        Pieces[7][1] = new Knight(new int[]{7, 1}, "white"); whitePieces.add(Pieces[7][1]);
+        Pieces[7][2] = new Bishop(new int[]{7, 2}, "white"); whitePieces.add(Pieces[7][2]);
+        Pieces[7][3] = new Queen(new int[] {7, 3}, "white"); whitePieces.add(Pieces[7][3]);
+        Pieces[7][5] = new Bishop(new int[]{7, 5}, "white"); whitePieces.add(Pieces[7][5]);
+        Pieces[7][6] = new Knight(new int[]{7, 6}, "white"); whitePieces.add(Pieces[7][6]);
+        Pieces[7][7] = new Rook(new int[]{7, 7}, "white"); whitePieces.add(Pieces[7][7]);
 
         //Black Minor & Major Pieces
-        Pieces[0][0] = new Rook(new int[]{0, 0}, "black");
-        Pieces[0][1] = new Knight(new int[]{0, 1}, "black");
-        Pieces[0][2] = new Bishop(new int[]{0, 2}, "black");
-        Pieces[0][3] = new Queen(new int[] {0, 3}, "black");
-        Pieces[0][4] = new King(new int[] {0, 4}, "black");
-        Pieces[0][5] = new Bishop(new int[]{0, 5}, "black");
-        Pieces[0][6] = new Knight(new int[]{0, 6}, "black");
-        Pieces[0][7] = new Rook(new int[]{0, 7}, "black");
+        Pieces[0][0] = new Rook(new int[]{0, 0}, "black"); blackPieces.add(Pieces[0][0]);
+        Pieces[0][1] = new Knight(new int[]{0, 1}, "black"); blackPieces.add(Pieces[0][1]);
+        Pieces[0][2] = new Bishop(new int[]{0, 2}, "black"); blackPieces.add(Pieces[0][2]);
+        Pieces[0][3] = new Queen(new int[] {0, 3}, "black"); blackPieces.add(Pieces[0][3]);
+        Pieces[0][5] = new Bishop(new int[]{0, 5}, "black"); blackPieces.add(Pieces[0][5]);
+        Pieces[0][6] = new Knight(new int[]{0, 6}, "black"); blackPieces.add(Pieces[0][6]);
+        Pieces[0][7] = new Rook(new int[]{0, 7}, "black"); blackPieces.add(Pieces[0][7]);
 
     }
 
@@ -109,5 +120,35 @@ public class Board {
                 boardScanner[i][j] = new BoardScanner();
             }
         }
+    }
+
+    public static void scanPositions(String color) {
+        if (color.equals("white")) {
+            for (int i = 0; i < whitePieces.size(); i++) {
+                int[] currentPosition = whitePieces.get(i).getCurrentPosition();
+                whitePieces.get(i).move(currentPosition, null);
+            }
+        } else {
+            for (int i = 0; i < blackPieces.size(); i++) {
+                int[] currentPosition = blackPieces.get(i).getCurrentPosition();
+                blackPieces.get(i).move(currentPosition, null);
+            }
+        }
+    }
+
+    public static ArrayList<ChessPiece> getWhitePieces() {
+        return whitePieces;
+    }
+
+    public static ArrayList<ChessPiece> getBlackPieces() {
+        return blackPieces;
+    }
+
+    public static int[] getWhiteKing() {
+        return whitePieces.get(0).getCurrentPosition();
+    }
+
+    public static int[] getBlackKing() {
+        return blackPieces.get(0).getCurrentPosition();
     }
 }

@@ -31,6 +31,8 @@ public class PieceMoves {
         ChessPiece[][] board = Board.getPieces();
         if (scanAvailablePositions()) {
             if (board[rInput][cInput] != null) {
+                if (board[rInput][cInput].getColor().equals("white"))  Board.getWhitePieces().remove(board[rInput][cInput]);
+                else Board.getBlackPieces().remove(board[rInput][cInput]); //no longer in the board
                 captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
@@ -47,13 +49,13 @@ public class PieceMoves {
     private boolean scanAvailablePositions() {
         ChessPiece[][] board = Board.getPieces();
         BoardScanner[][] bs = Board.getBoardScanner();
-        int rInput = inputPosition[0];
+        int rInput = inputPosition[0]; //input Position for rook is null
         int cInput = inputPosition[1];
         boolean flag = false;
-        boolean white = board[r][c].getColor().equals("white") ? true : false;
-        for (int i = 0; i < availablePositions.size(); i++) {
-            int row = availablePositions.get(i)[0];
-            int col = availablePositions.get(i)[1];
+        boolean white = board[r][c].getColor().equals("white");
+        for (int[] availablePosition : availablePositions) {
+            int row = availablePosition[0];
+            int col = availablePosition[1];
 
             if (white) bs[row][col].whiteMove();
             else bs[row][col].blackMove();

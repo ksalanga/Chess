@@ -12,11 +12,11 @@ public class BoardScanner {
         else blackMove = true;
     }
 
-    public boolean whiteMove() {
-        return whiteMove;
-    }
+    public void whiteMove() { whiteMove = true; }
 
-    public boolean blackMove() {
-        return blackMove;
-    }
+    public void blackMove() { blackMove = true; }
+
+    public boolean isWhiteMove() {return whiteMove;}
+
+    public boolean isBlackMove() {return blackMove;}
 }
