@@ -55,6 +55,8 @@ public class Game {
             whitesTurn = !whitesTurn;
             System.out.println();
         }
+
+        board.printBoard(blackCaptures, whiteCaptures);
     }
 
     private boolean outOfBounds(int r, int c, int[] selectedTiles, boolean whitesTurn) {
@@ -77,13 +79,21 @@ public class Game {
 
         Board.reInitialize();
 
-        if (color.equals("white"))  { //if the white king is in check
+        if (color.equals("white"))  {
             Board.scanPositions("black"); //checks possible positions for black to attack the king
             int r = Board.getWhiteKing()[0];
             int c = Board.getWhiteKing()[1];
 
             if (Board.getBoardScanner()[r][c].isBlackMove()) {
-                System.out.println("check!!!!!");
+                System.out.println("check!!!!!"); //white king in check
+                //need to add a condition where while the king is under check it cant move anything
+                //look for other pieces that can move. if you move and try to block it and then we rescan, again, if the king is under attack, we can't move that piece.
+                //the condition for checkmate is if you cant move anywhere else
+
+                //make a copy 2d array of the pieces before you make a move then just revert back to it.
+                //keep checking it and making copy arrays. it doesnt matter because we'll only get the real result once we print out the board
+
+                if ()
             }
         } else {
             Board.scanPositions("white");
@@ -91,8 +101,8 @@ public class Game {
             int r = Board.getBlackKing()[0];
             int c = Board.getBlackKing()[1];
 
-            if (Board.getBoardScanner()[r][c].isWhiteMove()) { //black king under white attack
-                System.out.println("check!!!!!");
+            if (Board.getBoardScanner()[r][c].isWhiteMove()) {
+                System.out.println("check!!!!!"); //black king in check
             }
         }
 
