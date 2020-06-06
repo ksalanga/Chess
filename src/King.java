@@ -44,6 +44,7 @@ public class King extends PieceMoves implements ChessPiece {
 
             if (flag && ((Rook) board[r][rookColumn]).isStarting()) {
                 //castles
+                //Need to add a new condition, if the king or any of the squares between the rook is under attack it cant castle.
                 board[rInput][cInput] = board[r][c];
                 board[r][c] = null;
                 board[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = board[r][rookColumn];

@@ -79,12 +79,15 @@ public class Game {
 
         Board.reInitialize();
 
+        ChessPiece[][] pieces = Board.getPieces();
+        BoardScanner[][] bs = Board.getBoardScanner();
+
         if (color.equals("white"))  {
             Board.scanPositions("black"); //checks possible positions for black to attack the king
             int r = Board.getWhiteKing()[0];
             int c = Board.getWhiteKing()[1];
 
-            if (Board.getBoardScanner()[r][c].isBlackMove()) {
+            if (bs[r][c].isBlackMove()) {
                 System.out.println("check!!!!!"); //white king in check
                 //need to add a condition where while the king is under check it cant move anything
                 //look for other pieces that can move. if you move and try to block it and then we rescan, again, if the king is under attack, we can't move that piece.
@@ -93,7 +96,21 @@ public class Game {
                 //make a copy 2d array of the pieces before you make a move then just revert back to it.
                 //keep checking it and making copy arrays. it doesnt matter because we'll only get the real result once we print out the board
 
-                if ()
+                //might have to add an illegalMove paramter.
+
+                while (bs[r][c].isBlackMove()) {
+                    //if its a non null section in the chessboard and its an allied piece, if its under attack
+
+                    //test white rook in top corner, black bishop tries to block other white rook looking up the kings file
+                    //check illegal moves around the king method
+                    //if all moves make the king under attack, it is an illegal move. if at least one move stops the king from being attack, it is legal.
+
+                    //get the position of the attacker.
+
+                    //calculate the pieces the squares that it is going through and find  way to block it. or capture it.
+                    //if the attacking piece is attackable itself or blockable then it isn't in check. if the blocking or attacking piece is an illegal move tho, then that piece cant move.
+                    //figure out which one is legal and which one is illegal
+                }
             }
         } else {
             Board.scanPositions("white");
