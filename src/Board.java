@@ -136,6 +136,16 @@ public class Board {
         }
     }
 
+    //im gonna time how fast my program runs with/ without multithreading.
+    //board can find the originating source of the attack and return that arraylist of positions, because the board is the one showing the tiles to the pieces
+
+    //go across the board +r, same c; -r, same c; -c, same r; c, same r; +c, +c; -c + c
+
+    //multithread potentially calculate the +c, -c, +r, -r,
+
+    //could add multithreading to scanning all the pieces too.
+
+    //could make a mathematical equation to find the origin of the attack of the piece
     public static ArrayList<ChessPiece> getWhitePieces() {
         return whitePieces;
     }

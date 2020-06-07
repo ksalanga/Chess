@@ -19,9 +19,9 @@ public class Game {
 
     public void start() {
         Scanner s = new Scanner(System.in);
-        boolean whitesTurn = true;
         ChessPiece[][] pieces = board.getPieces();
         //put captures ArrayList when a piece moves.
+        boolean whitesTurn = true;
         while (!end) {
             board.printBoard(blackCaptures, whiteCaptures);
             System.out.println();
@@ -87,8 +87,11 @@ public class Game {
             int r = Board.getWhiteKing()[0];
             int c = Board.getWhiteKing()[1];
 
+            //need to make sure to take out white and black captures if the move doesnt go through****!!!!!!
             if (bs[r][c].isBlackMove()) {
-                System.out.println("check!!!!!"); //white king in check
+                System.out.println("White King in Check"); //white king in check
+
+
                 //need to add a condition where while the king is under check it cant move anything
                 //look for other pieces that can move. if you move and try to block it and then we rescan, again, if the king is under attack, we can't move that piece.
                 //the condition for checkmate is if you cant move anywhere else
@@ -96,9 +99,11 @@ public class Game {
                 //make a copy 2d array of the pieces before you make a move then just revert back to it.
                 //keep checking it and making copy arrays. it doesnt matter because we'll only get the real result once we print out the board
 
-                //might have to add an illegalMove paramter.
+                //might have to add an illegalMove parameter.
 
                 while (bs[r][c].isBlackMove()) {
+
+
                     //if its a non null section in the chessboard and its an allied piece, if its under attack
 
                     //test white rook in top corner, black bishop tries to block other white rook looking up the kings file
@@ -119,7 +124,7 @@ public class Game {
             int c = Board.getBlackKing()[1];
 
             if (Board.getBoardScanner()[r][c].isWhiteMove()) {
-                System.out.println("check!!!!!"); //black king in check
+                System.out.println("Black King in Check"); //black king in check
             }
         }
 
