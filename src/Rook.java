@@ -5,6 +5,7 @@ public class Rook extends PieceMoves implements ChessPiece {
     private String name;
     private int[] currentPosition;
     private boolean starting = true;
+    private boolean scanning = false;
 
     public Rook (int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
@@ -39,8 +40,12 @@ public class Rook extends PieceMoves implements ChessPiece {
         boolean moveAvailable = move(rInput, cInput);
         if (moveAvailable) return true;
 
-        starting = false;
+        if (!scanning) starting = false;
         return false;
+    }
+
+    public void scanning() {
+        scanning = !scanning;
     }
 
     public boolean isStarting() {

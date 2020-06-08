@@ -122,16 +122,54 @@ public class Board {
         }
     }
 
-    public static void scanPositions(String color) {
-        if (color.equals("white")) {
-            for (int i = 0; i < whitePieces.size(); i++) {
-                int[] currentPosition = whitePieces.get(i).getCurrentPosition();
-                whitePieces.get(i).move(currentPosition, null);
+    public static void scanPositions() {
+        for (int i = 0; i < whitePieces.size(); i++) {
+            ChessPiece piece = whitePieces.get(i);
+            int[] currentPosition = piece.getCurrentPosition();
+
+            switch(piece.getName()) {
+                case "♔":
+                    ((King) piece).scanning(); //start scanning
+                    whitePieces.get(i).move(currentPosition, null);
+                    ((King) piece).scanning(); //stop scanning
+                    break;
+                case "♖":
+                    ((Rook) piece).scanning(); //start scanning
+                    whitePieces.get(i).move(currentPosition, null);
+                    ((Rook) piece).scanning(); //stop scanning
+                    break;
+                case "♙":
+                    ((Pawn) piece).scanning(); //start scanning
+                    whitePieces.get(i).move(currentPosition, null);
+                    ((Pawn) piece).scanning(); //stop scanning
+                    break;
+                default:
+                    whitePieces.get(i).move(currentPosition, null);
+                    break;
             }
-        } else {
-            for (int i = 0; i < blackPieces.size(); i++) {
-                int[] currentPosition = blackPieces.get(i).getCurrentPosition();
-                blackPieces.get(i).move(currentPosition, null);
+        }
+        for (int i = 0; i < blackPieces.size(); i++) {
+            ChessPiece piece = blackPieces.get(i);
+            int[] currentPosition = piece.getCurrentPosition();
+            switch(piece.getName()) {
+                case "♚":
+                    ((King) piece).scanning(); //start scanning
+                    blackPieces.get(i).move(currentPosition, null);
+                    ((King) piece).scanning(); //stop scanning
+                    break;
+                case "♜":
+                    ((Rook) piece).scanning(); //start scanning
+                    blackPieces.get(i).move(currentPosition, null);
+                    ((Rook) piece).scanning(); //stop scanning
+                    break;
+                case "♟":
+                    ((Pawn) piece).scanning(); //start scanning
+                    blackPieces.get(i).move(currentPosition, null);
+                    ((Pawn) piece).scanning(); //stop scanning
+                    break;
+                default:
+                    blackPieces.get(i).move(currentPosition, null);
+                    break;
             }
         }
     }

@@ -6,6 +6,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     private boolean enPassant;
     private boolean starting = true;
     private boolean promotion = false;
+    private boolean scanning = false;
     private int[] currentPosition;
 
     public Pawn(int[] currentPosition, String color) {
@@ -106,7 +107,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
         setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
 
         boolean moveAvailable = move(rInput, cInput);
-        if (moveAvailable) {
+        if (moveAvailable && !scanning) {
             if (color.equals("white") && rInput == 0) {
                 promotion = true;
             }
@@ -116,8 +117,13 @@ public class Pawn extends PieceMoves implements ChessPiece{
             return true;
         }
 
-        starting = false;
+        if (!scanning) starting = false;
+
         return false;
+    }
+
+    public void scanning() {
+        scanning = !scanning;
     }
 
     public boolean isPromoted() { return promotion; }

@@ -8,6 +8,7 @@ public class Game {
     private HashMap<ChessPiece, int[]> piecePositions;
     private Board board;
     private boolean end;
+    private boolean whitesTurn = true;
 
     public Game() {
         //start of the game
@@ -21,7 +22,6 @@ public class Game {
         Scanner s = new Scanner(System.in);
         ChessPiece[][] pieces = board.getPieces();
         //put captures ArrayList when a piece moves.
-        boolean whitesTurn = true;
         while (!end) {
             board.printBoard(blackCaptures, whiteCaptures);
             System.out.println();
@@ -50,7 +50,7 @@ public class Game {
                 whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
             }
 
-            check(whitesTurn ? "black" : "white"); //checks if the opposite king is in check
+            check(); //checks if the opposite king is in check
 
             whitesTurn = !whitesTurn;
             System.out.println();
@@ -74,7 +74,7 @@ public class Game {
         return flag;
     }
 
-    private void check(String color) {
+    private void check() {
         //initialize boardScanner
 
         Board.reInitialize();
@@ -82,8 +82,10 @@ public class Game {
         ChessPiece[][] pieces = Board.getPieces();
         BoardScanner[][] bs = Board.getBoardScanner();
 
-        if (color.equals("white"))  {
-            Board.scanPositions("black"); //checks possible positions for black to attack the king
+        Board.scanPositions();
+
+        if (whitesTurn)  {
+            //checks possible positions for black to attack the king
             int r = Board.getWhiteKing()[0];
             int c = Board.getWhiteKing()[1];
 
@@ -101,25 +103,23 @@ public class Game {
 
                 //might have to add an illegalMove parameter.
 
-                while (bs[r][c].isBlackMove()) {
-
-
-                    //if its a non null section in the chessboard and its an allied piece, if its under attack
-
-                    //test white rook in top corner, black bishop tries to block other white rook looking up the kings file
-                    //check illegal moves around the king method
-                    //if all moves make the king under attack, it is an illegal move. if at least one move stops the king from being attack, it is legal.
-
-                    //get the position of the attacker.
-
-                    //calculate the pieces the squares that it is going through and find  way to block it. or capture it.
-                    //if the attacking piece is attackable itself or blockable then it isn't in check. if the blocking or attacking piece is an illegal move tho, then that piece cant move.
-                    //figure out which one is legal and which one is illegal
-                }
+//                while (bs[r][c].isBlackMove()) {
+//
+//
+//                    //if its a non null section in the chessboard and its an allied piece, if its under attack
+//
+//                    //test white rook in top corner, black bishop tries to block other white rook looking up the kings file
+//                    //check illegal moves around the king method
+//                    //if all moves make the king under attack, it is an illegal move. if at least one move stops the king from being attack, it is legal.
+//
+//                    //get the position of the attacker.
+//
+//                    //calculate the pieces the squares that it is going through and find  way to block it. or capture it.
+//                    //if the attacking piece is attackable itself or blockable then it isn't in check. if the blocking or attacking piece is an illegal move tho, then that piece cant move.
+//                    //figure out which one is legal and which one is illegal
+//                }
             }
         } else {
-            Board.scanPositions("white");
-
             int r = Board.getBlackKing()[0];
             int c = Board.getBlackKing()[1];
 
