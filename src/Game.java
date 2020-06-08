@@ -50,13 +50,14 @@ public class Game {
                 whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
             }
 
-            check(); //checks if the opposite king is in check
-
             whitesTurn = !whitesTurn;
+
+            check(); //checks if the opposite king is in check
             System.out.println();
         }
 
         board.printBoard(blackCaptures, whiteCaptures);
+        s.close();
     }
 
     private boolean outOfBounds(int r, int c, int[] selectedTiles, boolean whitesTurn) {
@@ -77,8 +78,10 @@ public class Game {
     private void check() {
         //initialize boardScanner
 
+        Scanner s = new Scanner(System.in);
         Board.reInitialize();
 
+        ChessPiece[][] boardCopy = new ChessPiece[8][8];
         ChessPiece[][] pieces = Board.getPieces();
         BoardScanner[][] bs = Board.getBoardScanner();
 
@@ -86,13 +89,17 @@ public class Game {
 
         if (whitesTurn)  {
             //checks possible positions for black to attack the king
-            int r = Board.getWhiteKing()[0];
-            int c = Board.getWhiteKing()[1];
+            int kingRow = Board.getWhiteKing()[0];
+            int kingColumn = Board.getWhiteKing()[1];
+
+            //need to make an object clone
 
             //need to make sure to take out white and black captures if the move doesnt go through****!!!!!!
-            if (bs[r][c].isBlackMove()) {
+            if (bs[kingRow][kingColumn].isBlackMove()) {
+                board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println("White King in Check"); //white king in check
 
+                //copy the board
 
                 //need to add a condition where while the king is under check it cant move anything
                 //look for other pieces that can move. if you move and try to block it and then we rescan, again, if the king is under attack, we can't move that piece.
@@ -103,28 +110,69 @@ public class Game {
 
                 //might have to add an illegalMove parameter.
 
-//                while (bs[r][c].isBlackMove()) {
-//
-//
-//                    //if its a non null section in the chessboard and its an allied piece, if its under attack
-//
-//                    //test white rook in top corner, black bishop tries to block other white rook looking up the kings file
-//                    //check illegal moves around the king method
-//                    //if all moves make the king under attack, it is an illegal move. if at least one move stops the king from being attack, it is legal.
-//
-//                    //get the position of the attacker.
-//
-//                    //calculate the pieces the squares that it is going through and find  way to block it. or capture it.
-//                    //if the attacking piece is attackable itself or blockable then it isn't in check. if the blocking or attacking piece is an illegal move tho, then that piece cant move.
-//                    //figure out which one is legal and which one is illegal
-//                }
-            }
-        } else {
-            int r = Board.getBlackKing()[0];
-            int c = Board.getBlackKing()[1];
+                while (bs[kingRow][kingColumn].isBlackMove()) {
+                    boardCopy = pieces;
 
-            if (Board.getBoardScanner()[r][c].isWhiteMove()) {
+                    int captureSize =  whiteCaptures.size();
+                    System.out.print("(White ♙) Select a piece: ");
+                    String selection = s.nextLine();
+                    int [] selectedTile = board.convertToCoords(selection);
+                    int r = selectedTile[0];
+                    int c = selectedTile[1];
+
+                    if (!outOfBounds(r, c, selectedTile, whitesTurn)) { //checks if out of bounds
+                        System.out.print("Move the piece: ");
+                        selection = s.nextLine();
+                        selectedTile = board.convertToCoords(selection);
+                        int rInput = selectedTile[0];
+                        int cInput = selectedTile[1];
+                        if (!(rInput < 0 || cInput < 0)) { //inBounds
+                            if (!pieces[r][c].move(selectedTile, whiteCaptures)) { //change this to blackCaptures for black side
+                                System.out.println("Invalid Input");
+                            }
+                        } else {
+                            System.out.println("Out of bounds");
+                        }
+                    }
+
+                    Board.reInitialize();
+                    Board.scanPositions();
+
+                    kingRow = Board.getWhiteKing()[0];
+                    kingColumn = Board.getWhiteKing()[1];
+                    if (bs[kingRow][kingColumn].isBlackMove()) {
+                        if (captureSize < whiteCaptures.size()) whiteCaptures.remove(whiteCaptures.size() - 1);
+                        Board.setPieces(boardCopy);
+                        board.printBoard(blackCaptures, whiteCaptures);
+                    }
+
+
+                    //if its a non null section in the chessboard and its an allied piece, if its under attack
+
+                    //test white rook in top corner, black bishop tries to block other white rook looking up the kings file
+                    //check illegal moves around the king method
+                    //if all moves make the king under attack, it is an illegal move. if at least one move stops the king from being attack, it is legal.
+
+                    //get the position of the attacker.
+
+                    //calculate the pieces the squares that it is going through and find  way to block it. or capture it.
+                    //if the attacking piece is attackable itself or blockable then it isn't in check. if the blocking or attacking piece is an illegal move tho, then that piece cant move.
+                    //figure out which one is legal and which one is illegal
+                }
+            }
+
+        } else {
+            int kingRow = Board.getBlackKing()[0];
+            int kingColumn = Board.getBlackKing()[1];
+
+
+            if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
                 System.out.println("Black King in Check"); //black king in check
+
+                while (bs[kingRow][kingColumn].isWhiteMove()) {
+                    System.out.println("(Black ♟) " + "Select a piece: ");
+                    boardCopy = board.getPieces();
+                }
             }
         }
 

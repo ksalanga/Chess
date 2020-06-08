@@ -123,57 +123,58 @@ public class Board {
     }
 
     public static void scanPositions() {
-        for (int i = 0; i < whitePieces.size(); i++) {
-            ChessPiece piece = whitePieces.get(i);
+        for (ChessPiece piece : whitePieces) {
             int[] currentPosition = piece.getCurrentPosition();
 
-            switch(piece.getName()) {
+            switch (piece.getName()) {
                 case "♔":
                     ((King) piece).scanning(); //start scanning
-                    whitePieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     ((King) piece).scanning(); //stop scanning
                     break;
                 case "♖":
                     ((Rook) piece).scanning(); //start scanning
-                    whitePieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     ((Rook) piece).scanning(); //stop scanning
                     break;
                 case "♙":
                     ((Pawn) piece).scanning(); //start scanning
-                    whitePieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     ((Pawn) piece).scanning(); //stop scanning
                     break;
                 default:
-                    whitePieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     break;
             }
         }
-        for (int i = 0; i < blackPieces.size(); i++) {
-            ChessPiece piece = blackPieces.get(i);
+        for (ChessPiece piece : blackPieces) {
             int[] currentPosition = piece.getCurrentPosition();
-            switch(piece.getName()) {
+            switch (piece.getName()) {
                 case "♚":
                     ((King) piece).scanning(); //start scanning
-                    blackPieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     ((King) piece).scanning(); //stop scanning
                     break;
                 case "♜":
                     ((Rook) piece).scanning(); //start scanning
-                    blackPieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     ((Rook) piece).scanning(); //stop scanning
                     break;
                 case "♟":
                     ((Pawn) piece).scanning(); //start scanning
-                    blackPieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     ((Pawn) piece).scanning(); //stop scanning
                     break;
                 default:
-                    blackPieces.get(i).move(currentPosition, null);
+                    piece.move(currentPosition, null);
                     break;
             }
         }
     }
 
+    public static void setPieces(ChessPiece[][] newBoard) {
+        Pieces = newBoard;
+    }
     //im gonna time how fast my program runs with/ without multithreading.
     //board can find the originating source of the attack and return that arraylist of positions, because the board is the one showing the tiles to the pieces
 
