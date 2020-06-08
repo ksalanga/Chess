@@ -144,6 +144,9 @@ public class Game {
                         if (captureSize < whiteCaptures.size()) whiteCaptures.remove(whiteCaptures.size() - 1);
                         Board.setPieces(boardCopy);
                         board.printBoard(blackCaptures, whiteCaptures);
+                        System.out.println();
+                    } else {
+                        whitesTurn = !whitesTurn;
                     }
 
 
