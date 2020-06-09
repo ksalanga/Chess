@@ -57,7 +57,7 @@ public class King extends PieceMoves implements ChessPiece {
 
         for (int i = Math.max(r - 1, 0); i <= Math.min(r + 1, 7); i++) {
             for (int j = Math.max(c - 1, 0); j <= Math.min(c + 1, 7); j++) {
-                if (i != r && j != c) {
+                if (i != r || j != c && Board.getPieces()[i][j] == null) {
                     availablePositions.add(new int[] {i, j});
                 }
             }
@@ -66,7 +66,7 @@ public class King extends PieceMoves implements ChessPiece {
         setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
 
         boolean moveAvailable = move(rInput, cInput);
-        if (moveAvailable) return true;
+        if (moveAvailable && !scanning) return true;
 
         if (!scanning) starting = false;
         return false;
