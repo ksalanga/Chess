@@ -172,8 +172,82 @@ public class Board {
         }
     }
 
+    public static ChessPiece[][] copyBoard() {
+        ChessPiece[][] BoardCopy = new ChessPiece[8][8];
+
+        for (int i = 0; i < Board.getWhitePieces().size(); i++) {
+            int copyRow = Board.getWhitePieces().get(i).getCurrentPosition()[0];
+            int copyCol = Board.getWhitePieces().get(i).getCurrentPosition()[1];
+
+            switch (Board.getWhitePieces().get(i).getName()) {
+                case "♔":
+                    BoardCopy[copyRow][copyCol] = new King((King) Board.getWhitePieces().get(i));
+                    break;
+                case "♕":
+                    BoardCopy[copyRow][copyCol] = new Queen((Queen) Board.getWhitePieces().get(i));
+                    break;
+                case "♗":
+                    BoardCopy[copyRow][copyCol] = new Bishop((Bishop) Board.getWhitePieces().get(i));
+                    break;
+                case "♘":
+                    BoardCopy[copyRow][copyCol] = new Knight((Knight) Board.getWhitePieces().get(i));
+                    break;
+                case "♖":
+                    BoardCopy[copyRow][copyCol] = new Rook((Rook) Board.getWhitePieces().get(i));
+                    break;
+                case "♙":
+                    BoardCopy[copyRow][copyCol] = new Pawn((Pawn) Board.getWhitePieces().get(i));
+                    break;
+            }
+        }
+
+        for (int i = 0; i < Board.getBlackPieces().size(); i++) {
+            int copyRow = Board.getBlackPieces().get(i).getCurrentPosition()[0];
+            int copyCol = Board.getBlackPieces().get(i).getCurrentPosition()[1];
+
+            switch (Board.getBlackPieces().get(i).getName()) {
+                case "♚":
+                    BoardCopy[copyRow][copyCol] = new King((King) Board.getBlackPieces().get(i));
+                    break;
+                case "♛":
+                    BoardCopy[copyRow][copyCol] = new Queen((Queen) Board.getBlackPieces().get(i));
+                    break;
+                case "♝":
+                    BoardCopy[copyRow][copyCol] = new Bishop((Bishop) Board.getBlackPieces().get(i));
+                    break;
+                case "♞":
+                    BoardCopy[copyRow][copyCol] = new Knight((Knight) Board.getBlackPieces().get(i));
+                    break;
+                case "♜":
+                    BoardCopy[copyRow][copyCol] = new Rook((Rook) Board.getBlackPieces().get(i));
+                    break;
+                case "♟":
+                    BoardCopy[copyRow][copyCol] = new Pawn((Pawn) Board.getBlackPieces().get(i));
+                    break;
+            }
+        }
+
+        return BoardCopy;
+    }
+
+    public static BoardScanner[][] copyBoardScanner() {
+        BoardScanner[][] copyBoard = new BoardScanner[8][8];
+
+        for (int i = 0; i < boardScanner.length; i++) {
+            for (int j = 0; j < boardScanner[i].length; j++) {
+                copyBoard[i][j] = new BoardScanner(boardScanner[i][j]);
+            }
+        }
+
+        return copyBoard;
+    }
+
     public static void setPieces(ChessPiece[][] newBoard) {
         Pieces = newBoard;
+    }
+
+    public static void setBoardScanner(BoardScanner[][] newScanner) {
+        boardScanner = newScanner;
     }
     //im gonna time how fast my program runs with/ without multithreading.
     //board can find the originating source of the attack and return that arraylist of positions, because the board is the one showing the tiles to the pieces
@@ -191,6 +265,14 @@ public class Board {
 
     public static ArrayList<ChessPiece> getBlackPieces() {
         return blackPieces;
+    }
+
+    public static void setWhitePieces(ArrayList<ChessPiece> wP) {
+        whitePieces = wP;
+    }
+
+    public static void setBlackPieces(ArrayList<ChessPiece> bP) {
+        blackPieces = bP;
     }
 
     public static int[] getWhiteKing() {

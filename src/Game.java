@@ -31,7 +31,7 @@ public class Game {
             int r = selectedTile[0];
             int c = selectedTile[1];
 
-            if (!outOfBounds(r, c, selectedTile, whitesTurn)) { //checks if out of bounds
+            if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
                 System.out.print("Move the piece: ");
                 selection = s.nextLine();
                 selectedTile = board.convertToCoords(selection);
@@ -60,7 +60,7 @@ public class Game {
         s.close();
     }
 
-    private boolean outOfBounds(int r, int c, int[] selectedTiles, boolean whitesTurn) {
+    private boolean outOfBounds(int r, int c, boolean whitesTurn) {
         boolean flag = false;
         if (r < 0 || c < 0) { //checks if out of bounds
             System.out.println("Out of bounds");
@@ -81,7 +81,6 @@ public class Game {
         Scanner s = new Scanner(System.in);
         Board.reInitialize();
 
-        ChessPiece[][] boardCopy = new ChessPiece[8][8];
         ChessPiece[][] pieces = Board.getPieces();
         BoardScanner[][] bs = Board.getBoardScanner();
 
@@ -111,7 +110,6 @@ public class Game {
                 //might have to add an illegalMove parameter.
 
                 while (bs[kingRow][kingColumn].isBlackMove()) {
-                    boardCopy = pieces;
 
                     int captureSize =  whiteCaptures.size();
                     System.out.print("(White ♙) Select a piece: ");
@@ -120,7 +118,12 @@ public class Game {
                     int r = selectedTile[0];
                     int c = selectedTile[1];
 
-                    if (!outOfBounds(r, c, selectedTile, whitesTurn)) { //checks if out of bounds
+                    ChessPiece[][] boardCopy = Board.copyBoard();
+                    BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
+                    ArrayList<ChessPiece> whitePieceCopy = Board.getWhitePieces();
+                    ArrayList<ChessPiece> blackPieceCopy = Board.getBlackPieces();
+
+                    if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
                         System.out.print("Move the piece: ");
                         selection = s.nextLine();
                         selectedTile = board.convertToCoords(selection);
@@ -143,6 +146,9 @@ public class Game {
                     if (bs[kingRow][kingColumn].isBlackMove()) {
                         if (captureSize < whiteCaptures.size()) whiteCaptures.remove(whiteCaptures.size() - 1);
                         Board.setPieces(boardCopy);
+                        Board.setBoardScanner(boardScannerCopy);
+                        Board.setWhitePieces(whitePieceCopy);
+                        Board.setBlackPieces(blackPieceCopy);
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {
@@ -174,11 +180,11 @@ public class Game {
 
                 while (bs[kingRow][kingColumn].isWhiteMove()) {
                     System.out.println("(Black ♟) " + "Select a piece: ");
-                    boardCopy = board.getPieces();
+//                    boardCopy = board.getPieces();
                 }
             }
         }
-
-
     }
+
+
 }

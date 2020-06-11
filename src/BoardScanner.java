@@ -7,6 +7,11 @@ public class BoardScanner {
         blackMove = false;
     }
 
+    public BoardScanner(BoardScanner copy) {
+        this.whiteMove = copy.whiteMove;
+        this.blackMove = copy.blackMove;
+    }
+
     public void setMove(String color) {
         if (color.equals("white")) whiteMove = true;
         else blackMove = true;

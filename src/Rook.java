@@ -7,10 +7,18 @@ public class Rook extends PieceMoves implements ChessPiece {
     private boolean starting = true;
     private boolean scanning = false;
 
-    public Rook (int[] currentPosition, String color) {
+    public Rook(int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
         this.color = color;
         name = color.equals("white") ? "♖" : "♜";
+    }
+
+    public Rook(Rook copy) {
+        this.color = copy.color;
+        this.name = copy.name;
+        this.currentPosition = copy.currentPosition;
+        this.starting = copy.starting;
+        this.scanning = copy.scanning;
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {

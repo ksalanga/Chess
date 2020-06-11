@@ -15,6 +15,16 @@ public class Pawn extends PieceMoves implements ChessPiece{
         name = color.equals("white") ? "♙" : "♟";
     }
 
+    public Pawn(Pawn copy) {
+        this.color = copy.color;
+        this.name = copy.name;
+        this.enPassant = copy.enPassant;
+        this.starting = copy.starting;
+        this.promotion = copy.promotion;
+        this.scanning = copy.scanning;
+        this.currentPosition = copy.currentPosition;
+    }
+
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
         ArrayList<int[]> availablePositions = new ArrayList<>();
         enPassant = false;
