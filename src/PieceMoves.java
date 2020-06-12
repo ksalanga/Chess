@@ -45,6 +45,12 @@ public class PieceMoves {
         }
     }
 
+    //its pointing to the original board and its getting a null error!!!!
+    //pointing to the original board which hasn't been updated yet, which has a moved piece,
+    //going through the arraylist then, it goes to the copy white pawn, which has a position 6,0 but the board doesn't have that pawn anymore because when we moved that legal move its null
+    //thats why its only going through the white pieces
+    //maybe try creating an arraylist of copies and returning those so it doesnt interfere with the original pieces.
+
     //int[] inputPosition, ArrayList<int[]> availablePositions, ChessPiece[][] boardPositions, BoardScanner[][] bs
     private boolean scanAvailablePositions() {
         ChessPiece[][] board = Board.getPieces();
@@ -52,6 +58,7 @@ public class PieceMoves {
         int rInput = inputPosition[0]; //input Position for rook is null
         int cInput = inputPosition[1];
         boolean flag = false;
+        if (board[r][c] == null) System.out.println(r + " " + c);
         boolean white = board[r][c].getColor().equals("white");
         for (int[] availablePosition : availablePositions) {
             int row = availablePosition[0];
@@ -71,6 +78,10 @@ public class PieceMoves {
     public void setC(int c) {
         this.c = c;
     }
+
+    public int getR() {return r;}
+
+    public int getC() {return c;}
 
     public void setAvailablePositions(ArrayList<int[]> availablePositions) { this.availablePositions = availablePositions; }
 

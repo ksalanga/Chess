@@ -112,6 +112,7 @@ public class Game {
                 while (bs[kingRow][kingColumn].isBlackMove()) {
 
                     int captureSize =  whiteCaptures.size();
+                    int whitePiecesSize = Board.getWhitePieces().size();
                     System.out.print("(White ♙) Select a piece: ");
                     String selection = s.nextLine();
                     int [] selectedTile = board.convertToCoords(selection);
@@ -120,10 +121,9 @@ public class Game {
 
                     ChessPiece[][] boardCopy = Board.copyBoard();
                     BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
-                    ArrayList<ChessPiece> whitePieceCopy = Board.getWhitePieces();
-                    ArrayList<ChessPiece> blackPieceCopy = Board.getBlackPieces();
 
                     if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
+
                         System.out.print("Move the piece: ");
                         selection = s.nextLine();
                         selectedTile = board.convertToCoords(selection);
@@ -141,17 +141,22 @@ public class Game {
                     Board.reInitialize();
                     Board.scanPositions();
 
+                    //could implement a linked list for this case
+
                     kingRow = Board.getWhiteKing()[0];
                     kingColumn = Board.getWhiteKing()[1];
                     if (bs[kingRow][kingColumn].isBlackMove()) {
                         if (captureSize < whiteCaptures.size()) whiteCaptures.remove(whiteCaptures.size() - 1);
                         Board.setPieces(boardCopy);
                         Board.setBoardScanner(boardScannerCopy);
-                        Board.setWhitePieces(whitePieceCopy);
-                        Board.setBlackPieces(blackPieceCopy);
+                        Board.setWhitePieces(Board.getCopyWhitePieces());
+                        Board.setBlackPieces(Board.getCopyBlackPieces());
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {
+                        for (int i = 0; i < whitePiecesSize; i++) {
+                            Board.getWhitePieces().remove(Board.getWhitePieces().size() - 1);
+                        }
                         whitesTurn = !whitesTurn;
                     }
 

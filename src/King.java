@@ -16,7 +16,7 @@ public class King extends PieceMoves implements ChessPiece {
     public King(King copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = copy.currentPosition;
+        this.currentPosition = new int[]{copy.currentPosition[0], copy.currentPosition[1]};
         this.starting = copy.starting;
         this.scanning = copy.scanning;
     }

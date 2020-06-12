@@ -14,7 +14,7 @@ public class Bishop extends PieceMoves implements ChessPiece {
     public Bishop(Bishop copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = copy.currentPosition;
+        this.currentPosition = new int[]{copy.currentPosition[0], copy.currentPosition[1]};
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
