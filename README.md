@@ -11,6 +11,6 @@ The game features your typical chess moves with enPassant and castling.
 
 Here are some images of an opening, with the white pawn capturing the black pawn:
 
-![White to Move](https://gyazo.com/33632829a0a5845bb52cefb1f54f960e)
-![Black to Move](https://gyazo.com/10f644f4cbddd48976a1457a6f29d682)
-![White Pawn Captures](https://gyazo.com/cb3def5085346bca69a71b7e341fa9e1)
+![White to Move](https://i.gyazo.com/33632829a0a5845bb52cefb1f54f960e.png)
+![Black to Move](https://i.gyazo.com/10f644f4cbddd48976a1457a6f29d682.png)
+![White Pawn Captures](https://i.gyazo.com/cb3def5085346bca69a71b7e341fa9e1.png)
