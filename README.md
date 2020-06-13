@@ -1,5 +1,5 @@
 # Chess
-I created the wonderful game of Chess!
+<b>I created the wonderful game of Chess!</b>
 
 This program is currently a Work in Progress, and it is in the command line version still. Conditions such as a checkmate and stalemate are still underway.
 
