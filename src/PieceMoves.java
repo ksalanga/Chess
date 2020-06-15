@@ -71,6 +71,12 @@ public class PieceMoves {
         return flag;
     }
 
+    protected int addressChange(int x) {
+        int[] array = new int[]{0,1,2,3,4,5,6,7};
+
+        return array[x];
+    }
+
     public void setR(int r) {
         this.r = r;
     }

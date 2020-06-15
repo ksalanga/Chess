@@ -14,7 +14,7 @@ public class Queen extends PieceMoves implements ChessPiece {
     public Queen(Queen copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = new int[]{copy.currentPosition[0], copy.currentPosition[1]};
+        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {

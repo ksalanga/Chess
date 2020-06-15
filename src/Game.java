@@ -121,6 +121,8 @@ public class Game {
 
                     ChessPiece[][] boardCopy = Board.copyBoard();
                     BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
+                    ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
+                    ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
 
                     if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
 
@@ -149,8 +151,8 @@ public class Game {
                         if (captureSize < whiteCaptures.size()) whiteCaptures.remove(whiteCaptures.size() - 1);
                         Board.setPieces(boardCopy);
                         Board.setBoardScanner(boardScannerCopy);
-                        Board.setWhitePieces(Board.getCopyWhitePieces());
-                        Board.setBlackPieces(Board.getCopyBlackPieces());
+                        Board.setWhitePieces(copyWhitePieces);
+                        Board.setBlackPieces(copyBlackPieces);
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {

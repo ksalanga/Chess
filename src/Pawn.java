@@ -22,7 +22,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
         this.starting = copy.starting;
         this.promotion = copy.promotion;
         this.scanning = copy.scanning;
-        this.currentPosition = new int[]{copy.currentPosition[0], copy.currentPosition[1]}; //still referring to the same position so when it accesses the white pawn that moved, it refers to the new board copy, which still has the pawn that remained still
+        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])}; //still referring to the same position so when it accesses the white pawn that moved, it refers to the new board copy, which still has the pawn that remained still
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
