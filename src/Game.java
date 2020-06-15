@@ -81,7 +81,6 @@ public class Game {
         Scanner s = new Scanner(System.in);
         Board.reInitialize();
 
-        ChessPiece[][] pieces = Board.getPieces();
         BoardScanner[][] bs = Board.getBoardScanner();
 
         Board.scanPositions();
@@ -132,7 +131,7 @@ public class Game {
                         int rInput = selectedTile[0];
                         int cInput = selectedTile[1];
                         if (!(rInput < 0 || cInput < 0)) { //inBounds
-                            if (!pieces[r][c].move(selectedTile, whiteCaptures)) { //change this to blackCaptures for black side
+                            if (!Board.getPieces()[r][c].move(selectedTile, whiteCaptures)) { //change this to blackCaptures for black side
                                 System.out.println("Invalid Input");
                             }
                         } else {
