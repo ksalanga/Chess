@@ -77,7 +77,37 @@ public class PieceMoves {
         return array[x];
     }
 
-    public static boolean scanLegalMoves() {
+    public boolean scanLegalMoves(boolean whitesTurn, boolean check) {
+        if (check) { //checks for checkmate
+            if (whitesTurn) {
+                ArrayList<ChessPiece> dummyCaptures = new ArrayList<>();
+                for (int i = 0; i < Board.getWhitePieces().size(); i++) {
+                    Board.getWhitePieces().get(i).move(Board.getWhitePieces().get(i).getCurrentPosition(), null);
+
+                    ArrayList<int[]> availablePositionsHolder = new ArrayList<>();
+
+                    availablePositionsHolder.addAll(availablePositions);
+
+                    for (int j = 0; j < availablePositionsHolder.size(); j++) {
+                        int r = availablePositionsHolder.get(j)[0];
+                        int c = availablePositionsHolder.get(j)[1];
+
+                        ChessPiece[][] boardCopy = Board.copyBoard();
+                        BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
+                        ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
+                        ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
+
+                        Board.getWhitePieces().get(i).move(availablePositionsHolder.get(j), dummyCaptures);
+                    }
+                }
+            } else {
+                for (int i = 0; i < Board.getBlackPieces().size(); i++) {
+
+                }
+            }
+        } else { //checks for stalemate
+
+        }
         return true;
     }
 
