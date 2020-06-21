@@ -153,9 +153,6 @@ public class Game {
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {
-                        for (int i = 0; i < whitePiecesSize; i++) {
-                            Board.getWhitePieces().remove(Board.getWhitePieces().size() - 1);
-                        }
                         whitesTurn = !whitesTurn;
                     }
 
@@ -231,9 +228,6 @@ public class Game {
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {
-                        for (int i = 0; i < blackPiecesSize; i++) {
-                            Board.getBlackPieces().remove(Board.getBlackPieces().size() - 1);
-                        }
                         whitesTurn = !whitesTurn;
                     }
                 }

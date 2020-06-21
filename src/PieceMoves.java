@@ -77,6 +77,10 @@ public class PieceMoves {
         return array[x];
     }
 
+    public static boolean scanLegalMoves() {
+        return true;
+    }
+
     public void setR(int r) {
         this.r = r;
     }
