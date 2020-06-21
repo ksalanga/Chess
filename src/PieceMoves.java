@@ -80,7 +80,7 @@ public class PieceMoves {
     public boolean scanLegalMoves(boolean whitesTurn, boolean check) {
         if (check) { //checks for checkmate
             if (whitesTurn) {
-                ArrayList<ChessPiece> dummyCaptures = new ArrayList<>();
+                ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
                 for (int i = 0; i < Board.getWhitePieces().size(); i++) {
                     Board.getWhitePieces().get(i).move(Board.getWhitePieces().get(i).getCurrentPosition(), null);
 
@@ -89,15 +89,27 @@ public class PieceMoves {
                     availablePositionsHolder.addAll(availablePositions);
 
                     for (int j = 0; j < availablePositionsHolder.size(); j++) {
-                        int r = availablePositionsHolder.get(j)[0];
-                        int c = availablePositionsHolder.get(j)[1];
-
                         ChessPiece[][] boardCopy = Board.copyBoard();
                         BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
                         ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
                         ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
 
                         Board.getWhitePieces().get(i).move(availablePositionsHolder.get(j), dummyCaptures);
+
+                        int kingRow = Board.getWhiteKing()[0];
+                        int kingColumn = Board.getWhiteKing()[1];
+                        if (!Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+                            Board.setPieces(boardCopy);
+                            Board.setBoardScanner(boardScannerCopy);
+                            Board.setWhitePieces(copyWhitePieces);
+                            Board.setBlackPieces(copyBlackPieces);
+                            return true; //there exists a legal move
+                        }
+
+                        Board.setPieces(boardCopy);
+                        Board.setBoardScanner(boardScannerCopy);
+                        Board.setWhitePieces(copyWhitePieces);
+                        Board.setBlackPieces(copyBlackPieces);
                     }
                 }
             } else {
