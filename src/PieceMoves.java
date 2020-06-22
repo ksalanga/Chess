@@ -77,10 +77,10 @@ public class PieceMoves {
         return array[x];
     }
 
-    public boolean scanLegalMoves(boolean whitesTurn, boolean check) {
+    public boolean legalMoveAvailable(boolean whitesTurn, boolean check) {
         if (check) { //checks for checkmate
+            ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
             if (whitesTurn) {
-                ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
                 for (int i = 0; i < Board.getWhitePieces().size(); i++) {
                     Board.getWhitePieces().get(i).move(Board.getWhitePieces().get(i).getCurrentPosition(), null);
 
@@ -88,13 +88,17 @@ public class PieceMoves {
 
                     availablePositionsHolder.addAll(availablePositions);
 
-                    for (int j = 0; j < availablePositionsHolder.size(); j++) {
+                    for (int[] ints : availablePositionsHolder) {
                         ChessPiece[][] boardCopy = Board.copyBoard();
                         BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
                         ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
                         ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
 
-                        Board.getWhitePieces().get(i).move(availablePositionsHolder.get(j), dummyCaptures);
+                        Board.getWhitePieces().get(i).move(ints, dummyCaptures);
+                        Board.reInitialize();
+                        Board.scanPositions();
+
+                        dummyCaptures.clear();
 
                         int kingRow = Board.getWhiteKing()[0];
                         int kingColumn = Board.getWhiteKing()[1];
@@ -112,15 +116,60 @@ public class PieceMoves {
                         Board.setBlackPieces(copyBlackPieces);
                     }
                 }
+                return false;
             } else {
                 for (int i = 0; i < Board.getBlackPieces().size(); i++) {
+                    Board.getBlackPieces().get(i).move(Board.getBlackPieces().get(i).getCurrentPosition(), null);
 
+                    ArrayList<int[]> availablePositionsHolder = new ArrayList<>();
+
+                    availablePositionsHolder.addAll(availablePositions);
+
+                    for (int[] ints : availablePositionsHolder) {
+                        ChessPiece[][] boardCopy = Board.copyBoard();
+                        BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
+                        ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
+                        ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
+
+                        Board.getBlackPieces().get(i).move(ints, dummyCaptures);
+                        Board.reInitialize();
+                        Board.scanPositions();
+
+                        dummyCaptures.clear();
+
+                        int kingRow = Board.getBlackKing()[0];
+                        int kingColumn = Board.getBlackKing()[1];
+                        if (!Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+                            Board.setPieces(boardCopy);
+                            Board.setBoardScanner(boardScannerCopy);
+                            Board.setWhitePieces(copyWhitePieces);
+                            Board.setBlackPieces(copyBlackPieces);
+                            return true; //there exists a legal move
+                        }
+
+                        Board.setPieces(boardCopy);
+                        Board.setBoardScanner(boardScannerCopy);
+                        Board.setWhitePieces(copyWhitePieces);
+                        Board.setBlackPieces(copyBlackPieces);
+                    }
                 }
+                return false; //if all black Pieces don't have a move that makes the king not in check
             }
         } else { //checks for stalemate
-
+            if (whitesTurn) {
+                for (int i = 0; i < Board.getWhitePieces().size(); i++) {
+                    Board.getWhitePieces().get(i).move(Board.getWhitePieces().get(i).getCurrentPosition(), null);
+                    if (availablePositions.size() != 0) return true;
+                }
+                return false;
+            } else {
+                for (int i = 0; i < Board.getBlackPieces().size(); i++) {
+                    Board.getBlackPieces().get(i).move(Board.getBlackPieces().get(i).getCurrentPosition(), null);
+                    if (availablePositions.size() != 0) return true;
+                }
+                return false;
+            }
         }
-        return true;
     }
 
     public void setR(int r) {

@@ -65,7 +65,7 @@ public class King extends PieceMoves implements ChessPiece {
 
         for (int i = Math.max(r - 1, 0); i <= Math.min(r + 1, 7); i++) {
             for (int j = Math.max(c - 1, 0); j <= Math.min(c + 1, 7); j++) {
-                if ((i != r || j != c) && Board.getPieces()[i][j] == null && color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                if ((i != r || j != c) && Board.getPieces()[i][j] == null && color.equals("white") ? Board.getBoardScanner()[i][j].isBlackMove() : Board.getBoardScanner()[i][j].isWhiteMove()) {
                     availablePositions.add(new int[] {i, j});
                 }
             }
