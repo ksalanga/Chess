@@ -13,13 +13,14 @@ public class PieceMoves {
 
     //int r, int c, int x, int y, ArrayList<int[]> availablePositions, ChessPiece[][] boardPositions
     protected void moveAcross(int x, int y) {
-        ChessPiece[][] board = Board.getPieces();
         if (r < 0 || r > 7 || c < 0 || c > 7) return;
         int[] position = new int[] {r,c};
-        if (board[r][c] != null) {
+        if (Board.getPieces()[r][c] != null) {
             availablePositions.add(position);
             return; //when we accessed the first position it wasn't null so it just returned
         }
+
+        //this needs to be an enemy piece so that it stops and it still adds to the position, if its not an enemy piece we can't add that to available positions
         availablePositions.add(position);
         r += y;
         c += x;
@@ -30,9 +31,14 @@ public class PieceMoves {
     protected boolean move(int rInput, int cInput) {
         ChessPiece[][] board = Board.getPieces();
         if (scanAvailablePositions()) {
-            if (board[rInput][cInput] != null) {
+            System.out.println("Frough" + r + "  " + c);
+            if (board[r][c].getName().equals("♟")) {
+                System.out.println("ASLJFKLKAJFSJLKASFLKJAFS");System.out.println("Frough" + r + "  " + c);
+            }
+            if (board[rInput][cInput] != null) { // the problem is here. also we need to check king moves it's not giving the right numbers
                 if (board[rInput][cInput].getColor().equals("white"))  Board.getWhitePieces().remove(board[rInput][cInput]);
                 else Board.getBlackPieces().remove(board[rInput][cInput]); //no longer in the board
+                if (board[rInput][cInput].getName().equals("♔")) System.out.print(rInput + " " + cInput); //debug
                 captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
@@ -82,13 +88,30 @@ public class PieceMoves {
             ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
             if (whitesTurn) {
                 for (int i = 0; i < Board.getWhitePieces().size(); i++) {
-                    Board.getWhitePieces().get(i).move(Board.getWhitePieces().get(i).getCurrentPosition(), null);
+                    ChessPiece piece = Board.getWhitePieces().get(i);
+                    switch (piece.getName()) {
+                        case "♔":
+                            ((King) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((King) piece).scanning(); //stop scanning
+                            break;
+                        case "♖":
+                            ((Rook) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Rook) piece).scanning(); //stop scanning
+                            break;
+                        case "♙":
+                            ((Pawn) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Pawn) piece).scanning(); //stop scanning
+                            break;
+                        default:
+                            piece.move(piece.getCurrentPosition(), null);
+                            break;
+                    }
+                    //the problem is this method
 
-                    ArrayList<int[]> availablePositionsHolder = new ArrayList<>();
-
-                    availablePositionsHolder.addAll(availablePositions);
-
-                    for (int[] ints : availablePositionsHolder) {
+                    for (int[] ints : Board.getWhitePieces().get(i).getAvailablePositions()) {
                         ChessPiece[][] boardCopy = Board.copyBoard();
                         BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
                         ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
@@ -119,11 +142,31 @@ public class PieceMoves {
                 return false;
             } else {
                 for (int i = 0; i < Board.getBlackPieces().size(); i++) {
-                    Board.getBlackPieces().get(i).move(Board.getBlackPieces().get(i).getCurrentPosition(), null);
+                    ChessPiece piece = Board.getBlackPieces().get(i);
+                    switch (piece.getName()) {
+                        case "♚":
+                            ((King) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((King) piece).scanning(); //stop scanning
+                            break;
+                        case "♜":
+                            ((Rook) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Rook) piece).scanning(); //stop scanning
+                            break;
+                        case "♟":
+                            ((Pawn) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Pawn) piece).scanning(); //stop scanning
+                            break;
+                        default:
+                            piece.move(piece.getCurrentPosition(), null);
+                            break;
+                    }
 
                     ArrayList<int[]> availablePositionsHolder = new ArrayList<>();
 
-                    availablePositionsHolder.addAll(availablePositions);
+                    availablePositionsHolder.addAll(Board.getBlackPieces().get(i).getAvailablePositions());
 
                     for (int[] ints : availablePositionsHolder) {
                         ChessPiece[][] boardCopy = Board.copyBoard();
@@ -157,15 +200,55 @@ public class PieceMoves {
             }
         } else { //checks for stalemate
             if (whitesTurn) {
-                for (int i = 0; i < Board.getWhitePieces().size(); i++) {
-                    Board.getWhitePieces().get(i).move(Board.getWhitePieces().get(i).getCurrentPosition(), null);
-                    if (availablePositions.size() != 0) return true;
+                for (int i = 0; i < Board.getWhitePieces().size(); i++) { //debug here
+                    ChessPiece piece = Board.getWhitePieces().get(i);
+                    switch (piece.getName()) {
+                        case "♔":
+                            ((King) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((King) piece).scanning(); //stop scanning
+                            break;
+                        case "♖":
+                            ((Rook) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Rook) piece).scanning(); //stop scanning
+                            break;
+                        case "♙":
+                            ((Pawn) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Pawn) piece).scanning(); //stop scanning
+                            break;
+                        default:
+                            piece.move(piece.getCurrentPosition(), null);
+                            break;
+                    }
+                    if (piece.getAvailablePositions().size() != 0) return true;
                 }
                 return false;
             } else {
                 for (int i = 0; i < Board.getBlackPieces().size(); i++) {
-                    Board.getBlackPieces().get(i).move(Board.getBlackPieces().get(i).getCurrentPosition(), null);
-                    if (availablePositions.size() != 0) return true;
+                    ChessPiece piece = Board.getBlackPieces().get(i);
+                    switch (piece.getName()) {
+                        case "♚":
+                            ((King) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((King) piece).scanning(); //stop scanning
+                            break;
+                        case "♜":
+                            ((Rook) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Rook) piece).scanning(); //stop scanning
+                            break;
+                        case "♟":
+                            ((Pawn) piece).scanning(); //start scanning
+                            piece.move(piece.getCurrentPosition(), null);
+                            ((Pawn) piece).scanning(); //stop scanning
+                            break;
+                        default:
+                            piece.move(piece.getCurrentPosition(), null);
+                            break;
+                    }
+                    if (piece.getAvailablePositions().size() != 0) return true;
                 }
                 return false;
             }
@@ -183,6 +266,10 @@ public class PieceMoves {
     public int getR() {return r;}
 
     public int getC() {return c;}
+
+    public ArrayList<int[]> getAvailablePositions() {
+        return availablePositions;
+    }
 
     public void setAvailablePositions(ArrayList<int[]> availablePositions) { this.availablePositions = availablePositions; }
 

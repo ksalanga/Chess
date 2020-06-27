@@ -6,6 +6,7 @@ public class King extends PieceMoves implements ChessPiece {
     private int[] currentPosition;
     private boolean starting = true;
     private boolean scanning = false;
+    private ArrayList<int[]> availablePositions;
 
     public King(int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
@@ -22,21 +23,20 @@ public class King extends PieceMoves implements ChessPiece {
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        ArrayList<int[]> availablePositions = new ArrayList<int[]>();
-        ChessPiece[][] board = Board.getPieces();
+        availablePositions = new ArrayList<int[]>();
 
         int r = currentPosition[0];
         int c = currentPosition[1];
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        if (rInput == r && (starting && c + 2 == cInput && board[r][cInput + 1] instanceof Rook) || (starting && c - 3 == cInput && board[r][cInput - 1] instanceof Rook)) {
+        if (rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 3 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)) {
             boolean flag = true;
             int rookColumn;
             if (cInput == c + 2) {
                 rookColumn = c + 3;
                 for (int i = 1; i < 3; i++) {
-                    if (board[r][c + i] != null || color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                    if (Board.getPieces()[r][c + i] != null || color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
                         flag = false; //if tiles in between has a piece or is under white/black attack
                         break;
                     }
@@ -44,20 +44,20 @@ public class King extends PieceMoves implements ChessPiece {
             } else {
                 rookColumn = c - 4;
                 for (int i = 1; i < 4; i++) {
-                    if (board[r][c + i] != null || color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                    if (Board.getPieces()[r][c + i] != null || color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
                         flag = false;
                         break;
                     }
                 }
             }
 
-            if (flag && ((Rook) board[r][rookColumn]).isStarting()) {
+            if (flag && ((Rook) Board.getPieces()[r][rookColumn]).isStarting()) {
                 //castles
                 //Need to add a new condition, if the king or any of the squares between the rook is under attack it cant castle.
-                board[rInput][cInput] = board[r][c];
-                board[r][c] = null;
-                board[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = board[r][rookColumn];
-                board[r][rookColumn] = null;
+                Board.getPieces()[rInput][cInput] = Board.getPieces()[r][c];
+                Board.getPieces()[r][c] = null;
+                Board.getPieces()[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = Board.getPieces()[r][rookColumn];
+                Board.getPieces()[r][rookColumn] = null;
                 starting = false;
                 return true;
             }
@@ -65,7 +65,7 @@ public class King extends PieceMoves implements ChessPiece {
 
         for (int i = Math.max(r - 1, 0); i <= Math.min(r + 1, 7); i++) {
             for (int j = Math.max(c - 1, 0); j <= Math.min(c + 1, 7); j++) {
-                if ((i != r || j != c) && Board.getPieces()[i][j] == null && color.equals("white") ? Board.getBoardScanner()[i][j].isBlackMove() : Board.getBoardScanner()[i][j].isWhiteMove()) {
+                if (!(i == r && j == c) && (Board.getPieces()[i][j] == null) && (color.equals("white") ? !Board.getBoardScanner()[i][j].isBlackMove() : !Board.getBoardScanner()[i][j].isWhiteMove())) {
                     availablePositions.add(new int[] {i, j});
                 }
             }
@@ -91,6 +91,10 @@ public class King extends PieceMoves implements ChessPiece {
     @Override
     public String getName() {
         return name;
+    }
+
+    public ArrayList<int[]> getAvailablePositions() {
+        return availablePositions;
     }
 
     public int[] getCurrentPosition() {

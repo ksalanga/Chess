@@ -8,6 +8,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     private boolean promotion = false;
     private boolean scanning = false;
     private int[] currentPosition;
+    private ArrayList<int[]> availablePositions;
 
     public Pawn(int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
@@ -26,7 +27,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        ArrayList<int[]> availablePositions = new ArrayList<>();
+        availablePositions = new ArrayList<>();
         enPassant = false;
         ChessPiece[][] board = Board.getPieces();
 
@@ -142,6 +143,10 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
     @Override
     public String getName() { return name; }
+
+    public ArrayList<int[]> getAvailablePositions() {
+        return availablePositions;
+    }
 
     public int[] getCurrentPosition() { return currentPosition; }
 

@@ -4,6 +4,7 @@ public class Knight extends PieceMoves implements ChessPiece {
     private String color;
     private String name;
     private int[] currentPosition;
+    private ArrayList<int[]> availablePositions;
 
     public Knight(int[] currentPosition, String color) {
         this.currentPosition = currentPosition;
@@ -18,7 +19,7 @@ public class Knight extends PieceMoves implements ChessPiece {
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        ArrayList<int[]> availablePositions = new ArrayList<>();
+        availablePositions = new ArrayList<>();
 
         int r = currentPosition[0];
         int c = currentPosition[1];
@@ -42,6 +43,10 @@ public class Knight extends PieceMoves implements ChessPiece {
 
     @Override
     public String getName() { return name; }
+
+    public ArrayList<int[]> getAvailablePositions() {
+        return availablePositions;
+    }
 
     public int[] getCurrentPosition() { return currentPosition; }
 

@@ -7,6 +7,8 @@ public interface ChessPiece {
 
     public String getName();
 
+    public ArrayList<int[]> getAvailablePositions();
+
     public int[] getCurrentPosition(); //for optimization purposes, probably should convert String to int array [column, row] that way, storage is not dynamic;
 
     public String getColor();
