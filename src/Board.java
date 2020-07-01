@@ -107,7 +107,7 @@ public class Board {
         return Pieces;
     }
 
-    public String convertToTiles(int[] coords) {
+    public static String convertToTiles(int[] coords) {
         char[] files = new char[]{'a', 'b' , 'c', 'd', 'e', 'f', 'g', 'h'};
         int row = 8 - Character.getNumericValue(coords[0]);
 

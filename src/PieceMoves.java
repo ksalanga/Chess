@@ -31,14 +31,9 @@ public class PieceMoves {
     protected boolean move(int rInput, int cInput) {
         ChessPiece[][] board = Board.getPieces();
         if (scanAvailablePositions()) {
-            System.out.println("Frough" + r + "  " + c);
-            if (board[r][c].getName().equals("♟")) {
-                System.out.println("ASLJFKLKAJFSJLKASFLKJAFS");System.out.println("Frough" + r + "  " + c);
-            }
             if (board[rInput][cInput] != null) { // the problem is here. also we need to check king moves it's not giving the right numbers
                 if (board[rInput][cInput].getColor().equals("white"))  Board.getWhitePieces().remove(board[rInput][cInput]);
                 else Board.getBlackPieces().remove(board[rInput][cInput]); //no longer in the board
-                if (board[rInput][cInput].getName().equals("♔")) System.out.print(rInput + " " + cInput); //debug
                 captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
