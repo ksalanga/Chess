@@ -98,6 +98,12 @@ public class Game {
 
             //need to make sure to take out white and black captures if the move doesnt go through****!!!!!!
             if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+                if (!pm.legalMoveAvailable(whitesTurn, true)) {
+                    System.out.println("Checkmate");
+                    end = true;
+                    return;
+                }
+
                 board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println("White King in Check"); //white king in check
 
@@ -185,6 +191,13 @@ public class Game {
 
 
             if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+
+                if (!pm.legalMoveAvailable(whitesTurn, true)) {
+                    System.out.println("Checkmate");
+                    end = true;
+                    return;
+                }
+
                 board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println("Black King in Check"); //black king in check
 
@@ -239,13 +252,6 @@ public class Game {
                 }
             }
         }
-//
-//        if (!pm.legalMoveAvailable(whitesTurn, true)) {
-//            System.out.println("Checkmate");
-//            end = true;
-//        } else {
-//
-//        }
     }
 
 
