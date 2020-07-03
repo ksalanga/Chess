@@ -16,6 +16,6 @@ Here are some images of an opening, with the white pawn capturing the black pawn
 ![White Pawn Captures](https://i.gyazo.com/cb3def5085346bca69a71b7e341fa9e1.png)
 <br />
 
-This program is currently a Work in Progress, and it is in the command line version still. Stalemate is still on the way. Planning on making a graphics version with engines soon.
+This program is currently a Work in Progress, and it is in the command line version still. Stalemate is still on the way.
 
 Later, I will implement GUI for the pieces and a best move engine.
