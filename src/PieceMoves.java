@@ -93,94 +93,59 @@ public class PieceMoves {
         return array[x];
     }
 
-    public boolean legalMoveAvailable(boolean whitesTurn, boolean check) {
-        if (check) { //checks for checkmate
-            ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
-            //if all black Pieces don't have a move that makes the king not in check
-            if (whitesTurn) {
-                for (int i = 0; i < Board.getWhitePieces().size(); i++) {
-                    ChessPiece piece = Board.getWhitePieces().get(i);
-                    Board.scanWhitePiece(piece);
-                    //the problem is this method
+    public boolean legalMoveAvailable(boolean whitesTurn) {
+        ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
 
-                    for (int[] ints : Board.getWhitePieces().get(i).getAvailablePositions()) {
-                        ChessPiece[][] boardCopy = Board.copyBoard();
-                        BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
-                        ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
-                        ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
+        if (whitesTurn) {
+            for (int i = 0; i < Board.getWhitePieces().size(); i++) {
+                ChessPiece piece = Board.getWhitePieces().get(i);
+                Board.scanWhitePiece(piece);
 
-                        Board.getWhitePieces().get(i).move(ints, dummyCaptures);
-                        Board.reInitialize();
-                        Board.scanPositions();
+                ArrayList<int[]> availablePositions = Board.getWhitePieces().get(i).getAvailablePositions();
 
-                        dummyCaptures.clear();
+                for (int[] ints : availablePositions) {
+                    Board.saveCurrentBoard();
 
-                        int kingRow = Board.getWhiteKing()[0];
-                        int kingColumn = Board.getWhiteKing()[1];
-                        if (!Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-                            Board.setPieces(boardCopy);
-                            Board.setBoardScanner(boardScannerCopy);
-                            Board.setWhitePieces(copyWhitePieces);
-                            Board.setBlackPieces(copyBlackPieces);
-                            return true; //there exists a legal move
-                        }
+                    Board.getWhitePieces().get(i).move(ints, dummyCaptures);
+                    Board.reInitialize();
+                    Board.scanPositions();
 
-                        Board.setPieces(boardCopy);
-                        Board.setBoardScanner(boardScannerCopy);
-                        Board.setWhitePieces(copyWhitePieces);
-                        Board.setBlackPieces(copyBlackPieces);
+                    dummyCaptures.clear();
+
+                    int kingRow = Board.getWhiteKing()[0];
+                    int kingColumn = Board.getWhiteKing()[1];
+                    if (!Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+                        Board.revertToPreviousBoard();
+                        return true;
                     }
-                }
-            } else { // for the stalemate instead of  no available positions, for each available position, check if the move will put it in check, if it does put it in check, remove the move from the list
-                for (int i = 0; i < Board.getBlackPieces().size(); i++) {
-                    ChessPiece piece = Board.getBlackPieces().get(i);
-                    Board.scanBlackPiece(piece);
 
-                    ArrayList<int[]> availablePositionsHolder = new ArrayList<>();
-
-                    availablePositionsHolder.addAll(Board.getBlackPieces().get(i).getAvailablePositions());
-
-                    for (int[] ints : availablePositionsHolder) {
-                        ChessPiece[][] boardCopy = Board.copyBoard();
-                        BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
-                        ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
-                        ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
-
-                        Board.getBlackPieces().get(i).move(ints, dummyCaptures);
-                        Board.reInitialize();
-                        Board.scanPositions();
-
-                        dummyCaptures.clear();
-
-                        int kingRow = Board.getBlackKing()[0];
-                        int kingColumn = Board.getBlackKing()[1];
-                        if (!Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
-                            Board.setPieces(boardCopy);
-                            Board.setBoardScanner(boardScannerCopy);
-                            Board.setWhitePieces(copyWhitePieces);
-                            Board.setBlackPieces(copyBlackPieces);
-                            return true; //there exists a legal move
-                        }
-
-                        Board.setPieces(boardCopy);
-                        Board.setBoardScanner(boardScannerCopy);
-                        Board.setWhitePieces(copyWhitePieces);
-                        Board.setBlackPieces(copyBlackPieces);
-                    }
+                    Board.revertToPreviousBoard();
                 }
             }
-        } else { //checks for stalemate
-            if (whitesTurn) {
-                for (int i = 0; i < Board.getWhitePieces().size(); i++) { //debug here
-                    ChessPiece piece = Board.getWhitePieces().get(i);
-                    Board.scanWhitePiece(piece);
-                    if (piece.getAvailablePositions().size() != 0) return true;
-                }
-            } else {
-                for (int i = 0; i < Board.getBlackPieces().size(); i++) {
-                    ChessPiece piece = Board.getBlackPieces().get(i);
-                    Board.scanBlackPiece(piece);
-                    if (piece.getAvailablePositions().size() != 0) return true;
+        } else {
+            for (int i = 0; i < Board.getBlackPieces().size(); i++) {
+                ChessPiece piece = Board.getBlackPieces().get(i);
+                Board.scanBlackPiece(piece);
+
+                ArrayList<int[]> availablePositions = Board.getBlackPieces().get(i).getAvailablePositions();
+
+                for (int[] ints : availablePositions) {
+                    Board.saveCurrentBoard();
+
+                    Board.getBlackPieces().get(i).move(ints, dummyCaptures);
+                    Board.reInitialize();
+                    Board.scanPositions();
+
+                    dummyCaptures.clear();
+
+                    int kingRow = Board.getBlackKing()[0];
+                    int kingColumn = Board.getBlackKing()[1];
+                    if (!Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+                        Board.revertToPreviousBoard();
+                        return true;
+                    }
+
+                    Board.revertToPreviousBoard();
                 }
             }
         }

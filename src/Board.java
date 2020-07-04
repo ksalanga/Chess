@@ -188,14 +188,19 @@ public class Board {
         }
     }
 
-    public static void saveCurrentState() {
-        boardCopy = Board.copyBoard();
-        boardScannerCopy = Board.copyBoardScanner();
-        copyWhitePieces = Board.getCopyWhitePieces();
-        copyBlackPieces = Board.getCopyBlackPieces();
+    public static void saveCurrentBoard() {
+        boardCopy = copyBoard();
+        boardScannerCopy = copyBoardScanner();
     }
 
-    public static ChessPiece[][] copyBoard() {
+    public static void revertToPreviousBoard() {
+        setPieces(boardCopy);
+        setBoardScanner(boardScannerCopy);
+        setWhitePieces(copyWhitePieces);
+        setBlackPieces(copyBlackPieces);
+    }
+
+    private static ChessPiece[][] copyBoard() {
         copyWhitePieces = new ArrayList<ChessPiece>();
         copyBlackPieces = new ArrayList<ChessPiece>();
         ChessPiece[][] BoardCopy = new ChessPiece[8][8];
@@ -262,7 +267,7 @@ public class Board {
         return BoardCopy;
     }
 
-    public static BoardScanner[][] copyBoardScanner() {
+    private static BoardScanner[][] copyBoardScanner() {
         BoardScanner[][] copyBoard = new BoardScanner[8][8];
 
         for (int i = 0; i < boardScanner.length; i++) {
@@ -274,11 +279,11 @@ public class Board {
         return copyBoard;
     }
 
-    public static void setPieces(ChessPiece[][] newBoard) {
+    private static void setPieces(ChessPiece[][] newBoard) {
         Pieces = newBoard;
     }
 
-    public static void setBoardScanner(BoardScanner[][] newScanner) {
+    private static void setBoardScanner(BoardScanner[][] newScanner) {
         boardScanner = newScanner;
     }
     //im gonna time how fast my program runs with/ without multithreading.
@@ -307,11 +312,11 @@ public class Board {
         return copyBlackPieces;
     }
 
-    public static void setWhitePieces(ArrayList<ChessPiece> wP) {
+    private static void setWhitePieces(ArrayList<ChessPiece> wP) {
         whitePieces = wP;
     }
 
-    public static void setBlackPieces(ArrayList<ChessPiece> bP) {
+    private static void setBlackPieces(ArrayList<ChessPiece> bP) {
         blackPieces = bP;
     }
 

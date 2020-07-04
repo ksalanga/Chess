@@ -25,41 +25,42 @@ public class Game {
 //        ChessPiece[][] pieces = board.getPieces();
         //put captures ArrayList when a piece moves.
         while (!end) {
-            if (!pm.legalMoveAvailable(whitesTurn, false)) {
+            if (!pm.legalMoveAvailable(whitesTurn)) {
                 System.out.println("Stalemate");
                 end = true;
-            }
-            board.printBoard(blackCaptures, whiteCaptures);
-            System.out.println();
-            System.out.print(whitesTurn ? "(White ♙) Select a piece: " : "(Black ♟) " + "Select a piece: ");
-            String selection = s.nextLine();
-            int [] selectedTile = board.convertToCoords(selection);
-            int r = selectedTile[0];
-            int c = selectedTile[1];
+            } else {
+                board.printBoard(blackCaptures, whiteCaptures);
+                System.out.println();
+                System.out.print(whitesTurn ? "(White ♙) Select a piece: " : "(Black ♟) " + "Select a piece: ");
+                String selection = s.nextLine();
+                int [] selectedTile = board.convertToCoords(selection);
+                int r = selectedTile[0];
+                int c = selectedTile[1];
 
-            if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
-                System.out.print("Move the " + Board.getPieces()[r][c].getName() + ": ");
-                selection = s.nextLine();
-                selectedTile = board.convertToCoords(selection);
-                int rInput = selectedTile[0];
-                int cInput = selectedTile[1];
-                if (!(rInput < 0 || cInput < 0)) { //inBounds
-                    if (!Board.getPieces()[r][c].move(selectedTile, whitesTurn ? whiteCaptures : blackCaptures)) {
-                        System.out.println("Invalid Input");
+                if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
+                    System.out.print("Move the " + Board.getPieces()[r][c].getName() + ": ");
+                    selection = s.nextLine();
+                    selectedTile = board.convertToCoords(selection);
+                    int rInput = selectedTile[0];
+                    int cInput = selectedTile[1];
+                    if (!(rInput < 0 || cInput < 0)) { //inBounds
+                        if (!Board.getPieces()[r][c].move(selectedTile, whitesTurn ? whiteCaptures : blackCaptures)) {
+                            System.out.println("Invalid Input");
+                            whitesTurn = !whitesTurn;
+                        }
+                    } else {
+                        System.out.println("Out of bounds");
                         whitesTurn = !whitesTurn;
                     }
                 } else {
-                    System.out.println("Out of bounds");
-                    whitesTurn = !whitesTurn;
+                    whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
                 }
-            } else {
-                whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
+
+                whitesTurn = !whitesTurn;
+
+                check(); //checks if the opposite king is in check
+                System.out.println();
             }
-
-            whitesTurn = !whitesTurn;
-
-            check(); //checks if the opposite king is in check
-            System.out.println();
         }
 
         board.printBoard(blackCaptures, whiteCaptures);
@@ -98,7 +99,7 @@ public class Game {
 
             //need to make sure to take out white and black captures if the move doesnt go through****!!!!!!
             if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-                if (!pm.legalMoveAvailable(whitesTurn, true)) {
+                if (!pm.legalMoveAvailable(whitesTurn)) {
                     System.out.println("Checkmate");
                     end = true;
                     return;
@@ -128,10 +129,7 @@ public class Game {
                     int r = selectedTile[0];
                     int c = selectedTile[1];
 
-                    ChessPiece[][] boardCopy = Board.copyBoard();
-                    BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
-                    ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
-                    ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
+                    Board.saveCurrentBoard();
 
                     if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
 
@@ -158,10 +156,7 @@ public class Game {
                     kingColumn = Board.getWhiteKing()[1];
                     if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
                         if (captureSize < whiteCaptures.size()) whiteCaptures.remove(whiteCaptures.size() - 1);
-                        Board.setPieces(boardCopy);
-                        Board.setBoardScanner(boardScannerCopy);
-                        Board.setWhitePieces(copyWhitePieces);
-                        Board.setBlackPieces(copyBlackPieces);
+                        Board.revertToPreviousBoard();
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {
@@ -192,7 +187,7 @@ public class Game {
 
             if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
 
-                if (!pm.legalMoveAvailable(whitesTurn, true)) {
+                if (!pm.legalMoveAvailable(whitesTurn)) {
                     System.out.println("Checkmate");
                     end = true;
                     return;
@@ -210,10 +205,7 @@ public class Game {
                     int r = selectedTile[0];
                     int c = selectedTile[1];
 
-                    ChessPiece[][] boardCopy = Board.copyBoard();
-                    BoardScanner[][] boardScannerCopy = Board.copyBoardScanner();
-                    ArrayList<ChessPiece> copyWhitePieces = Board.getCopyWhitePieces();
-                    ArrayList<ChessPiece> copyBlackPieces = Board.getCopyBlackPieces();
+                    Board.saveCurrentBoard();
 
                     if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
 
@@ -240,10 +232,7 @@ public class Game {
                     kingColumn = Board.getBlackKing()[1];
                     if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
                         if (captureSize < blackCaptures.size()) blackCaptures.remove(blackCaptures.size() - 1);
-                        Board.setPieces(boardCopy);
-                        Board.setBoardScanner(boardScannerCopy);
-                        Board.setWhitePieces(copyWhitePieces);
-                        Board.setBlackPieces(copyBlackPieces);
+                        Board.revertToPreviousBoard();
                         board.printBoard(blackCaptures, whiteCaptures);
                         System.out.println();
                     } else {
