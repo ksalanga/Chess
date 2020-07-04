@@ -16,8 +16,23 @@ public class PieceMoves {
         if (r < 0 || r > 7 || c < 0 || c > 7) return;
         int[] position = new int[] {r,c};
         if (Board.getPieces()[r][c] != null) {
-            availablePositions.add(position);
-            return; //when we accessed the first position it wasn't null so it just returned
+            int row = currentPosition[0];
+            int col = currentPosition[1];
+            if (Board.getPieces()[row][col].getColor().equals("white")) {
+                if (Board.getPieces()[r][c].getColor().equals("white")) {
+                    Board.getBoardScanner()[r][c].isWhiteMove();
+                } else {
+                    availablePositions.add(position);
+                }
+            } else {
+                if (Board.getPieces()[r][c].getColor().equals("black")) {
+                    Board.getBoardScanner()[r][c].isBlackMove();
+                } else {
+                    availablePositions.add(position);
+                }
+            }
+            return;
+            //when we accessed the first position it wasn't null so it just returned
         }
 
         //this needs to be an enemy piece so that it stops and it still adds to the position, if its not an enemy piece we can't add that to available positions
@@ -81,29 +96,11 @@ public class PieceMoves {
     public boolean legalMoveAvailable(boolean whitesTurn, boolean check) {
         if (check) { //checks for checkmate
             ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
+            //if all black Pieces don't have a move that makes the king not in check
             if (whitesTurn) {
                 for (int i = 0; i < Board.getWhitePieces().size(); i++) {
                     ChessPiece piece = Board.getWhitePieces().get(i);
-                    switch (piece.getName()) {
-                        case "♔":
-                            ((King) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((King) piece).scanning(); //stop scanning
-                            break;
-                        case "♖":
-                            ((Rook) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Rook) piece).scanning(); //stop scanning
-                            break;
-                        case "♙":
-                            ((Pawn) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Pawn) piece).scanning(); //stop scanning
-                            break;
-                        default:
-                            piece.move(piece.getCurrentPosition(), null);
-                            break;
-                    }
+                    Board.scanWhitePiece(piece);
                     //the problem is this method
 
                     for (int[] ints : Board.getWhitePieces().get(i).getAvailablePositions()) {
@@ -134,30 +131,10 @@ public class PieceMoves {
                         Board.setBlackPieces(copyBlackPieces);
                     }
                 }
-                return false;
-            } else {
+            } else { // for the stalemate instead of  no available positions, for each available position, check if the move will put it in check, if it does put it in check, remove the move from the list
                 for (int i = 0; i < Board.getBlackPieces().size(); i++) {
                     ChessPiece piece = Board.getBlackPieces().get(i);
-                    switch (piece.getName()) {
-                        case "♚":
-                            ((King) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((King) piece).scanning(); //stop scanning
-                            break;
-                        case "♜":
-                            ((Rook) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Rook) piece).scanning(); //stop scanning
-                            break;
-                        case "♟":
-                            ((Pawn) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Pawn) piece).scanning(); //stop scanning
-                            break;
-                        default:
-                            piece.move(piece.getCurrentPosition(), null);
-                            break;
-                    }
+                    Board.scanBlackPiece(piece);
 
                     ArrayList<int[]> availablePositionsHolder = new ArrayList<>();
 
@@ -191,63 +168,23 @@ public class PieceMoves {
                         Board.setBlackPieces(copyBlackPieces);
                     }
                 }
-                return false; //if all black Pieces don't have a move that makes the king not in check
             }
         } else { //checks for stalemate
             if (whitesTurn) {
                 for (int i = 0; i < Board.getWhitePieces().size(); i++) { //debug here
                     ChessPiece piece = Board.getWhitePieces().get(i);
-                    switch (piece.getName()) {
-                        case "♔":
-                            ((King) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((King) piece).scanning(); //stop scanning
-                            break;
-                        case "♖":
-                            ((Rook) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Rook) piece).scanning(); //stop scanning
-                            break;
-                        case "♙":
-                            ((Pawn) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Pawn) piece).scanning(); //stop scanning
-                            break;
-                        default:
-                            piece.move(piece.getCurrentPosition(), null);
-                            break;
-                    }
+                    Board.scanWhitePiece(piece);
                     if (piece.getAvailablePositions().size() != 0) return true;
                 }
-                return false;
             } else {
                 for (int i = 0; i < Board.getBlackPieces().size(); i++) {
                     ChessPiece piece = Board.getBlackPieces().get(i);
-                    switch (piece.getName()) {
-                        case "♚":
-                            ((King) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((King) piece).scanning(); //stop scanning
-                            break;
-                        case "♜":
-                            ((Rook) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Rook) piece).scanning(); //stop scanning
-                            break;
-                        case "♟":
-                            ((Pawn) piece).scanning(); //start scanning
-                            piece.move(piece.getCurrentPosition(), null);
-                            ((Pawn) piece).scanning(); //stop scanning
-                            break;
-                        default:
-                            piece.move(piece.getCurrentPosition(), null);
-                            break;
-                    }
+                    Board.scanBlackPiece(piece);
                     if (piece.getAvailablePositions().size() != 0) return true;
                 }
-                return false;
             }
         }
+        return false;
     }
 
     public void setR(int r) {
