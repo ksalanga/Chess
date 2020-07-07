@@ -115,6 +115,7 @@ public class PieceMoves {
                     int kingRow = Board.getWhiteKing()[0];
                     int kingColumn = Board.getWhiteKing()[1];
                     if (!Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+                        System.out.println(piece.getName());
                         Board.revertToPreviousBoard();
                         return true;
                     }
@@ -141,6 +142,7 @@ public class PieceMoves {
                     int kingRow = Board.getBlackKing()[0];
                     int kingColumn = Board.getBlackKing()[1];
                     if (!Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+                        System.out.println(piece.getName());
                         Board.revertToPreviousBoard();
                         return true;
                     }

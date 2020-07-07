@@ -67,6 +67,81 @@ public class Game {
         s.close();
     }
 
+    public void startWithPresetMoves(String[] moves) {
+        for (int i = 0; i < moves.length; i += 2) {
+            if (!pm.legalMoveAvailable(whitesTurn)) {
+                System.out.println("Stalemate");
+                end = true;
+            } else {
+                board.printBoard(blackCaptures, whiteCaptures);
+                System.out.println();
+                int[] piece = board.convertToCoords(moves[i]);
+                int pieceRow = piece[0];
+                int pieceCol = piece[1];
+                int[] move = board.convertToCoords(moves[i + 1]);
+                Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
+                whitesTurn = !whitesTurn;
+
+                if (presetCheck(moves, i)) i += 2; //checks if the opposite king is in check
+                System.out.println();
+            }
+        }
+        board.printBoard(blackCaptures, whiteCaptures);
+        start();
+    }
+
+    private boolean presetCheck(String[] moves, int i) {
+        Board.reInitialize();
+        Board.scanPositions();
+
+        if (whitesTurn) {
+            int kingRow = Board.getWhiteKing()[0];
+            int kingColumn = Board.getWhiteKing()[1];
+
+            if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+                if (!pm.legalMoveAvailable(whitesTurn)) {
+                    System.out.println("Checkmate");
+                    end = true;
+                    return true;
+                }
+
+                System.out.println("White King in Check");
+                int[] piece = board.convertToCoords(moves[i + 2]);
+                int pieceRow = piece[0];
+                int pieceCol = piece[1];
+
+                int[] move = board.convertToCoords(moves[i + 3]);
+
+                Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
+                board.printBoard(blackCaptures, whiteCaptures);
+                return true;
+            }
+        } else {
+            int kingRow = Board.getBlackKing()[0];
+            int kingColumn = Board.getBlackKing()[1];
+
+            if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+                if (!pm.legalMoveAvailable(whitesTurn)) {
+                    System.out.println("Checkmate");
+                    end = true;
+                    return true;
+                }
+            }
+
+            System.out.println("Black King in Check");
+            int[] piece = board.convertToCoords(moves[i + 2]);
+            int pieceRow = piece[0];
+            int pieceCol = piece[1];
+
+            int[] move = board.convertToCoords(moves[i + 3]);
+
+            Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
+            board.printBoard(blackCaptures, whiteCaptures);
+            return true;
+        }
+        return false;
+    }
+
     private boolean outOfBounds(int r, int c, boolean whitesTurn) {
         boolean flag = false;
         if (r < 0 || c < 0) { //checks if out of bounds
