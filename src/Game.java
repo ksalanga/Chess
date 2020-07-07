@@ -80,9 +80,9 @@ public class Game {
                 int pieceCol = piece[1];
                 int[] move = board.convertToCoords(moves[i + 1]);
                 Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
-                whitesTurn = !whitesTurn;
 
                 if (presetCheck(moves, i)) i += 2; //checks if the opposite king is in check
+                else whitesTurn = !whitesTurn;
                 System.out.println();
             }
         }
@@ -126,18 +126,18 @@ public class Game {
                     end = true;
                     return true;
                 }
+                board.printBoard(blackCaptures, whiteCaptures);
+                System.out.println("Black King in Check");
+                int[] piece = board.convertToCoords(moves[i + 2]);
+                int pieceRow = piece[0];
+                int pieceCol = piece[1];
+
+                int[] move = board.convertToCoords(moves[i + 3]);
+
+                Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
+                board.printBoard(blackCaptures, whiteCaptures);
+                return true;
             }
-
-            System.out.println("Black King in Check");
-            int[] piece = board.convertToCoords(moves[i + 2]);
-            int pieceRow = piece[0];
-            int pieceCol = piece[1];
-
-            int[] move = board.convertToCoords(moves[i + 3]);
-
-            Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
-            board.printBoard(blackCaptures, whiteCaptures);
-            return true;
         }
         return false;
     }
