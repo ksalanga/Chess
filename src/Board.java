@@ -61,7 +61,7 @@ public class Board {
 
     }
 
-    public void printBoard(ArrayList<ChessPiece> blackCaptures, ArrayList<ChessPiece> whiteCaptures) {
+    public static void printBoard(ArrayList<ChessPiece> blackCaptures, ArrayList<ChessPiece> whiteCaptures) {
         if (!blackCaptures.isEmpty()) {
             System.out.print("\t[ ");
             for (ChessPiece p : blackCaptures) {
@@ -189,8 +189,8 @@ public class Board {
     }
 
     public static void saveCurrentBoard() {
-        boardCopy = copyBoard();
-        boardScannerCopy = copyBoardScanner();
+        copyBoard();
+        copyBoardScanner();
     }
 
     public static void revertToPreviousBoard() {
@@ -200,10 +200,10 @@ public class Board {
         setBlackPieces(copyBlackPieces);
     }
 
-    private static ChessPiece[][] copyBoard() {
+    private static void copyBoard() {
         copyWhitePieces = new ArrayList<ChessPiece>();
         copyBlackPieces = new ArrayList<ChessPiece>();
-        ChessPiece[][] BoardCopy = new ChessPiece[8][8];
+        boardCopy = new ChessPiece[8][8];
 
         int whiteSize = whitePieces.size();
         int blackSize = blackPieces.size();
@@ -214,26 +214,26 @@ public class Board {
 
             switch (whitePieces.get(i).getName()) {
                 case "♔":
-                    BoardCopy[copyRow][copyCol] = new King((King) whitePieces.get(i));
+                    boardCopy[copyRow][copyCol] = new King((King) whitePieces.get(i));
                     break;
                 case "♕":
-                    BoardCopy[copyRow][copyCol] = new Queen((Queen) whitePieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Queen((Queen) whitePieces.get(i));
                     break;
                 case "♗":
-                    BoardCopy[copyRow][copyCol] = new Bishop((Bishop) whitePieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Bishop((Bishop) whitePieces.get(i));
                     break;
                 case "♘":
-                    BoardCopy[copyRow][copyCol] = new Knight((Knight) whitePieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Knight((Knight) whitePieces.get(i));
                     break;
                 case "♖":
-                    BoardCopy[copyRow][copyCol] = new Rook((Rook) whitePieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Rook((Rook) whitePieces.get(i));
                     break;
                 case "♙":
-                    BoardCopy[copyRow][copyCol] = new Pawn((Pawn) whitePieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Pawn((Pawn) whitePieces.get(i));
                     break;
             }
 
-            copyWhitePieces.add(BoardCopy[copyRow][copyCol]);
+            copyWhitePieces.add(boardCopy[copyRow][copyCol]);
         }
 
         for (int i = 0; i < blackSize; i++) {
@@ -242,41 +242,37 @@ public class Board {
 
             switch (blackPieces.get(i).getName()) {
                 case "♚":
-                    BoardCopy[copyRow][copyCol] = new King((King) blackPieces.get(i));
+                    boardCopy[copyRow][copyCol] = new King((King) blackPieces.get(i));
                     break;
                 case "♛":
-                    BoardCopy[copyRow][copyCol] = new Queen((Queen) blackPieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Queen((Queen) blackPieces.get(i));
                     break;
                 case "♝":
-                    BoardCopy[copyRow][copyCol] = new Bishop((Bishop) blackPieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Bishop((Bishop) blackPieces.get(i));
                     break;
                 case "♞":
-                    BoardCopy[copyRow][copyCol] = new Knight((Knight) blackPieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Knight((Knight) blackPieces.get(i));
                     break;
                 case "♜":
-                    BoardCopy[copyRow][copyCol] = new Rook((Rook) blackPieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Rook((Rook) blackPieces.get(i));
                     break;
                 case "♟":
-                    BoardCopy[copyRow][copyCol] = new Pawn((Pawn) blackPieces.get(i));
+                    boardCopy[copyRow][copyCol] = new Pawn((Pawn) blackPieces.get(i));
                     break;
             }
 
-            copyBlackPieces.add(BoardCopy[copyRow][copyCol]);
+            copyBlackPieces.add(boardCopy[copyRow][copyCol]);
         }
-
-        return BoardCopy;
     }
 
-    private static BoardScanner[][] copyBoardScanner() {
-        BoardScanner[][] copyBoard = new BoardScanner[8][8];
+    private static void copyBoardScanner() {
+        boardScannerCopy = new BoardScanner[8][8];
 
         for (int i = 0; i < boardScanner.length; i++) {
             for (int j = 0; j < boardScanner[i].length; j++) {
-                copyBoard[i][j] = new BoardScanner(boardScanner[i][j]);
+                boardScannerCopy[i][j] = new BoardScanner(boardScanner[i][j]);
             }
         }
-
-        return copyBoard;
     }
 
     private static void setPieces(ChessPiece[][] newBoard) {

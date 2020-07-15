@@ -28,11 +28,13 @@ public class Knight extends PieceMoves implements ChessPiece {
 
         for (int i = Math.max(r - 2, 0); i <= Math.min(r + 2, 7); i++) {
             for (int j = Math.max(c - 2, 0); j <= Math.min(c + 2, 7); j++) {
-                if ((i == r - 2 || i == r + 2) && (j == c - 1 || j == c + 1)) {
-                    availablePositions.add(new int[] {i, j});
-                }
-                if ((i == r - 1 || i == r + 1) && (j == c - 2 || j == c + 2)) {
-                    availablePositions.add(new int[] {i, j});
+                if ((i == r - 2 || i == r + 2) && (j == c - 1 || j == c + 1)
+                || (i == r - 1 || i == r + 1) && (j == c - 2 || j == c + 2)) {
+                    if (color.equals("white")) {
+                        if (Board.getPieces()[i][j] == null || Board.getPieces()[i][j].getColor().equals("black")) availablePositions.add(new int[] {i, j});
+                    } else {
+                        if (Board.getPieces()[i][j] == null || Board.getPieces()[i][j].getColor().equals("whites")) availablePositions.add(new int[] {i, j});
+                    }
                 }
             }
         }

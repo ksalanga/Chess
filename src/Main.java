@@ -23,6 +23,17 @@ public class Main {
                 "b8", "c8",
                 "f7", "g6",
                 "c8", "e6"};
+
+        String[] checkMate = new String[] {
+                "e2", "e4",
+                "a7", "a6",
+                "f1", "c4",
+                "b7", "b6",
+                "d1", "f3",
+                "c7", "c6",
+                "f3", "f7"
+        }; //checkmate Works
+
         g.startWithPresetMoves(shortestStalemate);
     }
 }

@@ -29,7 +29,7 @@ public class Game {
                 System.out.println("Stalemate");
                 end = true;
             } else {
-                board.printBoard(blackCaptures, whiteCaptures);
+                Board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println();
                 System.out.print(whitesTurn ? "(White ♙) Select a piece: " : "(Black ♟) " + "Select a piece: ");
                 String selection = s.nextLine();
@@ -63,7 +63,7 @@ public class Game {
             }
         }
 
-        board.printBoard(blackCaptures, whiteCaptures);
+        Board.printBoard(blackCaptures, whiteCaptures);
         s.close();
     }
 
@@ -73,7 +73,7 @@ public class Game {
                 System.out.println("Stalemate");
                 end = true;
             } else {
-                board.printBoard(blackCaptures, whiteCaptures);
+                Board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println();
                 int[] piece = board.convertToCoords(moves[i]);
                 int pieceRow = piece[0];
@@ -81,12 +81,16 @@ public class Game {
                 int[] move = board.convertToCoords(moves[i + 1]);
                 Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
 
-                if (presetCheck(moves, i)) i += 2; //checks if the opposite king is in check
-                else whitesTurn = !whitesTurn;
+                whitesTurn = !whitesTurn;
+
+                if (presetCheck(moves, i)) {
+                    i += 2; //checks if the opposite king is in check
+                    whitesTurn = !whitesTurn;
+                }
                 System.out.println();
             }
         }
-        board.printBoard(blackCaptures, whiteCaptures);
+        Board.printBoard(blackCaptures, whiteCaptures);
         start();
     }
 
@@ -113,7 +117,7 @@ public class Game {
                 int[] move = board.convertToCoords(moves[i + 3]);
 
                 Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
-                board.printBoard(blackCaptures, whiteCaptures);
+                Board.printBoard(blackCaptures, whiteCaptures);
                 return true;
             }
         } else {
@@ -126,7 +130,7 @@ public class Game {
                     end = true;
                     return true;
                 }
-                board.printBoard(blackCaptures, whiteCaptures);
+                Board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println("Black King in Check");
                 int[] piece = board.convertToCoords(moves[i + 2]);
                 int pieceRow = piece[0];
@@ -135,7 +139,7 @@ public class Game {
                 int[] move = board.convertToCoords(moves[i + 3]);
 
                 Board.getPieces()[pieceRow][pieceCol].move(move, whitesTurn ? whiteCaptures : blackCaptures);
-                board.printBoard(blackCaptures, whiteCaptures);
+                Board.printBoard(blackCaptures, whiteCaptures);
                 return true;
             }
         }
@@ -180,7 +184,7 @@ public class Game {
                     return;
                 }
 
-                board.printBoard(blackCaptures, whiteCaptures);
+                Board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println("White King in Check"); //white king in check
 
                 //copy the board

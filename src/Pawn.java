@@ -39,17 +39,17 @@ public class Pawn extends PieceMoves implements ChessPiece{
             //one space move
             if (r - 1 > 0 && Board.getPieces()[r - 1][c] == null) {
                 availablePositions.add(new int[] {r - 1, c});
-            }
-
-            //starting two space move
-            if (starting && r - 2 > 0 && Board.getPieces()[r - 2][c] == null) {
-                availablePositions.add(new int[] {r - 2, c});
-                if (rInput == r - 2 && cInput == c && !scanning) enPassant = true;
+                //starting two space move
+                if (starting && r - 2 > 0 && Board.getPieces()[r - 2][c] == null) {
+                    availablePositions.add(new int[] {r - 2, c});
+                    if (rInput == r - 2 && cInput == c && !scanning) enPassant = true;
+                }
             }
 
             //captures right
             if (r - 1 > 0 && c + 1 < 8) {
-                if (Board.getPieces()[r - 1][c + 1] != null) availablePositions.add(new int[] {r - 1, c + 1});
+                if (Board.getPieces()[r - 1][c + 1] != null && Board.getPieces()[r - 1][c + 1].getColor().equals("black")) availablePositions.add(new int[] {r - 1, c + 1});
+                if (Board.getPieces()[r - 1][c + 1] != null && Board.getPieces()[r - 1][c + 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c + 1].isWhiteMove();
                 //captures enpassant, right : special case
                 if ((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("black"))) {
                     availablePositions.add(new int[]{r - 1, c + 1});
@@ -68,7 +68,8 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures left
             if (r - 1 > 0 && c - 1 > 0) {
-                if (Board.getPieces()[r - 1][c - 1] != null) availablePositions.add(new int[] {r - 1, c - 1});
+                if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("black")) availablePositions.add(new int[] {r - 1, c - 1});
+                if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c + 1].isWhiteMove();
                 //captures enpassant, left : special case
                 if ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("black"))) {
                     availablePositions.add(new int[]{r - 1, c - 1});
@@ -86,17 +87,17 @@ public class Pawn extends PieceMoves implements ChessPiece{
             //one space move
             if (r + 1 < 8 && Board.getPieces()[r + 1][c] == null) {
                 availablePositions.add(new int[] {r + 1, c});
-            }
-
-            //starting two space move
-            if (starting && r + 2 < 8 && Board.getPieces()[r + 2][c] == null) {
-                availablePositions.add(new int[] {r + 2, c});
-                if (rInput == r + 2 && cInput == c && !scanning) enPassant = true;
+                //starting two space move
+                if (starting && r + 2 < 8 && Board.getPieces()[r + 2][c] == null) {
+                    availablePositions.add(new int[] {r + 2, c});
+                    if (rInput == r + 2 && cInput == c && !scanning) enPassant = true;
+                }
             }
 
             //captures right
             if (r + 1 < 8 && c + 1 < 8) {
-                if (Board.getPieces()[r + 1][c + 1] != null) availablePositions.add(new int[] {r + 1, c + 1});
+                if (Board.getPieces()[r + 1][c + 1] != null && Board.getPieces()[r + 1][c + 1].getColor().equals("white")) availablePositions.add(new int[] {r + 1, c + 1});
+                if (Board.getPieces()[r + 1][c + 1] != null && Board.getPieces()[r + 1][c + 1].getColor().equals("black")) Board.getBoardScanner()[r + 1][c + 1].isBlackMove();
                 if ((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("white"))) {
                     availablePositions.add(new int[]{r + 1, c + 1});
                     Pawn p = (Pawn) Board.getPieces()[r][c + 1];
@@ -111,7 +112,9 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures left
             if (r + 1 < 8 && c - 1 > 0) {
-                if (Board.getPieces()[r + 1][c - 1] != null) availablePositions.add(new int[] {r + 1, c - 1});
+                if (Board.getPieces()[r + 1][c - 1] != null && Board.getPieces()[r + 1][c - 1].getColor().equals("white")) availablePositions.add(new int[] {r + 1, c - 1});
+                if (Board.getPieces()[r + 1][c - 1] != null && Board.getPieces()[r + 1][c - 1].getColor().equals("black")) Board.getBoardScanner()[r + 1][c + 1].isBlackMove();
+
                 if ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("white"))) {
                     availablePositions.add(new int[]{r + 1, c - 1});
                     Pawn p = (Pawn) Board.getPieces()[r][c - 1];
