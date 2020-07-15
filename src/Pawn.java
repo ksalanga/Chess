@@ -37,7 +37,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
         if (color.toLowerCase().equals("white")) {
             //one space move
-            if (r - 1 > 0 && Board.getPieces()[r - 1][c] == null) {
+            if (r - 1 >= 0 && Board.getPieces()[r - 1][c] == null) {
                 availablePositions.add(new int[] {r - 1, c});
                 //starting two space move
                 if (starting && r - 2 > 0 && Board.getPieces()[r - 2][c] == null) {
@@ -47,7 +47,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
 
             //captures right
-            if (r - 1 > 0 && c + 1 < 8) {
+            if (r - 1 >= 0 && c + 1 < 8) {
                 if (Board.getPieces()[r - 1][c + 1] != null && Board.getPieces()[r - 1][c + 1].getColor().equals("black")) availablePositions.add(new int[] {r - 1, c + 1});
                 if (Board.getPieces()[r - 1][c + 1] != null && Board.getPieces()[r - 1][c + 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c + 1].isWhiteMove();
                 //captures enpassant, right : special case
@@ -67,7 +67,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
 
             //captures left
-            if (r - 1 > 0 && c - 1 > 0) {
+            if (r - 1 >= 0 && c - 1 >= 0) {
                 if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("black")) availablePositions.add(new int[] {r - 1, c - 1});
                 if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c + 1].isWhiteMove();
                 //captures enpassant, left : special case
@@ -111,7 +111,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
 
             //captures left
-            if (r + 1 < 8 && c - 1 > 0) {
+            if (r + 1 < 8 && c - 1 >= 0) {
                 if (Board.getPieces()[r + 1][c - 1] != null && Board.getPieces()[r + 1][c - 1].getColor().equals("white")) availablePositions.add(new int[] {r + 1, c - 1});
                 if (Board.getPieces()[r + 1][c - 1] != null && Board.getPieces()[r + 1][c - 1].getColor().equals("black")) Board.getBoardScanner()[r + 1][c + 1].isBlackMove();
 

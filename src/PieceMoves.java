@@ -115,7 +115,6 @@ public class PieceMoves {
                     int kingRow = Board.getWhiteKing()[0];
                     int kingColumn = Board.getWhiteKing()[1];
                     if (!Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-                        System.out.println(piece.getName());
                         Board.revertToPreviousBoard();
                         return true;
                     }
@@ -142,13 +141,6 @@ public class PieceMoves {
                     int kingRow = Board.getBlackKing()[0];
                     int kingColumn = Board.getBlackKing()[1];
                     if (!Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
-                        for (int j = 0; j < availablePositions.size(); j++) {
-                            System.out.print(availablePositions.get(j)[0] + "," + availablePositions.get(j)[1]);
-                        }
-                        System.out.println("TEST BOARD!!!");
-                        Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
-                        System.out.println("TEST BOARD!!!");
-                        System.out.println(piece.getName());
                         Board.revertToPreviousBoard();
                         return true;
                     }

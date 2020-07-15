@@ -34,6 +34,6 @@ public class Main {
                 "f3", "f7"
         }; //checkmate Works
 
-        g.startWithPresetMoves(shortestStalemate);
+        g.start();
     }
 }

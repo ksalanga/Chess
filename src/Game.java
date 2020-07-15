@@ -22,8 +22,6 @@ public class Game {
 
     public void start() {
         Scanner s = new Scanner(System.in);
-//        ChessPiece[][] pieces = board.getPieces();
-        //put captures ArrayList when a piece moves.
         while (!end) {
             if (!pm.legalMoveAvailable(whitesTurn)) {
                 System.out.println("Stalemate");
@@ -56,6 +54,7 @@ public class Game {
                     whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
                 }
 
+                Board.pawnPromotion(whitesTurn, s);
                 whitesTurn = !whitesTurn;
 
                 check(); //checks if the opposite king is in check

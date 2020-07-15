@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Board {
 
@@ -119,6 +120,76 @@ public class Board {
 
         String tile = files[coords[1]] + Integer.toString(row);
         return tile;
+    }
+
+    public static void pawnPromotion(boolean whitesTurn, Scanner sc) {
+        if (whitesTurn) {
+            for (int i = 0; i < whitePieces.size(); i++) {
+                ChessPiece piece = whitePieces.get(i);
+                int[] currentPosition = piece.getCurrentPosition();
+                if (piece instanceof Pawn && currentPosition[0] == 0) {
+                    System.out.println("1) Queen, 2) Rook, 3) Bishop, 4)Knight");
+                    int selection = sc.nextInt();
+                    while (!(selection > 0 && selection < 5)) {
+                        System.out.println("1) Queen, 2) Rook, 3) Bishop, 4) Knight");
+                        selection = sc.nextInt();
+                    }
+                    switch (selection) {
+                        case 1:
+                            piece = new Queen(currentPosition, "white");
+                            break;
+                        case 2:
+                            piece = new Rook(currentPosition, "white");
+                            break;
+                        case 3:
+                            piece = new Bishop(currentPosition, "white");
+                            break;
+                        case 4:
+                            piece = new Knight(currentPosition, "white");
+                            break;
+                    }
+                    whitePieces.remove(whitePieces.get(i));
+                    whitePieces.add(piece);
+                    int row = currentPosition[0];
+                    int col = currentPosition[1];
+                    Board.getPieces()[row][col] = piece;
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < blackPieces.size(); i++) {
+                ChessPiece piece = blackPieces.get(i);
+                int[] currentPosition = piece.getCurrentPosition();
+                if (piece instanceof Pawn && currentPosition[0] == 7) {
+                    System.out.println("1) Queen, 2) Rook, 3) Bishop, 4)Knight");
+                    int selection = sc.nextInt();
+                    while (!(selection > 0 && selection < 5)) {
+                        System.out.println("1) Queen, 2) Rook, 3) Bishop, 4) Knight");
+                        selection = sc.nextInt();
+                    }
+                    switch (selection) {
+                        case 1:
+                            piece = new Queen(currentPosition, "black");
+                            break;
+                        case 2:
+                            piece = new Rook(currentPosition, "black");
+                            break;
+                        case 3:
+                            piece = new Bishop(currentPosition, "black");
+                            break;
+                        case 4:
+                            piece = new Knight(currentPosition, "black");
+                            break;
+                    }
+                    blackPieces.remove(blackPieces.get(i));
+                    blackPieces.add(piece);
+                    int row = currentPosition[0];
+                    int col = currentPosition[1];
+                    Board.getPieces()[row][col] = piece;
+                    break;
+                }
+            }
+        }
     }
 
     public static BoardScanner[][] getBoardScanner() { return boardScanner; }
