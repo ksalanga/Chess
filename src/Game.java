@@ -36,6 +36,7 @@ public class Game {
                 int c = selectedTile[1];
 
                 if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
+                    Board.saveCurrentBoard();
                     System.out.print("Move the " + Board.getPieces()[r][c].getName() + ": ");
                     selection = sc.nextLine();
                     selectedTile = board.convertToCoords(selection);
@@ -45,6 +46,26 @@ public class Game {
                         if (!Board.getPieces()[r][c].move(selectedTile, whitesTurn ? whiteCaptures : blackCaptures)) {
                             System.out.println("Invalid Input");
                             whitesTurn = !whitesTurn;
+                        } else {
+                            Board.scanPositions();
+                            boolean white = Board.getPieces()[rInput][cInput].getColor().equals("white");
+                            if (white) {
+                                int kingRow = Board.getWhiteKing()[0];
+                                int kingCol = Board.getWhiteKing()[1];
+                                if (Board.getBoardScanner()[kingRow][kingCol].isBlackMove()) {
+                                    System.out.println("Illegal Move");
+                                    Board.revertToPreviousBoard();
+                                    whitesTurn = !whitesTurn;
+                                }
+                            } else {
+                                int kingRow = Board.getBlackKing()[0];
+                                int kingCol = Board.getBlackKing()[1];
+                                if (Board.getBoardScanner()[kingRow][kingCol].isWhiteMove()) {
+                                    System.out.println("Illegal Move");
+                                    Board.revertToPreviousBoard();
+                                    whitesTurn = !whitesTurn;
+                                }
+                            }
                         }
                     } else {
                         System.out.println("Out of bounds");

@@ -187,6 +187,7 @@ public class Board {
                     int row = currentPosition[0];
                     int col = currentPosition[1];
                     Board.getPieces()[row][col] = piece;
+                    sc.nextLine();
                     break;
                 }
             }

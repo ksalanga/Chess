@@ -34,6 +34,15 @@ public class Main {
                 "f3", "f7"
         }; //checkmate Works
 
+        String[] rookDissappears = new String[] {
+                "a2", "a4",
+                "a7", "a5",
+                "a1", "a3",
+                "b7", "b5",
+                "a3", "c3",
+                "b8", "a6",
+                "c3", "c7"
+        };
         g.start();
     }
 }
