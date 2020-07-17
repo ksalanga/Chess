@@ -21,7 +21,7 @@ public class Game {
     }
 
     public void start() {
-        Scanner s = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         while (!end) {
             if (!pm.legalMoveAvailable(whitesTurn)) {
                 System.out.println("Stalemate");
@@ -30,14 +30,14 @@ public class Game {
                 Board.printBoard(blackCaptures, whiteCaptures);
                 System.out.println();
                 System.out.print(whitesTurn ? "(White ♙) Select a piece: " : "(Black ♟) " + "Select a piece: ");
-                String selection = s.nextLine();
+                String selection = sc.nextLine();
                 int [] selectedTile = board.convertToCoords(selection);
                 int r = selectedTile[0];
                 int c = selectedTile[1];
 
                 if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
                     System.out.print("Move the " + Board.getPieces()[r][c].getName() + ": ");
-                    selection = s.nextLine();
+                    selection = sc.nextLine();
                     selectedTile = board.convertToCoords(selection);
                     int rInput = selectedTile[0];
                     int cInput = selectedTile[1];
@@ -54,7 +54,7 @@ public class Game {
                     whitesTurn = !whitesTurn; //gives the position back to the person who didn't type the write input
                 }
 
-                Board.pawnPromotion(whitesTurn, s);
+                Board.pawnPromotion(whitesTurn, sc);
                 whitesTurn = !whitesTurn;
 
                 check(); //checks if the opposite king is in check
@@ -63,7 +63,7 @@ public class Game {
         }
 
         Board.printBoard(blackCaptures, whiteCaptures);
-        s.close();
+        sc.close();
     }
 
     public void startWithPresetMoves(String[] moves) {
@@ -163,7 +163,7 @@ public class Game {
     private void check() {
         //initialize boardScanner
 
-        Scanner s = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         Board.reInitialize();
 
         Board.scanPositions();
@@ -202,7 +202,7 @@ public class Game {
                     int captureSize =  whiteCaptures.size();
                     int whitePiecesSize = Board.getWhitePieces().size();
                     System.out.print("(White ♙) Select a piece: ");
-                    String selection = s.nextLine();
+                    String selection = sc.nextLine();
                     int [] selectedTile = board.convertToCoords(selection);
                     int r = selectedTile[0];
                     int c = selectedTile[1];
@@ -212,7 +212,7 @@ public class Game {
                     if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
 
                         System.out.print("Move the " + Board.getPieces()[r][c].getName() + ": ");
-                        selection = s.nextLine();
+                        selection = sc.nextLine();
                         selectedTile = board.convertToCoords(selection);
                         int rInput = selectedTile[0];
                         int cInput = selectedTile[1];
@@ -278,7 +278,7 @@ public class Game {
                     int captureSize =  blackCaptures.size();
                     int blackPiecesSize = Board.getBlackPieces().size();
                     System.out.print("(Black ♙) Select a piece: ");
-                    String selection = s.nextLine();
+                    String selection = sc.nextLine();
                     int [] selectedTile = board.convertToCoords(selection);
                     int r = selectedTile[0];
                     int c = selectedTile[1];
@@ -288,7 +288,7 @@ public class Game {
                     if (!outOfBounds(r, c, whitesTurn)) { //checks if out of bounds
 
                         System.out.print("Move the " + Board.getPieces()[r][c].getName() + ": ");
-                        selection = s.nextLine();
+                        selection = sc.nextLine();
                         selectedTile = board.convertToCoords(selection);
                         int rInput = selectedTile[0];
                         int cInput = selectedTile[1];

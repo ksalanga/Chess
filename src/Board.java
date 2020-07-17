@@ -105,7 +105,7 @@ public class Board {
         char c = Character.toLowerCase(tile.charAt(0));
         int column = c % 97;
 
-        if (row < 0 || row > 7 || column < 0 || column > 7) return new int[]{-1, -1};
+        if ((row < 0 || row > 7) || (column < 0 || column > 7)) return new int[]{-1, -1};
 
         return new int[] {row, column};
     }
@@ -153,6 +153,7 @@ public class Board {
                     int row = currentPosition[0];
                     int col = currentPosition[1];
                     Board.getPieces()[row][col] = piece;
+                    sc.nextLine();
                     break;
                 }
             }
