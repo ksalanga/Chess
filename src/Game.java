@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Game {
     private ArrayList<ChessPiece> whiteCaptures;
     private ArrayList<ChessPiece> blackCaptures;
-    private HashMap<ChessPiece, int[]> piecePositions;
     private Board board;
     private boolean end;
     private boolean whitesTurn = true;
