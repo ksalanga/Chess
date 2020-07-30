@@ -6,21 +6,12 @@ import java.awt.event.MouseListener;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
-
 public class GUI extends JPanel implements MouseListener, ActionListener {
 
     public GUI() {
         JPanel jp = new JPanel();
         jp.setSize(800,800);
         jp.setLayout(new GridLayout(8,8));
-
-        JFrame f = new JFrame();//creating instance of JFrame
-        f.add(jp);//adding button in JFrame
-
-        f.setSize(1920,1080);//400 width and 500 height
-        f.setLayout(null);//using no layout managers
-        f.setVisible(true);//making the frame visible
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -31,6 +22,13 @@ public class GUI extends JPanel implements MouseListener, ActionListener {
                 b.addActionListener(this);
             }
         }
+
+        JFrame f = new JFrame();//creating instance of JFrame
+        f.add(jp);//adding button in JFrame
+
+        f.setSize(1920,1080);//400 width and 500 height
+        f.setLayout(null);//using no layout managers
+        f.setVisible(true);//making the frame visible
     }
 
     private void addMouseListener(GUI gui) {
