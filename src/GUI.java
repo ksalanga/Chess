@@ -25,8 +25,11 @@ public class GUI extends JPanel implements ActionListener {
                 else b.setBackground(Color.black);
                 jp.add(b);
                 b.addActionListener(this);
+//                b.setRolloverIcon(); //for hovering over the buttons
+//                b.setPressedIcon();
             }
         }
+
 
         JFrame f = new JFrame();//creating instance of JFrame
         f.add(jp);//adding button in JFrame
