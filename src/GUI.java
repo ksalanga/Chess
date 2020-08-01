@@ -1,20 +1,25 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-public class GUI extends JPanel implements MouseListener, ActionListener {
+public class GUI extends JPanel implements ActionListener {
+
+    private Tile[][] t;
 
     public GUI() {
+        Board board = new Board();
+
+        Tile[][] t = new Tile[8][8];
+
         JPanel jp = new JPanel();
         jp.setSize(800,800);
         jp.setLayout(new GridLayout(8,8));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+                t[i][j] = new Tile(Board.getPieces()[i][j]);
                 JButton b = new JButton();
                 if ((i+j)%2==0) b.setBackground(Color.white);
                 else b.setBackground(Color.black);
@@ -29,34 +34,6 @@ public class GUI extends JPanel implements MouseListener, ActionListener {
         f.setSize(1920,1080);//400 width and 500 height
         f.setLayout(null);//using no layout managers
         f.setVisible(true);//making the frame visible
-    }
-
-    private void addMouseListener(GUI gui) {
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        System.out.println("Click");
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        System.out.println("Click1");
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        System.out.println("Click2");
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        System.out.println("Click3");
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        System.out.println("Click4");
     }
 
     @Override
