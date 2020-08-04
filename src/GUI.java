@@ -2,12 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class GUI extends JPanel implements ActionListener {
-
+    private JButton[][] buttons = new JButton[8][8];
+    private Board board;
+    private HashMap<JButton, ChessPiece> boardConnector;
     public GUI() {
 
-        Board board = new Board();
+        board = new Board();
         board.setPositions();
 
 //        ImageIcon knight = new ImageIcon("images/BlackKnight.png");
@@ -20,7 +23,9 @@ public class GUI extends JPanel implements ActionListener {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                JButton b = new JButton();
+                buttons[i][j] = new JButton();
+                JButton b = buttons[i][j];
+                boardConnector.put(b,Board.getPieces()[i][j]);
 
                 if(!(Board.getPieces()[i][j] == null)) {
                     String s = "";
@@ -95,6 +100,13 @@ public class GUI extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Clicked");
+        JButton button = (JButton) e.getSource();
+        ChessPiece piece = boardConnector.get(button);
+
+        if (piece == null) {
+            return;
+        } else {
+
+        }
     }
 }
