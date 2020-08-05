@@ -2,14 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GUI extends JPanel implements ActionListener {
     private JButton[][] buttons = new JButton[8][8];
     private Board board;
+    private ArrayList<int[]> selections;
     private HashMap<JButton, ChessPiece> boardConnector;
+    private JFrame f;
+
     public GUI() {
 
+        boardConnector = new HashMap<>();
+        selections = new ArrayList<>();
         board = new Board();
         board.setPositions();
 
@@ -23,9 +29,12 @@ public class GUI extends JPanel implements ActionListener {
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+
                 buttons[i][j] = new JButton();
                 JButton b = buttons[i][j];
-                boardConnector.put(b,Board.getPieces()[i][j]);
+
+                if (Board.getPieces()[i][j] == null) boardConnector.put(b, null);
+                else boardConnector.put(b,Board.getPieces()[i][j]);
 
                 if(!(Board.getPieces()[i][j] == null)) {
                     String s = "";
@@ -74,6 +83,7 @@ public class GUI extends JPanel implements ActionListener {
                     }
                     b.setIcon(new ImageIcon(s));
                 }
+
                 if ((i+j)%2==0) b.setBackground(new Color(225, 197, 158));
                 else b.setBackground(new Color(101, 48, 17));
                 GUIboard.add(b);
@@ -88,7 +98,7 @@ public class GUI extends JPanel implements ActionListener {
 //        button.setIcon(new ImageIcon(newimg));
 
 
-        JFrame f = new JFrame();//creating instance of JFrame
+        f = new JFrame();//creating instance of JFrame
         f.add(GUIboard);//adding button in JFrame
 //        f.add(button);
 //        button.setBackground(new Color(225, 197, 158));
@@ -100,13 +110,77 @@ public class GUI extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        int select = selections.size();
         JButton button = (JButton) e.getSource();
-        ChessPiece piece = boardConnector.get(button);
-
-        if (piece == null) {
-            return;
-        } else {
-
+        if (select == 0 && boardConnector.get(button) == null) return;
+        //if the first selection isn't a piece, then we
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons[i].length; j++) {
+                if (buttons[i][j].equals(button)) {
+                    selections.add(new int[]{i, j});
+                    System.out.println(selections);
+                }
+            }
         }
+
+        if (select == 2) {
+            int r = selections.get(0)[0];
+            int c = selections.get(0)[1];
+            int moveR = selections.get(1)[0];
+            int moveC = selections.get(1)[1];
+
+            System.out.print(r + c + moveR+moveC);
+
+            String piece = Board.getPieces()[r][c].getName();
+            if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
+                //we need to make a case for enpassent
+                String s = "";
+                switch (piece) {
+                    case "♔":
+                        s = "images/WhiteKing.png";
+                        break;
+                    case "♕":
+                        s = "images/WhiteQueen.png";
+                        break;
+                    case "♖":
+                        s = "images/WhiteRook.png";
+                        break;
+                    case "♗":
+                        s = "images/WhiteBishop.png";
+                        break;
+                    case "♘":
+                        s = "images/WhiteKnight.png";
+                        break;
+                    case "♙":
+                        s = "images/WhitePawn.png";
+                        break;
+                    case "♚":
+                        s = "images/BlackKing.png";
+                        break;
+                    case "♛":
+                        s = "images/BlackQueen.png";
+                        break;
+                    case "♜":
+                        s = "images/BlackRook.png";
+                        break;
+                    case "♝":
+                        s = "images/BlackBishop.png";
+                        break;
+                    case "♞":
+                        s = "images/BlackKnight.png";
+                        break;
+                    case "♟":
+                        s = "images/BlackPawn.png";
+                        break;
+                }
+                buttons[moveR][moveC].setIcon(new ImageIcon(s));
+                buttons[r][c].setIcon(null);
+                f.validate();
+                f.repaint();
+            }
+
+            selections.clear();
+        }
+
     }
 }

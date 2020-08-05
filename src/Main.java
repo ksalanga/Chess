@@ -1,8 +1,11 @@
+import java.util.HashMap;
+
 public class Main {
 
     public static void main(String[] args) {
 
         GUI g = new GUI();
+
 //        Game g = new Game();
 //
 //        String[] shortestStalemate = new String[]{"e2", "e3",
