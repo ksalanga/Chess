@@ -110,9 +110,8 @@ public class GUI extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int select = selections.size();
         JButton button = (JButton) e.getSource();
-        if (select == 0 && boardConnector.get(button) == null) return;
+        if (selections.size() == 0 && boardConnector.get(button) == null) return;
         //if the first selection isn't a piece, then we
         for (int i = 0; i < buttons.length; i++) {
             for (int j = 0; j < buttons[i].length; j++) {
@@ -123,7 +122,7 @@ public class GUI extends JPanel implements ActionListener {
             }
         }
 
-        if (select == 2) {
+        if (selections.size() == 2) {
             int r = selections.get(0)[0];
             int c = selections.get(0)[1];
             int moveR = selections.get(1)[0];
@@ -175,7 +174,6 @@ public class GUI extends JPanel implements ActionListener {
                 }
                 buttons[moveR][moveC].setIcon(new ImageIcon(s));
                 buttons[r][c].setIcon(null);
-                f.validate();
                 f.repaint();
             }
 
