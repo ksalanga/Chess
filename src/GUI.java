@@ -174,6 +174,9 @@ public class GUI extends JPanel implements ActionListener {
                 }
                 buttons[moveR][moveC].setIcon(new ImageIcon(s));
                 buttons[r][c].setIcon(null);
+                boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
+                boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
+                //updating hashmap values
                 f.repaint();
             }
 
