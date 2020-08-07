@@ -45,7 +45,12 @@ public class PieceMoves {
     //int[] currentPosition, int[] inputPosition, int r, int c, int rInput, int cInput, ArrayList<int[]> availablePositions, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs
     protected boolean move(int rInput, int cInput) {
         ChessPiece[][] board = Board.getPieces();
+        for (int i = 0; i < availablePositions.size(); i++) {
+            System.out.printf("(%d,%d)", availablePositions.get(i)[0], availablePositions.get(i)[1]);
+            System.out.println();
+        }
         if (scanAvailablePositions()) {
+            System.out.println("GOT FROUGHH!!");
             if (board[rInput][cInput] != null) { // the problem is here. also we need to check king moves it's not giving the right numbers
                 if (board[rInput][cInput].getColor().equals("white"))  Board.getWhitePieces().remove(board[rInput][cInput]);
                 else Board.getBlackPieces().remove(board[rInput][cInput]); //no longer in the board

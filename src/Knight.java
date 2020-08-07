@@ -33,7 +33,7 @@ public class Knight extends PieceMoves implements ChessPiece {
                     if (color.equals("white")) {
                         if (Board.getPieces()[i][j] == null || Board.getPieces()[i][j].getColor().equals("black")) availablePositions.add(new int[] {i, j});
                     } else {
-                        if (Board.getPieces()[i][j] == null || Board.getPieces()[i][j].getColor().equals("whites")) availablePositions.add(new int[] {i, j});
+                        if (Board.getPieces()[i][j] == null || Board.getPieces()[i][j].getColor().equals("white")) availablePositions.add(new int[] {i, j});
                     }
                 }
             }
