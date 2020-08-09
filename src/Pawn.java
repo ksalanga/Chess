@@ -77,7 +77,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
                 if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("black")) availablePositions.add(new int[] {r - 1, c - 1});
                 if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c - 1].isWhiteMove();
-                
+
                 //captures enpassant, left : special case
                 if ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("black"))) {
                     availablePositions.add(new int[]{r - 1, c - 1});
