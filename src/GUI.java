@@ -54,43 +54,44 @@ public class GUI extends JPanel implements ActionListener {
             for (int j = 0; j < buttons[i].length; j++) {
                 if (buttons[i][j].equals(button)) {
                     selections.add(new int[]{i, j});
-                    if (selections.size() == 1) {
-                        ChessPiece piece = Board.getPieces()[i][j];
-                        int[] currentPosition = piece.getCurrentPosition();
-                        switch (piece.getName()) {
-                            case "♔":
-                            case "♚":
-                                ((King) piece).scanning(); //start scanning
-                                piece.move(currentPosition, null);
-                                ((King) piece).scanning(); //stop scanning
-                                break;
-                            case "♖":
-                            case "♜":
-                                ((Rook) piece).scanning(); //start scanning
-                                piece.move(currentPosition, null);
-                                ((Rook) piece).scanning(); //stop scanning
-                                break;
-                            case "♙":
-                            case "♟":
-                                ((Pawn) piece).scanning(); //start scanning
-                                piece.move(currentPosition, null);
-                                ((Pawn) piece).scanning(); //stop scanning
-                                break;
-                            default:
-                                piece.move(currentPosition, null);
-                                break;
-                        }
-                        ArrayList<int[]> availablePositions = piece.getAvailablePositions();
-
-                        for (int k = 0; k < availablePositions.size(); k++) {
-                            int r = availablePositions.get(k)[0];
-                            int c = availablePositions.get(k)[1];
-                            buttons[r][c].setBackground(new Color(1f, 0f, 0f,.5f));
-                        }
-                        System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ") SELECT HERE!");
-                    }
+                    if (selections.size() == 1) System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ") SELECT HERE!");
                     if (selections.size() == 2) System.out.println("(" + selections.get(1)[0] + "," + selections.get(1)[1] + ") MOVE HERE!");
                 }
+            }
+        }
+
+        if (selections.size() == 1) {
+            ChessPiece piece = Board.getPieces()[selections.get(0)[0]][selections.get(0)[1]];
+            int[] currentPosition = piece.getCurrentPosition();
+            switch (piece.getName()) {
+                case "♔":
+                case "♚":
+                    ((King) piece).scanning(); //start scanning
+                    piece.move(currentPosition, null);
+                    ((King) piece).scanning(); //stop scanning
+                    break;
+                case "♖":
+                case "♜":
+                    ((Rook) piece).scanning(); //start scanning
+                    piece.move(currentPosition, null);
+                    ((Rook) piece).scanning(); //stop scanning
+                    break;
+                case "♙":
+                case "♟":
+                    ((Pawn) piece).scanning(); //start scanning
+                    piece.move(currentPosition, null);
+                    ((Pawn) piece).scanning(); //stop scanning
+                    break;
+                default:
+                    piece.move(currentPosition, null);
+                    break;
+            }
+            ArrayList<int[]> availablePositions = piece.getAvailablePositions();
+
+            for (int k = 0; k < availablePositions.size(); k++) {
+                int r = availablePositions.get(k)[0];
+                int c = availablePositions.get(k)[1];
+                buttons[r][c].setBackground(Color.red);
             }
         }
 
@@ -102,7 +103,6 @@ public class GUI extends JPanel implements ActionListener {
 
 
             if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
-                updateBoard();
                 boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
                 boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
                 //updating hashmap values
@@ -111,6 +111,7 @@ public class GUI extends JPanel implements ActionListener {
                 f.repaint();
             }
 
+            updateBoard();
             selections.clear();
         }
 
