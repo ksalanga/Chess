@@ -54,8 +54,8 @@ public class GUI extends JPanel implements ActionListener {
             for (int j = 0; j < buttons[i].length; j++) {
                 if (buttons[i][j].equals(button)) {
                     selections.add(new int[]{i, j});
-                    if (selections.size() == 1) System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ")");
-                    if (selections.size() == 2) System.out.println("(" + selections.get(1)[0] + "," + selections.get(1)[1] + ")");
+                    if (selections.size() == 1) System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ") SELECT HERE!");
+                    if (selections.size() == 2) System.out.println("(" + selections.get(1)[0] + "," + selections.get(1)[1] + ") MOVE HERE!");
                 }
             }
         }
@@ -72,6 +72,8 @@ public class GUI extends JPanel implements ActionListener {
                 boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
                 boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
                 //updating hashmap values
+                Board.reInitialize();
+                Board.scanPositions();
                 f.repaint();
             }
 
