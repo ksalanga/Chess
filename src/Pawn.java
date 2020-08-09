@@ -68,8 +68,16 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures left
             if (r - 1 >= 0 && c - 1 >= 0) {
+                if (r - 1 > 7 || c - 1 > 7) {
+                        if (scanning) System.out.println("SCANNING!!!");
+                        System.out.println("r:" + r + "c:" + c);
+                        System.out.println("CP:" + currentPosition[0] + ", " + currentPosition[1]);
+                        System.out.println("IP:" + inputPosition[0] + ", " + inputPosition[1]);
+                }
+
                 if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("black")) availablePositions.add(new int[] {r - 1, c - 1});
-                if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c + 1].isWhiteMove();
+                if (Board.getPieces()[r - 1][c - 1] != null && Board.getPieces()[r - 1][c - 1].getColor().equals("white")) Board.getBoardScanner()[r - 1][c - 1].isWhiteMove();
+                
                 //captures enpassant, left : special case
                 if ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("black"))) {
                     availablePositions.add(new int[]{r - 1, c - 1});
@@ -138,10 +146,9 @@ public class Pawn extends PieceMoves implements ChessPiece{
             if (color.equals("black") && rInput == 7) {
                 promotion = true;
             }
+            starting = false;
             return true;
         }
-
-        if (!scanning) starting = false;
 
         return false;
     }
