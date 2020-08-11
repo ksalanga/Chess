@@ -98,6 +98,29 @@ public class Board {
         }
     }
 
+    public static void flipBoard() {
+        for (int i = 0; i < Pieces.length/2; i++) {
+            for (int j = 0; j < Pieces[i].length; j++) {
+                //same j different i.
+                if (Pieces[i][j] != null && Pieces[7 - i][j] != null) {
+                    ChessPiece temp = Pieces[i][j];
+                    Pieces[i][j] = Pieces[7 - i][j];
+                    Pieces[i][j].setPosition(new int[]{i, j});
+                    Pieces[7 - i][j] = temp;
+                    Pieces[7 - i][j].setPosition(new int[]{7 - i, j});
+                } else if (Pieces[i][j] == null && Pieces[7 - i][j] != null){
+                    Pieces[i][j] = Pieces[7 - i][j];
+                    Pieces[i][j].setPosition(new int[]{i, j});
+                    Pieces[7 - i][j] = null;
+                } else if (Pieces[7 - i][j] == null && Pieces[i][j] != null) {
+                    Pieces[7 - i][j] = Pieces[i][j];
+                    Pieces[7 - i][j].setPosition(new int[]{i, j});
+                    Pieces[i][j] = null;
+                }
+            }
+        }
+    }
+
     public int[] convertToCoords(String tile) {
         if (tile.length() != 2 || !Character.isLetter(tile.charAt(0)) || Character.isLetter(tile.charAt(1))) return new int[] {-1, -1};
         tile = tile.toLowerCase();

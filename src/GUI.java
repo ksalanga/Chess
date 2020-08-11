@@ -5,13 +5,16 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GUI extends JPanel implements ActionListener {
+public class GUI extends JPanel implements ActionListener { //a GUI version of Game Class.
     private JButton[][] buttons = new JButton[8][8];
     private Board board;
     private ArrayList<int[]> selections;
     private HashMap<JButton, ChessPiece> boardConnector;
     private JFrame f;
     private JPanel GUIboard;
+    private boolean whitesTurn;
+    private ArrayList<ChessPiece> whiteCaptures;
+    private ArrayList<ChessPiece> blackCaptures;
 
     public GUI() {
 
@@ -88,9 +91,9 @@ public class GUI extends JPanel implements ActionListener {
             }
             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-            for (int k = 0; k < availablePositions.size(); k++) {
-                int r = availablePositions.get(k)[0];
-                int c = availablePositions.get(k)[1];
+            for (int[] availablePosition : availablePositions) {
+                int r = availablePosition[0];
+                int c = availablePosition[1];
                 buttons[r][c].setBackground(Color.red);
             }
         }
