@@ -37,11 +37,23 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
 //        button.setBounds(0,0,70,70);
 //        button.setIcon(new ImageIcon(newimg));
 
+        JButton flip = new JButton(new AbstractAction("flip") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Board.flipBoard();
+                updateBoard();
+            }
+        });
+
+        flip.setBounds(900, 900, 20, 20);
+        flip.setVisible(true);
 
         f = new JFrame();//creating instance of JFrame
         f.add(GUIboard);//adding button in JFrame
 //        f.add(button);
 //        button.setBackground(new Color(225, 197, 158));
+
+        f.add(flip);
 
         f.setSize(1920,1080);//400 width and 500 height
         f.setLayout(null);//using no layout managers
@@ -50,73 +62,6 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JButton button = (JButton) e.getSource();
-        if (selections.size() == 0 && boardConnector.get(button) == null) return;
-        //if the first selection isn't a piece, then we
-        for (int i = 0; i < buttons.length; i++) {
-            for (int j = 0; j < buttons[i].length; j++) {
-                if (buttons[i][j].equals(button)) {
-                    selections.add(new int[]{i, j});
-                    if (selections.size() == 1) System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ") SELECT HERE!");
-                    if (selections.size() == 2) System.out.println("(" + selections.get(1)[0] + "," + selections.get(1)[1] + ") MOVE HERE!");
-                }
-            }
-        }
-
-        if (selections.size() == 1) {
-            ChessPiece piece = Board.getPieces()[selections.get(0)[0]][selections.get(0)[1]];
-            int[] currentPosition = piece.getCurrentPosition();
-            switch (piece.getName()) {
-                case "♔":
-                case "♚":
-                    ((King) piece).scanning(); //start scanning
-                    piece.move(currentPosition, null);
-                    ((King) piece).scanning(); //stop scanning
-                    break;
-                case "♖":
-                case "♜":
-                    ((Rook) piece).scanning(); //start scanning
-                    piece.move(currentPosition, null);
-                    ((Rook) piece).scanning(); //stop scanning
-                    break;
-                case "♙":
-                case "♟":
-                    ((Pawn) piece).scanning(); //start scanning
-                    piece.move(currentPosition, null);
-                    ((Pawn) piece).scanning(); //stop scanning
-                    break;
-                default:
-                    piece.move(currentPosition, null);
-                    break;
-            }
-            ArrayList<int[]> availablePositions = piece.getAvailablePositions();
-
-            for (int[] availablePosition : availablePositions) {
-                int r = availablePosition[0];
-                int c = availablePosition[1];
-                buttons[r][c].setBackground(Color.red);
-            }
-        }
-
-        if (selections.size() == 2) {
-            int r = selections.get(0)[0];
-            int c = selections.get(0)[1];
-            int moveR = selections.get(1)[0];
-            int moveC = selections.get(1)[1];
-
-
-            if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
-                boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
-                boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
-                //updating hashmap values
-                Board.reInitialize();
-                Board.scanPositions();
-                f.repaint();
-            }
-
-            updateBoard();
-            selections.clear();
-        }
 
     }
 
@@ -126,7 +71,78 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
 
-                buttons[i][j] = new JButton();
+                buttons[i][j] = new JButton(new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        JButton button = (JButton) e.getSource();
+                        if (selections.size() == 0 && boardConnector.get(button) == null) return;
+                        //if the first selection isn't a piece, then we
+                        for (int i = 0; i < buttons.length; i++) {
+                            for (int j = 0; j < buttons[i].length; j++) {
+                                if (buttons[i][j].equals(button)) {
+                                    selections.add(new int[]{i, j});
+                                    if (selections.size() == 1) System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ") SELECT HERE!");
+                                    if (selections.size() == 2) System.out.println("(" + selections.get(1)[0] + "," + selections.get(1)[1] + ") MOVE HERE!");
+                                }
+                            }
+                        }
+
+                        if (selections.size() == 1) {
+                            ChessPiece piece = Board.getPieces()[selections.get(0)[0]][selections.get(0)[1]];
+                            int[] currentPosition = piece.getCurrentPosition();
+                            switch (piece.getName()) {
+                                case "♔":
+                                case "♚":
+                                    ((King) piece).scanning(); //start scanning
+                                    piece.move(currentPosition, null);
+                                    ((King) piece).scanning(); //stop scanning
+                                    break;
+                                case "♖":
+                                case "♜":
+                                    ((Rook) piece).scanning(); //start scanning
+                                    piece.move(currentPosition, null);
+                                    ((Rook) piece).scanning(); //stop scanning
+                                    break;
+                                case "♙":
+                                case "♟":
+                                    ((Pawn) piece).scanning(); //start scanning
+                                    piece.move(currentPosition, null);
+                                    ((Pawn) piece).scanning(); //stop scanning
+                                    break;
+                                default:
+                                    piece.move(currentPosition, null);
+                                    break;
+                            }
+                            ArrayList<int[]> availablePositions = piece.getAvailablePositions();
+
+                            for (int[] availablePosition : availablePositions) {
+                                int r = availablePosition[0];
+                                int c = availablePosition[1];
+                                buttons[r][c].setBackground(Color.red);
+                            }
+                        }
+
+                        if (selections.size() == 2) {
+                            int r = selections.get(0)[0];
+                            int c = selections.get(0)[1];
+                            int moveR = selections.get(1)[0];
+                            int moveC = selections.get(1)[1];
+
+
+                            if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
+                                boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
+                                boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
+                                //updating hashmap values
+                                Board.reInitialize();
+                                Board.scanPositions();
+                                f.repaint();
+                            }
+
+                            updateBoard();
+                            selections.clear();
+                        }
+                    }
+                });
                 JButton b = buttons[i][j];
 
                 if (Board.getPieces()[i][j] == null) boardConnector.put(b, null);
