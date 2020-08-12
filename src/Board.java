@@ -17,6 +17,8 @@ public class Board {
     private static ArrayList<ChessPiece> copyWhitePieces;
     private static ArrayList<ChessPiece> copyBlackPieces;
 
+    private static boolean flipped;
+
 
     public Board() {
         Pieces = new ChessPiece[8][8];
@@ -26,6 +28,7 @@ public class Board {
         blackPieces = new ArrayList<ChessPiece>();
         boardCopy = new ChessPiece[8][8];
         boardScannerCopy = new BoardScanner[8][8];
+        flipped = false;
     }
 
     public void setPositions() {
@@ -99,6 +102,7 @@ public class Board {
     }
 
     public static void flipBoard() {
+        flipped = !flipped;
         for (int i = 0; i < Pieces.length/2; i++) {
             for (int j = 0; j < Pieces[i].length; j++) {
                 //same j different i.
@@ -215,6 +219,10 @@ public class Board {
                 }
             }
         }
+    }
+
+    public static boolean isFlipped() {
+        return flipped;
     }
 
     public static BoardScanner[][] getBoardScanner() { return boardScanner; }
