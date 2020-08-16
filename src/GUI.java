@@ -81,8 +81,8 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                             for (int j = 0; j < buttons[i].length; j++) {
                                 if (buttons[i][j].equals(button)) {
                                     selections.add(new int[]{i, j});
-                                    if (selections.size() == 1) System.out.println("(" + selections.get(0)[0] + "," + selections.get(0)[1] + ") SELECT HERE!");
-                                    if (selections.size() == 2) System.out.println("(" + selections.get(1)[0] + "," + selections.get(1)[1] + ") MOVE HERE!");
+                                    if (selections.size() == 1) System.out.println("Select: (" + selections.get(0)[0] + "," + selections.get(0)[1] + ")");
+                                    if (selections.size() == 2) System.out.println("Move: (" + selections.get(1)[0] + "," + selections.get(1)[1] + ")");
                                 }
                             }
                         }

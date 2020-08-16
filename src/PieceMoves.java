@@ -78,7 +78,6 @@ public class PieceMoves {
         int rInput = inputPosition[0]; //input Position for rook is null
         int cInput = inputPosition[1];
         boolean flag = false;
-        if (board[r][c] == null) System.out.printf("-------------------------\n(R:%d,C:%d)\n-------------------------", r, c);
         boolean white = board[r][c].getColor().equals("white");
         for (int[] availablePosition : availablePositions) {
             int row = availablePosition[0];
@@ -98,7 +97,7 @@ public class PieceMoves {
     }
 
     public boolean legalMoveAvailable(boolean whitesTurn) {
-        ArrayList<ChessPiece> dummyCaptures = new ArrayList<>(); //arraylist for throwaway captures
+        ArrayList<ChessPiece> dummyCaptures = new ArrayList<>();
 
         if (whitesTurn) {
             for (int i = 0; i < Board.getWhitePieces().size(); i++) {
