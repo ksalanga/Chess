@@ -66,6 +66,7 @@ public class Board {
     }
 
     public static void printBoard(ArrayList<ChessPiece> blackCaptures, ArrayList<ChessPiece> whiteCaptures) {
+        System.out.println();
         if (!blackCaptures.isEmpty()) {
             System.out.print("\t[ ");
             for (ChessPiece p : blackCaptures) {
@@ -102,14 +103,23 @@ public class Board {
     }
 
     public static void flipBoard() {
-        flipped = !flipped;
+        //when the board flips when the other one is null, it gets iffy with the piece positions
         for (int i = 0; i < Pieces.length/2; i++) {
             for (int j = 0; j < Pieces[i].length; j++) {
-                //same j different i.
+                //printing
+                if (Pieces[i][j] != null) {
+                    System.out.println("-------------------------\n" + Pieces[i][j].getName() + "[" + Pieces[i][j].getColor() + "] " + "Old Position: (" + Pieces[i][j].getCurrentPosition()[0] + "," + Pieces[i][j].getCurrentPosition()[1] + ")");
+                }
+                if (Pieces[7-i][j] != null) {
+                    System.out.println(Pieces[7-i][j].getName() + "[" + Pieces[7-i][j].getColor() + "] " + " Old Position: (" + Pieces[7-i][j].getCurrentPosition()[0] + "," + Pieces[7-i][j].getCurrentPosition()[1] + ")\n-------------------------");
+                }
+
+                //logic
                 if (Pieces[i][j] != null && Pieces[7 - i][j] != null) {
                     ChessPiece temp = Pieces[i][j];
                     Pieces[i][j] = Pieces[7 - i][j];
                     Pieces[i][j].setPosition(new int[]{i, j});
+                    //First Board Flip, these pieces should now be white, because the black piece on i,j now takes on the white piece,
                     Pieces[7 - i][j] = temp;
                     Pieces[7 - i][j].setPosition(new int[]{7 - i, j});
                 } else if (Pieces[i][j] == null && Pieces[7 - i][j] != null){
@@ -118,11 +128,50 @@ public class Board {
                     Pieces[7 - i][j] = null;
                 } else if (Pieces[7 - i][j] == null && Pieces[i][j] != null) {
                     Pieces[7 - i][j] = Pieces[i][j];
-                    Pieces[7 - i][j].setPosition(new int[]{i, j});
+                    Pieces[7 - i][j].setPosition(new int[]{(7-i), j});
                     Pieces[i][j] = null;
+                }
+
+                //printing stuff:
+
+                if (whitePieces.contains(Pieces[i][j])) {
+                    int index = whitePieces.indexOf(Pieces[i][j]);
+                    String s = whitePieces.get(index).getName();
+                    String color = whitePieces.get(index).getColor();
+                    int r = whitePieces.get(whitePieces.indexOf(Pieces[i][j])).getCurrentPosition()[0];
+                    int c = whitePieces.get(whitePieces.indexOf(Pieces[i][j])).getCurrentPosition()[1];
+                    System.out.printf("%s [%s] Board Location: (%d,%d).\nPiece Position: (%d,%d)", s, color, i, j, r, c);
+                    System.out.println();
+                } else if (whitePieces.contains(Pieces[7-i][j])) {
+                    int index = whitePieces.indexOf(Pieces[7 - i][j]);
+                    String s = whitePieces.get(index).getName();
+                    String color = whitePieces.get(index).getColor();
+                    int r = whitePieces.get(whitePieces.indexOf(Pieces[7 - i][j])).getCurrentPosition()[0];
+                    int c = whitePieces.get(whitePieces.indexOf(Pieces[7 - i][j])).getCurrentPosition()[1];
+                    System.out.printf("%s [%s] Board Location: (%d,%d).\nPiece Position: (%d,%d)", s, color, (7 - i), j, r, c);
+                    System.out.println();
+                }
+
+                if (blackPieces.contains(Pieces[7 - i][j])) {
+                    int index = blackPieces.indexOf(Pieces[7 - i][j]);
+                    String s = blackPieces.get(index).getName();
+                    String color = blackPieces.get(index).getColor();
+                    int r = blackPieces.get(blackPieces.indexOf(Pieces[7 - i][j])).getCurrentPosition()[0];
+                    int c = blackPieces.get(blackPieces.indexOf(Pieces[7 - i][j])).getCurrentPosition()[1];
+                    System.out.printf("%s [%s] Board Location: (%d,%d).\nPiece Position: (%d,%d)", s, color, (7 - i), j, r, c);
+                    System.out.println();
+                } else if (blackPieces.contains(Pieces[i][j])) {
+                    int index = blackPieces.indexOf(Pieces[i][j]);
+                    String s = blackPieces.get(index).getName();
+                    String color = blackPieces.get(index).getColor();
+                    int r = blackPieces.get(blackPieces.indexOf(Pieces[i][j])).getCurrentPosition()[0];
+                    int c = blackPieces.get(blackPieces.indexOf(Pieces[i][j])).getCurrentPosition()[1];
+                    System.out.printf("%s [%s] Board Location: (%d,%d).\nPiece Position: (%d,%d)", s, color, i, j, r, c);
+                    System.out.println();
                 }
             }
         }
+        flipped = !flipped;
     }
 
     public int[] convertToCoords(String tile) {

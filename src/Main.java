@@ -3,8 +3,9 @@ public class Main {
     public static void main(String[] args) {
         GUI g = new GUI();
 
+
 //        Game g = new Game();
-//
+
 //        String[] shortestStalemate = new String[]{"e2", "e3",
 //                "a7", "a5",
 //                "d1", "h5",

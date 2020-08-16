@@ -93,7 +93,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures enpassant, right : special case
             if (((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("black")) && (!flipped))
-            || ((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("white")) && (flipped))) {
+                    || ((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("white")) && (flipped))) {
                 availablePositions.add(new int[]{r - 1, c + 1});
 
                 Pawn p = (Pawn) Board.getPieces()[r][c + 1];
@@ -125,16 +125,16 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
             //captures enpassant, left : special case
             if (((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("black")) && (!flipped))
-            || ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("white")) && (flipped))) {
+                    || ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("white")) && (flipped))) {
                 availablePositions.add(new int[]{r - 1, c - 1});
 
                 Pawn p = (Pawn) Board.getPieces()[r][c - 1];
                 if (p.isEnPassant() && rInput == r - 1
                         && cInput == c - 1) {
                     if (!flipped) {
-                        Board.getBlackPieces().remove(Board.getPieces()[r][c+1]);
+                        Board.getBlackPieces().remove(Board.getPieces()[r][c - 1]);
                     } else {
-                        Board.getWhitePieces().remove(Board.getPieces()[r][c+1]);
+                        Board.getWhitePieces().remove(Board.getPieces()[r][c - 1]);
                     }
                     captures.add(p);
                     Board.getPieces()[r][c - 1] = null;
@@ -166,7 +166,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
 
             if (((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("white")) && (!flipped))
-            || ((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("black")) && (flipped))) {
+                    || ((Board.getPieces()[r][c + 1] != null) && (Board.getPieces()[r][c + 1] instanceof Pawn) && (Board.getPieces()[r][c + 1].getColor().equals("black")) && (flipped))) {
                 availablePositions.add(new int[]{r + 1, c + 1});
                 Pawn p = (Pawn) Board.getPieces()[r][c + 1];
                 if (p.isEnPassant() && rInput == r + 1
@@ -193,7 +193,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
 
             if (((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("white")) && (!flipped))
-            || ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("black")) && (flipped))) {
+                    || ((Board.getPieces()[r][c - 1] != null) && (Board.getPieces()[r][c - 1] instanceof Pawn) && (Board.getPieces()[r][c - 1].getColor().equals("black")) && (flipped))) {
                 availablePositions.add(new int[]{r + 1, c - 1});
                 Pawn p = (Pawn) Board.getPieces()[r][c - 1];
                 if (p.isEnPassant() && rInput == r + 1
