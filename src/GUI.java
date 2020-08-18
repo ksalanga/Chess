@@ -17,11 +17,11 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
     private ArrayList<ChessPiece> blackCaptures;
 
     public GUI() {
-
         boardConnector = new HashMap<>();
         selections = new ArrayList<>();
         board = new Board();
         board.setPositions();
+        whitesTurn = true;
 
 //        ImageIcon knight = new ImageIcon("images/BlackKnight.png");
 //        Image img = knight.getImage();
@@ -76,10 +76,17 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                     public void actionPerformed(ActionEvent e) {
                         JButton button = (JButton) e.getSource();
                         if (selections.size() == 0 && boardConnector.get(button) == null) return;
-                        //if the first selection isn't a piece, then we
+
                         for (int i = 0; i < buttons.length; i++) {
                             for (int j = 0; j < buttons[i].length; j++) {
                                 if (buttons[i][j].equals(button)) {
+                                    if (selections.size() == 0 && Board.getPieces()[i][j] != null) {
+                                        String color = Board.getPieces()[i][j].getColor();
+
+                                        if ((color.equals("black") && whitesTurn)
+                                                || (color.equals("white") && !whitesTurn)) return;
+                                    }
+
                                     selections.add(new int[]{i, j});
                                     if (selections.size() == 1) System.out.println("Select: (" + selections.get(0)[0] + "," + selections.get(0)[1] + ")");
                                     if (selections.size() == 2) System.out.println("Move: (" + selections.get(1)[0] + "," + selections.get(1)[1] + ")");
@@ -133,6 +140,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                                 boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
                                 boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
                                 //updating hashmap values
+                                whitesTurn = !whitesTurn;
                                 Board.reInitialize();
                                 Board.scanPositions();
                                 f.repaint();

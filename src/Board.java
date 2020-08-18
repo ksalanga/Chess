@@ -145,7 +145,7 @@ public class Board {
 
     public static String convertToTiles(int[] coords) {
         char[] files = new char[]{'a', 'b' , 'c', 'd', 'e', 'f', 'g', 'h'};
-        int row = 8 - Character.getNumericValue(coords[0]);
+        int row = 8 - coords[0];
 
         String tile = files[coords[1]] + Integer.toString(row);
         return tile;
