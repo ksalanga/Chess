@@ -58,6 +58,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
         f.setSize(1920,1080);//400 width and 500 height
         f.setLayout(null);//using no layout managers
         f.setVisible(true);//making the frame visible
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     @Override

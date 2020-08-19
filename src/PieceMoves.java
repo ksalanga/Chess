@@ -78,6 +78,7 @@ public class PieceMoves {
         int rInput = inputPosition[0]; //input Position for rook is null
         int cInput = inputPosition[1];
         boolean flag = false;
+        
         boolean white = board[r][c].getColor().equals("white");
         for (int[] availablePosition : availablePositions) {
             int row = availablePosition[0];

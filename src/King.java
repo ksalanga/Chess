@@ -30,7 +30,7 @@ public class King extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        if (rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 3 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)) {
+        if (rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 2 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)) {
             boolean flag = true;
             int rookColumn;
             if (cInput == c + 2) {
@@ -44,7 +44,7 @@ public class King extends PieceMoves implements ChessPiece {
             } else {
                 rookColumn = c - 4;
                 for (int i = 1; i < 4; i++) {
-                    if (Board.getPieces()[r][c + i] != null || color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                    if (Board.getPieces()[r][c - i] != null || color.equals("white") ? Board.getBoardScanner()[r][c - i].isBlackMove() : Board.getBoardScanner()[r][c - i].isWhiteMove()) {
                         flag = false;
                         break;
                     }
@@ -55,8 +55,11 @@ public class King extends PieceMoves implements ChessPiece {
                 //castles
                 //Need to add a new condition, if the king or any of the squares between the rook is under attack it cant castle.
                 Board.getPieces()[rInput][cInput] = Board.getPieces()[r][c];
+                Board.getPieces()[rInput][cInput].setPosition(new int[]{rInput, cInput});
                 Board.getPieces()[r][c] = null;
                 Board.getPieces()[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = Board.getPieces()[r][rookColumn];
+                if (cInput == c + 2) Board.getPieces()[r][cInput - 1].setPosition(new int[]{r, cInput - 1});
+                else Board.getPieces()[r][cInput + 1].setPosition(new int[]{r, cInput + 1});
                 Board.getPieces()[r][rookColumn] = null;
                 starting = false;
                 return true;
