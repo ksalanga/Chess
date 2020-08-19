@@ -78,15 +78,20 @@ public class PieceMoves {
         int rInput = inputPosition[0]; //input Position for rook is null
         int cInput = inputPosition[1];
         boolean flag = false;
-        
+
         boolean white = board[r][c].getColor().equals("white");
         for (int[] availablePosition : availablePositions) {
             int row = availablePosition[0];
             int col = availablePosition[1];
 
-            if (white) bs[row][col].whiteMove();
-            else bs[row][col].blackMove();
             if (rInput == row && cInput == col) flag = true;
+
+            if (Board.getPieces()[r][c] instanceof King && (col == c + 2 || col == c - 2)) {
+                flag = false; //special case for castling
+            } else {
+                if (white) bs[row][col].whiteMove();
+                else bs[row][col].blackMove();
+            }
         }
         return flag;
     }

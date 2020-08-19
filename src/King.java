@@ -30,39 +30,68 @@ public class King extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        if (rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 2 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)) {
-            boolean flag = true;
-            int rookColumn;
-            if (cInput == c + 2) {
-                rookColumn = c + 3;
-                for (int i = 1; i < 3; i++) {
-                    if (Board.getPieces()[r][c + i] != null || color.equals("white") ? Board.getBoardScanner()[r][c + i].isBlackMove() : Board.getBoardScanner()[r][c + i].isWhiteMove()) {
-                        flag = false; //if tiles in between has a piece or is under white/black attack
-                        break;
-                    }
-                }
-            } else {
-                rookColumn = c - 4;
-                for (int i = 1; i < 4; i++) {
-                    if (Board.getPieces()[r][c - i] != null || color.equals("white") ? Board.getBoardScanner()[r][c - i].isBlackMove() : Board.getBoardScanner()[r][c - i].isWhiteMove()) {
-                        flag = false;
-                        break;
-                    }
+        //rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 2 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)
+        if (starting) {
+            boolean kingSideCastle = true;
+            boolean queenSideCastle = true;
+
+            for (int i = 1; i < 3; i++) {
+                if (Board.getPieces()[r][c + i] != null) {
+                    kingSideCastle = false; //if tiles in between has a piece or is under white/black attack
+                    break;
+                } else if (color.equals("white") && Board.getBoardScanner()[r][c + i].isBlackMove()) {
+                    kingSideCastle = false;
+                    break;
+                } else if (color.equals("black") && Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                    kingSideCastle = false;
+                    break;
                 }
             }
+            if (kingSideCastle) {
+                availablePositions.add(new int[]{r, c + 2});
+            }
 
-            if (flag && ((Rook) Board.getPieces()[r][rookColumn]).isStarting()) {
-                //castles
-                //Need to add a new condition, if the king or any of the squares between the rook is under attack it cant castle.
-                Board.getPieces()[rInput][cInput] = Board.getPieces()[r][c];
-                Board.getPieces()[rInput][cInput].setPosition(new int[]{rInput, cInput});
-                Board.getPieces()[r][c] = null;
-                Board.getPieces()[r][cInput == c + 2 ? cInput - 1 : cInput + 1] = Board.getPieces()[r][rookColumn];
-                if (cInput == c + 2) Board.getPieces()[r][cInput - 1].setPosition(new int[]{r, cInput - 1});
-                else Board.getPieces()[r][cInput + 1].setPosition(new int[]{r, cInput + 1});
-                Board.getPieces()[r][rookColumn] = null;
-                starting = false;
-                return true;
+            for (int i = 1; i < 4; i++) {
+                if (Board.getPieces()[r][c - i] != null) {
+                    if (!scanning) System.out.println("False1");
+                    queenSideCastle = false;
+                    break;
+                } else if (color.equals("white") && Board.getBoardScanner()[r][c - i].isBlackMove()) {
+                    if (!scanning) System.out.println("False2");
+                    queenSideCastle = false;
+                    break;
+                } else if (color.equals("black") && Board.getBoardScanner()[r][c - i].isWhiteMove()) {
+                    if (!scanning) System.out.println("False3");
+                    queenSideCastle = false;
+                    break;
+                }
+            }
+            if (queenSideCastle) {
+                availablePositions.add(new int[]{r, c - 2});
+            }
+
+            if ((kingSideCastle && Board.getPieces()[r][c + 3] != null && ((Rook) Board.getPieces()[r][c + 3]).isStarting())
+                    || (queenSideCastle && Board.getPieces()[r][c - 4] != null && ((Rook) Board.getPieces()[r][c - 4]).isStarting())) {
+
+                if (cInput == c + 2 && rInput == r) {
+                    Board.getPieces()[rInput][cInput] = Board.getPieces()[r][c];
+                    Board.getPieces()[rInput][cInput].setPosition(new int[]{rInput, cInput});
+                    Board.getPieces()[r][c] = null;
+                    Board.getPieces()[r][cInput - 1] = Board.getPieces()[r][c + 3];
+                    Board.getPieces()[r][cInput - 1].setPosition(new int[]{r, cInput - 1});
+                    Board.getPieces()[r][c + 3] = null;
+                    starting = false;
+                    return true;
+                } else if (cInput == c - 2 && rInput == r) {
+                    Board.getPieces()[rInput][cInput] = Board.getPieces()[r][c];
+                    Board.getPieces()[rInput][cInput].setPosition(new int[]{rInput, cInput});
+                    Board.getPieces()[r][c] = null;
+                    Board.getPieces()[r][cInput + 1] = Board.getPieces()[r][c - 4];
+                    Board.getPieces()[r][cInput + 1].setPosition(new int[]{r, cInput + 1});
+                    Board.getPieces()[r][c - 4] = null;
+                    starting = false;
+                    return true;
+                }
             }
         }
 
