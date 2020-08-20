@@ -220,7 +220,7 @@ public class Game {
                 while (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
 
                     int captureSize =  whiteCaptures.size();
-                    int whitePiecesSize = Board.getWhitePieces().size();
+
                     System.out.print("(White ♙) Select a piece: ");
                     String selection = sc.nextLine();
                     int [] selectedTile = board.convertToCoords(selection);

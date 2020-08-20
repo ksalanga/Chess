@@ -13,6 +13,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
     private JFrame f;
     private JPanel GUIboard;
     private boolean whitesTurn;
+    private PieceMoves pm;
     private ArrayList<ChessPiece> whiteCaptures;
     private ArrayList<ChessPiece> blackCaptures;
 
@@ -21,6 +22,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
         selections = new ArrayList<>();
         board = new Board();
         board.setPositions();
+        pm = new PieceMoves();
         whitesTurn = true;
 
 //        ImageIcon knight = new ImageIcon("images/BlackKnight.png");
@@ -136,7 +138,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                             int moveR = selections.get(1)[0];
                             int moveC = selections.get(1)[1];
 
-
+                            //this is where we start calculating checks and checkmates.
                             if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
                                 boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
                                 boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
@@ -144,6 +146,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                                 whitesTurn = !whitesTurn;
                                 Board.reInitialize();
                                 Board.scanPositions();
+                                check();
                                 f.repaint();
                             }
 
@@ -215,5 +218,15 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
         }
         GUIboard.revalidate();
         GUIboard.repaint();
+    }
+
+    //checks for check, checkmate, and stalemate!
+    private void check() {
+        boolean kingInCheck = whitesTurn ? Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove() :
+                Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove();
+
+        if (kingInCheck) {
+
+        }
     }
 }
