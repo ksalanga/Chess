@@ -14,6 +14,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
     private JPanel GUIboard;
     private boolean whitesTurn;
     private PieceMoves pm;
+    private boolean check = false;
     private ArrayList<ChessPiece> whiteCaptures;
     private ArrayList<ChessPiece> blackCaptures;
 
@@ -138,6 +139,12 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                             int moveR = selections.get(1)[0];
                             int moveC = selections.get(1)[1];
 
+                            if (check) {
+
+                            } else {
+
+                            }
+
                             //this is where we start calculating checks and checkmates.
                             if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
                                 boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
@@ -146,6 +153,8 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                                 whitesTurn = !whitesTurn;
                                 Board.reInitialize();
                                 Board.scanPositions();
+
+                                //white made a move, it is now black's turn.
                                 check();
                                 f.repaint();
                             }
@@ -208,8 +217,13 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                     b.setIcon(new ImageIcon(s));
                 }
 
-                if ((i+j)%2==0) b.setBackground(new Color(225, 197, 158));
-                else b.setBackground(new Color(101, 48, 17));
+                if (!Board.isFlipped()) {
+                    if ((i+j)%2==0) b.setBackground(new Color(225, 197, 158));
+                    else b.setBackground(new Color(101, 48, 17));
+                } else {
+                    if ((i+j)%2==0) b.setBackground(new Color(101, 48, 17));
+                    else b.setBackground(new Color(225, 197, 158));
+                }
                 GUIboard.add(b);
                 b.addActionListener(this);
 //                b.setRolloverIcon(); //for hovering over the buttons
@@ -225,8 +239,40 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
         boolean kingInCheck = whitesTurn ? Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove() :
                 Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove();
 
-        if (kingInCheck) {
+        if (kingInCheck) Board.saveCurrentBoard();
 
+        if (whitesTurn) {
+            int kingRow = Board.getWhiteKing()[0];
+            int kingColumn = Board.getWhiteKing()[1];
+
+            if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+
+                if (!pm.legalMoveAvailable(whitesTurn)) {
+                    System.out.println("Checkmate");
+                    return;
+                }
+                System.out.println("CHECK!!!!");
+                check = true;
+            } else {
+                check = false;
+            }
+        } else {
+            int kingRow = Board.getBlackKing()[0];
+            int kingColumn = Board.getBlackKing()[1];
+
+
+            if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+
+                if (!pm.legalMoveAvailable(whitesTurn)) {
+                    System.out.println("Checkmate");
+                    return;
+                }
+
+                System.out.println("CHECK!!!");
+                check = true;
+            } else {
+                check = false;
+            }
         }
     }
 }
