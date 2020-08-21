@@ -154,12 +154,9 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                                         int kingColumn = Board.getWhiteKing()[1];
 
                                         if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-                                            System.out.println("OHHHH GOT FROUGHHH!!!");
                                             Board.revertToPreviousBoard();
                                             Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
                                             whitesTurn = !whitesTurn;
-                                        } else {
-                                            System.out.println("AJLKSFJLKFJKLFAKJLFKLJFFJALKAFSLKFASKLJLJKF");
                                         }
                                     } else {
                                         int kingRow = Board.getBlackKing()[0];
@@ -273,10 +270,8 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                     System.out.println("Checkmate");
                     return;
                 }
-                System.out.println("CHECK!!!!");
                 check = true;
             } else {
-                System.out.println("ANY FALSERS???");
                 check = false;
             }
         } else {
@@ -290,8 +285,6 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                     System.out.println("Checkmate");
                     return;
                 }
-
-                System.out.println("CHECK!!!");
                 check = true;
             } else {
                 check = false;
