@@ -35,36 +35,42 @@ public class King extends PieceMoves implements ChessPiece {
             boolean kingSideCastle = true;
             boolean queenSideCastle = true;
 
-            for (int i = 1; i < 3; i++) {
-                if (Board.getPieces()[r][c + i] != null) {
-                    kingSideCastle = false; //if tiles in between has a piece or is under white/black attack
-                    break;
-                } else if (color.equals("white") && Board.getBoardScanner()[r][c + i].isBlackMove()) {
-                    kingSideCastle = false;
-                    break;
-                } else if (color.equals("black") && Board.getBoardScanner()[r][c + i].isWhiteMove()) {
-                    kingSideCastle = false;
-                    break;
+            if ((color.equals("white") && Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove())
+            || (color.equals("black") && Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove())) {
+                kingSideCastle = false;
+                queenSideCastle = false;
+            } else {
+                for (int i = 1; i < 3; i++) {
+                    if (Board.getPieces()[r][c + i] != null) {
+                        kingSideCastle = false; //if tiles in between has a piece or is under white/black attack
+                        break;
+                    } else if (color.equals("white") && Board.getBoardScanner()[r][c + i].isBlackMove()) {
+                        kingSideCastle = false;
+                        break;
+                    } else if (color.equals("black") && Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                        kingSideCastle = false;
+                        break;
+                    }
                 }
-            }
-            if (kingSideCastle) {
-                availablePositions.add(new int[]{r, c + 2});
-            }
+                if (kingSideCastle) {
+                    availablePositions.add(new int[]{r, c + 2});
+                }
 
-            for (int i = 1; i < 4; i++) {
-                if (Board.getPieces()[r][c - i] != null) {
-                    queenSideCastle = false;
-                    break;
-                } else if (color.equals("white") && Board.getBoardScanner()[r][c - i].isBlackMove()) {
-                    queenSideCastle = false;
-                    break;
-                } else if (color.equals("black") && Board.getBoardScanner()[r][c - i].isWhiteMove()) {
-                    queenSideCastle = false;
-                    break;
+                for (int i = 1; i < 4; i++) {
+                    if (Board.getPieces()[r][c - i] != null) {
+                        queenSideCastle = false;
+                        break;
+                    } else if (color.equals("white") && Board.getBoardScanner()[r][c - i].isBlackMove()) {
+                        queenSideCastle = false;
+                        break;
+                    } else if (color.equals("black") && Board.getBoardScanner()[r][c - i].isWhiteMove()) {
+                        queenSideCastle = false;
+                        break;
+                    }
                 }
-            }
-            if (queenSideCastle) {
-                availablePositions.add(new int[]{r, c - 2});
+                if (queenSideCastle) {
+                    availablePositions.add(new int[]{r, c - 2});
+                }
             }
 
             if ((kingSideCastle && Board.getPieces()[r][c + 3] != null && ((Rook) Board.getPieces()[r][c + 3]).isStarting())

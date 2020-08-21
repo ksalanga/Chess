@@ -44,6 +44,8 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
             @Override
             public void actionPerformed(ActionEvent e) {
                 Board.flipBoard();
+                Board.reInitialize();
+                Board.scanPositions();
                 updateBoard();
             }
         });
@@ -260,6 +262,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
     //checks for check, checkmate, and stalemate!
     private void check() {
 
+        //must check stalemate, if the king is not in check and there are no more available moves, then it is stalemate!
         if (whitesTurn) {
             int kingRow = Board.getWhiteKing()[0];
             int kingColumn = Board.getWhiteKing()[1];
