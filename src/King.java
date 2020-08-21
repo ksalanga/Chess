@@ -53,15 +53,12 @@ public class King extends PieceMoves implements ChessPiece {
 
             for (int i = 1; i < 4; i++) {
                 if (Board.getPieces()[r][c - i] != null) {
-                    if (!scanning) System.out.println("False1");
                     queenSideCastle = false;
                     break;
                 } else if (color.equals("white") && Board.getBoardScanner()[r][c - i].isBlackMove()) {
-                    if (!scanning) System.out.println("False2");
                     queenSideCastle = false;
                     break;
                 } else if (color.equals("black") && Board.getBoardScanner()[r][c - i].isWhiteMove()) {
-                    if (!scanning) System.out.println("False3");
                     queenSideCastle = false;
                     break;
                 }
