@@ -19,12 +19,23 @@ public class Queen extends PieceMoves implements ChessPiece {
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        availablePositions = new ArrayList<>();
-
         int r = currentPosition[0];
         int c = currentPosition[1];
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
+
+        setCurrentPosition(currentPosition);
+        setAvailablePositions(availablePositions);
+
+        setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
+        return move(rInput, cInput);
+    }
+
+    public void findPositions() {
+        availablePositions = new ArrayList<>();
+
+        int r = currentPosition[0];
+        int c = currentPosition[1];
 
         setCurrentPosition(currentPosition);
         setAvailablePositions(availablePositions);
@@ -52,9 +63,6 @@ public class Queen extends PieceMoves implements ChessPiece {
 
         setR(r - 1); setC(c - 1);
         moveAcross(-1, -1);
-
-        setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
-        return move(rInput, cInput);
     }
 
     @Override

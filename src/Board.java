@@ -237,59 +237,76 @@ public class Board {
         }
     }
 
-    public static void scanPositions() {
+    public static void scanWhiteAttacks() {
         for (ChessPiece piece : whitePieces) {
-            scanWhitePiece(piece);
-        }
-        for (ChessPiece piece : blackPieces) {
-            scanBlackPiece(piece);
+            piece.findPositions();
+
+            ArrayList<int[]> availablePositions = piece.getAvailablePositions();
+
+            for (int[] position : availablePositions) {
+                int r = position[0];
+                int c = position[1];
+                Board.getBoardScanner()[r][c].isWhiteMove();
+            }
         }
     }
 
-    public static void scanWhitePiece(ChessPiece piece) {
-        int[] currentPosition = piece.getCurrentPosition();
+    public static void scanBlackAttacks() {
+        for (ChessPiece piece : blackPieces) {
+            piece.findPositions();
+
+            ArrayList<int[]> availablePositions = piece.getAvailablePositions();
+
+            for (int[] position: availablePositions) {
+                int r = position[0];
+                int c = position[1];
+                Board.getBoardScanner()[r][c].isBlackMove();
+            }
+        }
+    }
+
+    public static void scanWhitePiece(ChessPiece piece, int[] position) {
         switch (piece.getName()) {
             case "♔":
                 ((King) piece).scanning(); //start scanning
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 ((King) piece).scanning(); //stop scanning
                 break;
             case "♖":
                 ((Rook) piece).scanning(); //start scanning
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 ((Rook) piece).scanning(); //stop scanning
                 break;
             case "♙":
                 ((Pawn) piece).scanning(); //start scanning
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 ((Pawn) piece).scanning(); //stop scanning
                 break;
             default:
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 break;
         }
     }
 
-    public static void scanBlackPiece(ChessPiece piece) {
-        int[] currentPosition = piece.getCurrentPosition();
+    public static void scanBlackPiece(ChessPiece piece, int[] position) {
         switch (piece.getName()) {
             case "♚":
                 ((King) piece).scanning(); //start scanning
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 ((King) piece).scanning(); //stop scanning
                 break;
             case "♜":
                 ((Rook) piece).scanning(); //start scanning
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 ((Rook) piece).scanning(); //stop scanning
                 break;
             case "♟":
                 ((Pawn) piece).scanning(); //start scanning
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 ((Pawn) piece).scanning(); //stop scanning
                 break;
             default:
-                piece.move(currentPosition, null);
+                piece.move(position, null);
                 break;
         }
     }

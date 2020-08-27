@@ -30,51 +30,11 @@ public class King extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
+        //we keep this in the move method.
         //rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 2 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)
         if (starting) {
-            boolean kingSideCastle = true;
-            boolean queenSideCastle = true;
-
-            if ((color.equals("white") && Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove())
-            || (color.equals("black") && Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove())) {
-                kingSideCastle = false;
-                queenSideCastle = false;
-            } else {
-                for (int i = 1; i < 3; i++) {
-                    if (Board.getPieces()[r][c + i] != null) {
-                        kingSideCastle = false; //if tiles in between has a piece or is under white/black attack
-                        break;
-                    } else if (color.equals("white") && Board.getBoardScanner()[r][c + i].isBlackMove()) {
-                        kingSideCastle = false;
-                        break;
-                    } else if (color.equals("black") && Board.getBoardScanner()[r][c + i].isWhiteMove()) {
-                        kingSideCastle = false;
-                        break;
-                    }
-                }
-                if (kingSideCastle) {
-                    availablePositions.add(new int[]{r, c + 2});
-                }
-
-                for (int i = 1; i < 4; i++) {
-                    if (Board.getPieces()[r][c - i] != null) {
-                        queenSideCastle = false;
-                        break;
-                    } else if (color.equals("white") && Board.getBoardScanner()[r][c - i].isBlackMove()) {
-                        queenSideCastle = false;
-                        break;
-                    } else if (color.equals("black") && Board.getBoardScanner()[r][c - i].isWhiteMove()) {
-                        queenSideCastle = false;
-                        break;
-                    }
-                }
-                if (queenSideCastle) {
-                    availablePositions.add(new int[]{r, c - 2});
-                }
-            }
-
-            if ((kingSideCastle && Board.getPieces()[r][c + 3] != null && ((Rook) Board.getPieces()[r][c + 3]).isStarting())
-                    || (queenSideCastle && Board.getPieces()[r][c - 4] != null && ((Rook) Board.getPieces()[r][c - 4]).isStarting())) {
+            if ((kingSideCastle() && Board.getPieces()[r][c + 3] != null && ((Rook) Board.getPieces()[r][c + 3]).isStarting())
+                    || (queenSideCastle() && Board.getPieces()[r][c - 4] != null && ((Rook) Board.getPieces()[r][c - 4]).isStarting())) {
 
                 if (cInput == c + 2 && rInput == r) {
                     Board.getPieces()[rInput][cInput] = Board.getPieces()[r][c];
@@ -98,6 +58,21 @@ public class King extends PieceMoves implements ChessPiece {
             }
         }
 
+        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
+
+        boolean moveAvailable = move(rInput, cInput);
+        if (moveAvailable && !scanning) return true;
+
+        if (!scanning) starting = false;
+        return false;
+    }
+
+    public void findPositions() {
+        availablePositions = new ArrayList<int[]>();
+
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+
         for (int i = Math.max(r - 1, 0); i <= Math.min(r + 1, 7); i++) {
             for (int j = Math.max(c - 1, 0); j <= Math.min(c + 1, 7); j++) {
                 boolean white = color.equals("white");
@@ -118,13 +93,55 @@ public class King extends PieceMoves implements ChessPiece {
             }
         }
 
-        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
+        if (kingSideCastle()) {
+            availablePositions.add(new int[]{r, c + 2});
+        }
 
-        boolean moveAvailable = move(rInput, cInput);
-        if (moveAvailable && !scanning) return true;
+        if (queenSideCastle()) {
+            availablePositions.add(new int[]{r, c - 2});
+        }
+    }
 
-        if (!scanning) starting = false;
-        return false;
+    private boolean kingSideCastle() {
+        if ((color.equals("white") && Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove())
+                || (color.equals("black") && Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove())) {
+            return false;
+        }
+
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+
+        for (int i = 1; i < 3; i++) {
+            if (Board.getPieces()[r][c + i] != null) {
+                return false;
+            } else if (color.equals("white") && Board.getBoardScanner()[r][c + i].isBlackMove()) {
+                return false;
+            } else if (color.equals("black") && Board.getBoardScanner()[r][c + i].isWhiteMove()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean queenSideCastle() {
+        if ((color.equals("white") && Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove())
+                || (color.equals("black") && Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove())) {
+            return false;
+        }
+
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+
+        for (int i = 1; i < 4; i++) {
+            if (Board.getPieces()[r][c - i] != null) {
+                return false;
+            } else if (color.equals("white") && Board.getBoardScanner()[r][c - i].isBlackMove()) {
+                return false;
+            } else if (color.equals("black") && Board.getBoardScanner()[r][c - i].isWhiteMove()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void scanning() {

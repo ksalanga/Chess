@@ -46,7 +46,7 @@ public class Game {
                             System.out.println("Invalid Input");
                             whitesTurn = !whitesTurn;
                         } else {
-                            Board.scanPositions();
+//                            Board.scanPositions();
                             boolean white = Board.getPieces()[rInput][cInput].getColor().equals("white");
                             if (white) {
                                 int kingRow = Board.getWhiteKing()[0];
@@ -115,7 +115,7 @@ public class Game {
 
     private boolean presetCheck(String[] moves, int i) {
         Board.reInitialize();
-        Board.scanPositions();
+//        Board.scanPositions();
 
         if (whitesTurn) {
             int kingRow = Board.getWhiteKing()[0];
@@ -186,7 +186,7 @@ public class Game {
         Scanner sc = new Scanner(System.in);
         Board.reInitialize();
 
-        Board.scanPositions();
+//        Board.scanPositions();
 
         if (whitesTurn)  {
             //checks possible positions for black to attack the king
@@ -246,7 +246,7 @@ public class Game {
                     }
 
                     Board.reInitialize();
-                    Board.scanPositions();
+//                    Board.scanPositions();
 
                     //could implement a linked list for this case
 
@@ -322,7 +322,7 @@ public class Game {
                     }
 
                     Board.reInitialize();
-                    Board.scanPositions();
+//                    Board.scanPositions();
 
                     //could implement a linked list for this case
 

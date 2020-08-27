@@ -19,17 +19,25 @@ public class Knight extends PieceMoves implements ChessPiece {
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        availablePositions = new ArrayList<>();
-
         int r = currentPosition[0];
         int c = currentPosition[1];
+
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
+
+        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
+        return move(rInput, cInput);
+    }
+
+    public void findPositions() {
+        availablePositions = new ArrayList<>();
+        int r = currentPosition[0];
+        int c = currentPosition[1];
 
         for (int i = Math.max(r - 2, 0); i <= Math.min(r + 2, 7); i++) {
             for (int j = Math.max(c - 2, 0); j <= Math.min(c + 2, 7); j++) {
                 if ((i == r - 2 || i == r + 2) && (j == c - 1 || j == c + 1)
-                || (i == r - 1 || i == r + 1) && (j == c - 2 || j == c + 2)) {
+                        || (i == r - 1 || i == r + 1) && (j == c - 2 || j == c + 2)) {
                     if (color.equals("white")) {
                         if (Board.getPieces()[i][j] == null || Board.getPieces()[i][j].getColor().equals("black")) availablePositions.add(new int[] {i, j});
                     } else {
@@ -38,9 +46,6 @@ public class Knight extends PieceMoves implements ChessPiece {
                 }
             }
         }
-
-        setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
-        return move(rInput, cInput);
     }
 
     @Override

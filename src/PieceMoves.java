@@ -19,15 +19,11 @@ public class PieceMoves {
             int row = currentPosition[0];
             int col = currentPosition[1];
             if (Board.getPieces()[row][col].getColor().equals("white")) {
-                if (Board.getPieces()[r][c].getColor().equals("white")) {
-                    Board.getBoardScanner()[r][c].isWhiteMove();
-                } else {
+                if (Board.getPieces()[r][c].getColor().equals("black")) {
                     availablePositions.add(position);
                 }
             } else {
-                if (Board.getPieces()[r][c].getColor().equals("black")) {
-                    Board.getBoardScanner()[r][c].isBlackMove();
-                } else {
+                if (Board.getPieces()[r][c].getColor().equals("white")) {
                     availablePositions.add(position);
                 }
             }
@@ -49,11 +45,12 @@ public class PieceMoves {
 //            System.out.printf("(%d,%d)", availablePositions.get(i)[0], availablePositions.get(i)[1]);
 //            System.out.println();
 //        }
+
         if (scanAvailablePositions()) {
             if (board[rInput][cInput] != null) { // the problem is here. also we need to check king moves it's not giving the right numbers
                 if (board[rInput][cInput].getColor().equals("white"))  Board.getWhitePieces().remove(board[rInput][cInput]);
                 else Board.getBlackPieces().remove(board[rInput][cInput]); //no longer in the board
-                captures.add(board[rInput][cInput]);
+                if (captures != null) captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
             currentPosition[0] = rInput;
@@ -73,13 +70,19 @@ public class PieceMoves {
 
     //int[] inputPosition, ArrayList<int[]> availablePositions, ChessPiece[][] boardPositions, BoardScanner[][] bs
     private boolean scanAvailablePositions() {
+
+        //should probably do a cleansing here.
+        //start scanning pieces and
         ChessPiece[][] board = Board.getPieces();
         BoardScanner[][] bs = Board.getBoardScanner();
         int rInput = inputPosition[0]; //input Position for rook is null
         int cInput = inputPosition[1];
+
         boolean flag = false;
 
+        if (board[r][c] == null) System.out.println(r + " " + c);
         boolean white = board[r][c].getColor().equals("white");
+
         for (int[] availablePosition : availablePositions) {
             int row = availablePosition[0];
             int col = availablePosition[1];
@@ -102,30 +105,29 @@ public class PieceMoves {
         return array[x];
     }
 
+    //1 possibility: Have all of the moves ready with the test moves method, then when the piece actually moves, it can just pick from all of the possible moves fo reach piece
+
     public boolean legalMoveAvailable(boolean whitesTurn) {
-        ArrayList<ChessPiece> dummyCaptures = new ArrayList<>();
 
         if (whitesTurn) {
             for (int i = 0; i < Board.getWhitePieces().size(); i++) {
                 ChessPiece piece = Board.getWhitePieces().get(i);
-                Board.scanWhitePiece(piece);
+                piece.findPositions();
 
-                ArrayList<int[]> availablePositions = Board.getWhitePieces().get(i).getAvailablePositions();
+                ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-                for (int[] ints : availablePositions) {
+                for (int[] position : availablePositions) {
                     Board.saveCurrentBoard();
 
-                    Board.getWhitePieces().get(i).move(ints, dummyCaptures);
-                    Board.reInitialize();
-                    Board.scanPositions();
+                    Board.scanWhitePiece(piece, position);
 
-                    dummyCaptures.clear();
+                    Board.reInitialize();
+                    Board.scanBlackAttacks(); //this method is going to change
 
                     int kingRow = Board.getWhiteKing()[0];
                     int kingColumn = Board.getWhiteKing()[1];
-                    if (!Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-                        Board.revertToPreviousBoard();
-                        return true;
+                    if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
+                        availablePositions.remove(position);
                     }
 
                     Board.revertToPreviousBoard();
@@ -134,24 +136,21 @@ public class PieceMoves {
         } else {
             for (int i = 0; i < Board.getBlackPieces().size(); i++) {
                 ChessPiece piece = Board.getBlackPieces().get(i);
-                Board.scanBlackPiece(piece);
+                piece.findPositions();
 
-                ArrayList<int[]> availablePositions = Board.getBlackPieces().get(i).getAvailablePositions();
+                ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-                for (int[] ints : availablePositions) {
+                for (int[] position : availablePositions) {
                     Board.saveCurrentBoard();
 
-                    Board.getBlackPieces().get(i).move(ints, dummyCaptures);
+                    Board.scanBlackPiece(piece, position);
                     Board.reInitialize();
-                    Board.scanPositions();
-
-                    dummyCaptures.clear();
+                    Board.scanWhiteAttacks();
 
                     int kingRow = Board.getBlackKing()[0];
                     int kingColumn = Board.getBlackKing()[1];
-                    if (!Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
-                        Board.revertToPreviousBoard();
-                        return true;
+                    if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+                        availablePositions.remove(position);
                     }
 
                     Board.revertToPreviousBoard();

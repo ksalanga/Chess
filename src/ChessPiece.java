@@ -5,6 +5,8 @@ public interface ChessPiece {
     //int[] inputPosition, ChessPiece[][] boardPositions, ArrayList<ChessPiece> captures, BoardScanner[][] bs
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures);
 
+    public void findPositions();
+
     public String getName();
 
     public ArrayList<int[]> getAvailablePositions();

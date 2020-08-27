@@ -33,6 +33,23 @@ public class Rook extends PieceMoves implements ChessPiece {
         setCurrentPosition(currentPosition);
         setAvailablePositions(availablePositions);
 
+        setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
+        boolean moveAvailable = move(rInput, cInput);
+        if (moveAvailable) return true;
+
+        if (!scanning) starting = false;
+        return false;
+    }
+
+    public void findPositions() {
+        availablePositions = new ArrayList<>();
+
+        int r = currentPosition[0];
+        int c = currentPosition[1];
+
+        setCurrentPosition(currentPosition);
+        setAvailablePositions(availablePositions);
+
         setR(r + 1); setC(c);
         moveAcross(0, 1);
 
@@ -44,13 +61,6 @@ public class Rook extends PieceMoves implements ChessPiece {
 
         setR(r); setC(c - 1);
         moveAcross(-1, 0);
-
-        setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
-        boolean moveAvailable = move(rInput, cInput);
-        if (moveAvailable) return true;
-
-        if (!scanning) starting = false;
-        return false;
     }
 
     public void scanning() {
