@@ -103,6 +103,20 @@ public class Board {
         System.out.println();
     }
 
+    public static void printScanner() {
+        for (int i = 0; i < boardScanner.length; i++) {
+            for (int j = 0; j < boardScanner[i].length; j++) {
+                if (boardScanner[i][j].isBlackMove()) {
+                    System.out.format("%s\t", "B");
+                } else {
+                    System.out.format("%s\t", "⬛");
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     public static void flipBoard() {
         for (int i = 0; i < Pieces.length/2; i++) {
             for (int j = 0; j < Pieces[i].length; j++) {
@@ -243,10 +257,30 @@ public class Board {
 
             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-            for (int[] position : availablePositions) {
-                int r = position[0];
-                int c = position[1];
-                Board.getBoardScanner()[r][c].isWhiteMove();
+            if (piece instanceof Pawn) {
+                for (int[] position: availablePositions) {
+                    int r = position[0];
+                    int c = position[1];
+                    if (c != piece.getCurrentPosition()[1]) { //captures sideways
+                        Board.getBoardScanner()[r][c].whiteMove();
+                    }
+                }
+            } else if (piece instanceof King && ((King) piece).castle()) {
+                for (int[] position: availablePositions) {
+                    int r = position[0];
+                    int c = position[1];
+
+                    if (Math.abs(piece.getCurrentPosition()[1] - c) < 2) {
+                        Board.getBoardScanner()[r][c].whiteMove();
+                    }
+                }
+
+            } else {
+                for (int[] position: availablePositions) {
+                    int r = position[0];
+                    int c = position[1];
+                    Board.getBoardScanner()[r][c].whiteMove();
+                }
             }
         }
     }
@@ -254,18 +288,39 @@ public class Board {
     public static void scanBlackAttacks() {
         for (ChessPiece piece : blackPieces) {
             piece.findPositions();
-
             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-            for (int[] position: availablePositions) {
-                int r = position[0];
-                int c = position[1];
-                Board.getBoardScanner()[r][c].isBlackMove();
+            //just add special case for pawns and king and you should be finished
+            if (piece instanceof Pawn) {
+                for (int[] position: availablePositions) {
+                    int r = position[0];
+                    int c = position[1];
+                    if (c != piece.getCurrentPosition()[1]) { //captures sideways
+                        Board.getBoardScanner()[r][c].blackMove();
+                    }
+                }
+            } else if (piece instanceof King && ((King) piece).castle()) {
+                for (int[] position: availablePositions) {
+                    int r = position[0];
+                    int c = position[1];
+
+                    if (Math.abs(piece.getCurrentPosition()[1] - c) < 2) {
+                        Board.getBoardScanner()[r][c].blackMove();
+                    }
+                }
+
+            } else {
+                for (int[] position: availablePositions) {
+                    int r = position[0];
+                    int c = position[1];
+                    Board.getBoardScanner()[r][c].blackMove();
+                }
             }
         }
     }
 
     public static void scanWhitePiece(ChessPiece piece, int[] position) {
+        PieceMoves.scanningSwitch();
         switch (piece.getName()) {
             case "♔":
                 ((King) piece).scanning(); //start scanning
@@ -286,9 +341,11 @@ public class Board {
                 piece.move(position, null);
                 break;
         }
+        PieceMoves.scanningSwitch();
     }
 
     public static void scanBlackPiece(ChessPiece piece, int[] position) {
+        PieceMoves.scanningSwitch();
         switch (piece.getName()) {
             case "♚":
                 ((King) piece).scanning(); //start scanning
@@ -309,6 +366,7 @@ public class Board {
                 piece.move(position, null);
                 break;
         }
+        PieceMoves.scanningSwitch();
     }
 
     public static void saveCurrentBoard() {

@@ -16,6 +16,7 @@ public class Knight extends PieceMoves implements ChessPiece {
         this.color = copy.color;
         this.name = copy.name;
         this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
+        this.availablePositions = copy.availablePositions;
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {

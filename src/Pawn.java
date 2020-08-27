@@ -24,6 +24,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
         this.promotion = copy.promotion;
         this.scanning = copy.scanning;
         this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])}; //still referring to the same position so when it accesses the white pawn that moved, it refers to the new Board.getPieces() copy, which still has the pawn that remained still
+        this.availablePositions = copy.availablePositions;
     }
 
     //the biggest problem for the refactoring of this code is the Pawn. it has a few more elements to it, also king and rook because of the starting booleans.
@@ -55,7 +56,6 @@ public class Pawn extends PieceMoves implements ChessPiece{
             }
         }
 
-        System.out.println("currentPosition" + r + c);
         setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
 
         boolean moveAvailable = move(rInput, cInput);

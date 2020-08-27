@@ -20,6 +20,7 @@ public class King extends PieceMoves implements ChessPiece {
         this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
         this.starting = copy.starting;
         this.scanning = copy.scanning;
+        this.availablePositions = copy.availablePositions;
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {

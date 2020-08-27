@@ -1,11 +1,14 @@
+import javax.naming.PartialResultException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class PieceMoves {
     //can introduce private variables in this class later to shorten parameter length
     protected HashMap<ChessPiece, int[]> piecePositions;
     private int r;
     private int c;
+    private static boolean scanning = false;
     private ArrayList<int[]> availablePositions;
     private ArrayList<ChessPiece> captures;
     private int[] currentPosition;
@@ -53,8 +56,10 @@ public class PieceMoves {
                 if (captures != null) captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
-            currentPosition[0] = rInput;
-            currentPosition[1] = cInput;
+            if (!scanning) {
+                currentPosition[0] = rInput;
+                currentPosition[1] = cInput;
+            }
             board[r][c] = null;
             return true;
         } else {
@@ -116,18 +121,23 @@ public class PieceMoves {
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-                for (int[] position : availablePositions) {
+                Iterator<int[]> iterator = availablePositions.iterator();
+
+                while (iterator.hasNext()) {
+                    int[] position = iterator.next();
+
                     Board.saveCurrentBoard();
 
                     Board.scanWhitePiece(piece, position);
 
                     Board.reInitialize();
+
                     Board.scanBlackAttacks(); //this method is going to change
 
                     int kingRow = Board.getWhiteKing()[0];
                     int kingColumn = Board.getWhiteKing()[1];
                     if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-                        availablePositions.remove(position);
+                        iterator.remove();
                     }
 
                     Board.revertToPreviousBoard();
@@ -140,17 +150,23 @@ public class PieceMoves {
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-                for (int[] position : availablePositions) {
+                Iterator<int[]> iterator = availablePositions.iterator();
+
+                while (iterator.hasNext()) {
+                    int[] position = iterator.next();
+
                     Board.saveCurrentBoard();
 
                     Board.scanBlackPiece(piece, position);
+
                     Board.reInitialize();
-                    Board.scanWhiteAttacks();
+
+                    Board.scanWhiteAttacks(); //this method is going to change
 
                     int kingRow = Board.getBlackKing()[0];
                     int kingColumn = Board.getBlackKing()[1];
                     if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
-                        availablePositions.remove(position);
+                        iterator.remove();
                     }
 
                     Board.revertToPreviousBoard();
@@ -166,6 +182,10 @@ public class PieceMoves {
 
     public void setC(int c) {
         this.c = c;
+    }
+
+    public static void scanningSwitch() {
+        scanning = !scanning;
     }
 
     public int getR() {return r;}
