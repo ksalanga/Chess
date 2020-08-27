@@ -265,7 +265,7 @@ public class Board {
                         Board.getBoardScanner()[r][c].whiteMove();
                     }
                 }
-            } else if (piece instanceof King && ((King) piece).castle()) {
+            } else if ((piece instanceof King) && ((King) piece).castle()) {
                 for (int[] position: availablePositions) {
                     int r = position[0];
                     int c = position[1];

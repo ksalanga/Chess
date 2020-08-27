@@ -94,12 +94,14 @@ public class King extends PieceMoves implements ChessPiece {
             }
         }
 
-        if (kingSideCastle()) {
-            availablePositions.add(new int[]{r, c + 2});
-        }
+        if (starting) {
+            if (kingSideCastle()) {
+                availablePositions.add(new int[]{r, c + 2});
+            }
 
-        if (queenSideCastle()) {
-            availablePositions.add(new int[]{r, c - 2});
+            if (queenSideCastle()) {
+                availablePositions.add(new int[]{r, c - 2});
+            }
         }
     }
 
@@ -113,6 +115,8 @@ public class King extends PieceMoves implements ChessPiece {
         int c = currentPosition[1];
 
         for (int i = 1; i < 3; i++) {
+            System.out.println("c:"+c);
+            System.out.println(c+i);
             if (Board.getPieces()[r][c + i] != null) {
                 return false;
             } else if (color.equals("white") && Board.getBoardScanner()[r][c + i].isBlackMove()) {
