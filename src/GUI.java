@@ -74,6 +74,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
 
     private void updateBoard() {
         GUIboard.removeAll();
+        pm.legalMoveAvailable(whitesTurn);
         Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
 
         for (int i = 0; i < 8; i++) {
@@ -83,7 +84,8 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         JButton button = (JButton) e.getSource();
-                        if (selections.size() == 0 && boardConnector.get(button) == null) return;
+                        if (selections.size() == 0 && boardConnector.get(button) == null
+                        || selections.size() == 0 && boardConnector.get(button).getAvailablePositions().size() == 0) return;
 
                         for (int i = 0; i < buttons.length; i++) {
                             for (int j = 0; j < buttons[i].length; j++) {
@@ -103,7 +105,6 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                         }
 
                         if (selections.size() == 1) {
-                            pm.legalMoveAvailable(whitesTurn);
 
                             ChessPiece piece = Board.getPieces()[selections.get(0)[0]][selections.get(0)[1]];
                             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
