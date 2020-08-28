@@ -15,8 +15,9 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
     private boolean whitesTurn;
     private PieceMoves pm;
     private boolean check = false;
-    private ArrayList<ChessPiece> whiteCaptures;
-    private ArrayList<ChessPiece> blackCaptures;
+    private ArrayList<ChessPiece> whiteCaptures = new ArrayList<>();
+    private ArrayList<ChessPiece> blackCaptures = new ArrayList<>();
+    private int counter = 0;
 
     public GUI() {
         boardConnector = new HashMap<>();
@@ -31,7 +32,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
 //
 //        Image newimg = img.getScaledInstance(70,70,0);
         GUIboard = new JPanel();
-        GUIboard.setSize(800,800);
+        GUIboard.setSize(new Dimension(800,800));
         GUIboard.setLayout(new GridLayout(8,8));
 
         updateBoard();
@@ -51,14 +52,15 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
             }
         });
 
-        flip.setBounds(900, 900, 20, 20);
+        flip.setBounds(300, 800, 200, 110);
         flip.setVisible(true);
+        flip.setBackground(Color.black);
+        flip.setIcon(new ImageIcon("images/flip.png"));
 
         f = new JFrame();//creating instance of JFrame
         f.add(GUIboard);//adding button in JFrame
 //        f.add(button);
 //        button.setBackground(new Color(225, 197, 158));
-
         f.add(flip);
 
         f.setSize(1920,1080);//400 width and 500 height
@@ -74,8 +76,10 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
 
     private void updateBoard() {
         GUIboard.removeAll();
-        pm.legalMoveAvailable(whitesTurn);
         Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
+        boolean legalMoveAvailable = pm.legalMoveAvailable(whitesTurn);
+        if(!legalMoveAvailable && check) System.out.println("checkmate :)");
+        if (!legalMoveAvailable && !check) System.out.println("stalemate :)");
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -125,7 +129,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                             int moveR = selections.get(1)[0];
                             int moveC = selections.get(1)[1];
 
-                            if (Board.getPieces()[r][c].move(selections.get(1), new ArrayList<ChessPiece>())) {
+                            if (Board.getPieces()[r][c].move(selections.get(1), whitesTurn ? whiteCaptures : blackCaptures)) {
                                 boardConnector.put(buttons[r][c], Board.getPieces()[r][c]);
                                 boardConnector.put(buttons[moveR][moveC], Board.getPieces()[moveR][moveC]);
                                 //updating hashmap values
@@ -154,53 +158,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                 }
 
                 if(!(Board.getPieces()[i][j] == null)) {
-                    String s = "";
-                    if (Board.getPieces()[i][j].getColor().equals("white")) {
-                        switch(Board.getPieces()[i][j].getName()) {
-                            case "♔":
-                                if (Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove()) b.setBackground(new Color(148,0,211));
-                                s = "images/WhiteKing.png";
-                                break;
-                            case "♕":
-                                s = "images/WhiteQueen.png";
-                                break;
-                            case "♖":
-                                s = "images/WhiteRook.png";
-                                break;
-                            case "♗":
-                                s = "images/WhiteBishop.png";
-                                break;
-                            case "♘":
-                                s = "images/WhiteKnight.png";
-                                break;
-                            case "♙":
-                                s = "images/WhitePawn.png";
-                                break;
-                        }
-                    } else {
-                        switch (Board.getPieces()[i][j].getName()) {
-                            case "♚":
-                                if (Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove()) b.setBackground(new Color(148,0,211));
-                                s = "images/BlackKing.png";
-                                break;
-                            case "♛":
-                                s = "images/BlackQueen.png";
-                                break;
-                            case "♜":
-                                s = "images/BlackRook.png";
-                                break;
-                            case "♝":
-                                s = "images/BlackBishop.png";
-                                break;
-                            case "♞":
-                                s = "images/BlackKnight.png";
-                                break;
-                            case "♟":
-                                s = "images/BlackPawn.png";
-                                break;
-                        }
-                    }
-                    b.setIcon(new ImageIcon(s));
+                    b.setIcon(getImage(Board.getPieces()[i][j], b));
                 }
 
                 GUIboard.add(b);
@@ -208,6 +166,44 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
 //                b.setRolloverIcon(); //for hovering over the buttons
 //                b.setPressedIcon();
             }
+        }
+
+        for (int i = 0; i < whiteCaptures.size(); i++) {
+            ChessPiece piece = whiteCaptures.get(i);
+            JButton caps = new JButton();
+
+            int x = 800 + (i * 100);
+            int y;
+
+            if (Board.isFlipped()) {
+                y = i > 7 ? 300 : 200;
+            } else {
+                y = i > 7 ? 500 : 600;
+            }
+            caps.setBounds(x, y, 100, 100);
+            caps.setBackground(Color.white);
+            caps.setIcon(getImage(piece, caps));
+            caps.setVisible(true);
+            f.add(caps);
+        }
+
+        for (int i = 0; i < blackCaptures.size(); i++) {
+            ChessPiece piece = blackCaptures.get(i);
+            JButton caps = new JButton();
+
+            int x = 800 + (i * 100);
+            int y;
+
+            if (Board.isFlipped()) {
+                y = i > 7 ? 500 : 600;
+            } else {
+                y = i > 7 ? 300 : 200;
+            }
+            caps.setBounds(x, y, 100, 100);
+            caps.setBackground(Color.black);
+            caps.setIcon(getImage(piece, caps));
+            caps.setVisible(true);
+            f.add(caps);
         }
         GUIboard.revalidate();
         GUIboard.repaint();
@@ -222,32 +218,65 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
             int kingColumn = Board.getWhiteKing()[1];
 
             Board.scanBlackAttacks();
-            if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
-
-                if (!pm.legalMoveAvailable(whitesTurn)) {
-                    System.out.println("Checkmate");
-                    return;
-                }
-                check = true;
-            } else {
-                check = false;
-            }
+            check = Board.getBoardScanner()[kingRow][kingColumn].isBlackMove();
         } else {
             int kingRow = Board.getBlackKing()[0];
             int kingColumn = Board.getBlackKing()[1];
 
             Board.scanWhiteAttacks();
-            if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
+            check = Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove();
+        }
 
-                if (!pm.legalMoveAvailable(whitesTurn)) {
-                    System.out.println("Checkmate");
-                    return;
-                }
-                check = true;
-            } else {
-                check = false;
+    }
+
+    private ImageIcon getImage(ChessPiece piece, JButton b) {
+        String s = "";
+        if (piece.getColor().equals("white")) {
+            switch(piece.getName()) {
+                case "♔":
+                    if (Board.getBoardScanner()[Board.getWhiteKing()[0]][Board.getWhiteKing()[1]].isBlackMove()) b.setBackground(new Color(148,0,211));
+                    s = "images/WhiteKing.png";
+                    break;
+                case "♕":
+                    s = "images/WhiteQueen.png";
+                    break;
+                case "♖":
+                    s = "images/WhiteRook.png";
+                    break;
+                case "♗":
+                    s = "images/WhiteBishop.png";
+                    break;
+                case "♘":
+                    s = "images/WhiteKnight.png";
+                    break;
+                case "♙":
+                    s = "images/WhitePawn.png";
+                    break;
+            }
+        } else {
+            switch (piece.getName()) {
+                case "♚":
+                    if (Board.getBoardScanner()[Board.getBlackKing()[0]][Board.getBlackKing()[1]].isWhiteMove()) b.setBackground(new Color(148,0,211));
+                    s = "images/BlackKing.png";
+                    break;
+                case "♛":
+                    s = "images/BlackQueen.png";
+                    break;
+                case "♜":
+                    s = "images/BlackRook.png";
+                    break;
+                case "♝":
+                    s = "images/BlackBishop.png";
+                    break;
+                case "♞":
+                    s = "images/BlackKnight.png";
+                    break;
+                case "♟":
+                    s = "images/BlackPawn.png";
+                    break;
             }
         }
 
+        return new ImageIcon(s);
     }
 }

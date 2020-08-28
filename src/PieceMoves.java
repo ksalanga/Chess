@@ -114,6 +114,8 @@ public class PieceMoves {
 
     public boolean legalMoveAvailable(boolean whitesTurn) {
 
+        boolean flag = false;
+
         if (whitesTurn) {
             for (int i = 0; i < Board.getWhitePieces().size(); i++) {
                 ChessPiece piece = Board.getWhitePieces().get(i);
@@ -142,6 +144,8 @@ public class PieceMoves {
 
                     Board.revertToPreviousBoard();
                 }
+
+                if (availablePositions.size() > 0) flag = true;
             }
         } else {
             for (int i = 0; i < Board.getBlackPieces().size(); i++) {
@@ -171,9 +175,11 @@ public class PieceMoves {
 
                     Board.revertToPreviousBoard();
                 }
+
+                if (availablePositions.size() > 0) flag = true;
             }
         }
-        return false;
+        return flag;
     }
 
     public void setR(int r) {
