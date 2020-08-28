@@ -85,7 +85,6 @@ public class PieceMoves {
 
         boolean flag = false;
 
-        if (board[r][c] == null) System.out.println(r + " " + c);
         boolean white = board[r][c].getColor().equals("white");
 
         for (int[] availablePosition : availablePositions) {
@@ -127,9 +126,9 @@ public class PieceMoves {
 
                 while (iterator.hasNext()) {
                     int[] position = iterator.next();
-
                     Board.saveCurrentBoard();
 
+                    //temporary move
                     Board.scanWhitePiece(piece, position);
 
                     Board.reInitialize();
@@ -144,6 +143,7 @@ public class PieceMoves {
 
                     Board.revertToPreviousBoard();
                 }
+
 
                 if (availablePositions.size() > 0) flag = true;
             }

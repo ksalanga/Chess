@@ -89,7 +89,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                     public void actionPerformed(ActionEvent e) {
                         JButton button = (JButton) e.getSource();
                         if (selections.size() == 0 && boardConnector.get(button) == null
-                        || selections.size() == 0 && boardConnector.get(button).getAvailablePositions().size() == 0) return;
+                        || (boardConnector.get(button) != null && selections.size() == 0 && boardConnector.get(button).getAvailablePositions().size() == 0)) return;
 
                         for (int i = 0; i < buttons.length; i++) {
                             for (int j = 0; j < buttons[i].length; j++) {

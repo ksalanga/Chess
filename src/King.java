@@ -24,7 +24,6 @@ public class King extends PieceMoves implements ChessPiece {
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        availablePositions = new ArrayList<int[]>();
 
         int r = currentPosition[0];
         int c = currentPosition[1];
@@ -78,15 +77,12 @@ public class King extends PieceMoves implements ChessPiece {
             for (int j = Math.max(c - 1, 0); j <= Math.min(c + 1, 7); j++) {
                 boolean white = color.equals("white");
                 ChessPiece piece = Board.getPieces()[i][j];
-                BoardScanner bScanner = Board.getBoardScanner()[i][j];
                 if (!(i == r && j == c)
-                        && (piece == null)
-                        && (white ? !bScanner.isBlackMove() : !bScanner.isWhiteMove())) {
+                        && (piece == null)) {
                     availablePositions.add(new int[] {i, j});
                 }
                 if (!(i == r && j == c)
-                        && (piece != null)
-                        && (white ? !bScanner.isBlackMove() : !bScanner.isWhiteMove())) {
+                        && (piece != null)) {
                     if (white ? piece.getColor().equals("black") : piece.getColor().equals("white")) {
                         availablePositions.add(new int[] {i, j});
                     }

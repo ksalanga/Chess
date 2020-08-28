@@ -24,7 +24,6 @@ public class Rook extends PieceMoves implements ChessPiece {
     }
 
     public boolean move(int[] inputPosition, ArrayList<ChessPiece> captures) {
-        availablePositions = new ArrayList<>();
 
         int r = currentPosition[0];
         int c = currentPosition[1];
@@ -32,6 +31,7 @@ public class Rook extends PieceMoves implements ChessPiece {
         int cInput = inputPosition[1];
 
         setCurrentPosition(currentPosition);
+
         setAvailablePositions(availablePositions);
 
         setInputPosition(inputPosition); setR(r); setC(c); setCaptures(captures);
