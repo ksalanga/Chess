@@ -1,16 +1,13 @@
-import javax.naming.PartialResultException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class PieceMoves {
     //can introduce private variables in this class later to shorten parameter length
-    protected HashMap<ChessPiece, int[]> piecePositions;
     private int r;
     private int c;
-    private static boolean scanning = false;
     private ArrayList<int[]> availablePositions;
     private ArrayList<ChessPiece> captures;
+    private static boolean scanning = false;
     private int[] currentPosition;
     private int[] inputPosition;
 
@@ -56,10 +53,10 @@ public class PieceMoves {
                 if (captures != null) captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
-            if (!scanning) {
+//            if (!scanning) {
                 currentPosition[0] = rInput;
                 currentPosition[1] = cInput;
-            }
+//            }
             board[r][c] = null;
             return true;
         } else {
@@ -103,12 +100,6 @@ public class PieceMoves {
         return flag;
     }
 
-    protected int addressChange(int x) {
-        int[] array = new int[]{0,1,2,3,4,5,6,7};
-
-        return array[x];
-    }
-
     //1 possibility: Have all of the moves ready with the test moves method, then when the piece actually moves, it can just pick from all of the possible moves fo reach piece
 
     public boolean legalMoveAvailable(boolean whitesTurn) {
@@ -121,29 +112,38 @@ public class PieceMoves {
                 piece.findPositions();
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
+                piece.saveCurrentPosition();
+
+                System.out.println("STATUS");
+                Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
+                System.out.println("---------------------------------");
 
                 Iterator<int[]> iterator = availablePositions.iterator();
 
                 while (iterator.hasNext()) {
-                    int[] position = iterator.next();
-                    Board.saveCurrentBoard();
 
-                    //temporary move
+                    if (piece instanceof King) System.out.println("King Move Here");
+                    int[] position = iterator.next();
+
+                    Board.saveCurrentBoard();
                     Board.scanWhitePiece(piece, position);
+                    Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
 
                     Board.reInitialize();
 
                     Board.scanBlackAttacks(); //this method is going to change
+
+                    Board.printScanner();
 
                     int kingRow = Board.getWhiteKing()[0];
                     int kingColumn = Board.getWhiteKing()[1];
                     if (Board.getBoardScanner()[kingRow][kingColumn].isBlackMove()) {
                         iterator.remove();
                     }
-
                     Board.revertToPreviousBoard();
+                    piece.revertToPreviousPosition();
+//                    Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
                 }
-
 
                 if (availablePositions.size() > 0) flag = true;
             }
@@ -153,6 +153,8 @@ public class PieceMoves {
                 piece.findPositions();
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
+
+                piece.saveCurrentPosition();
 
                 Iterator<int[]> iterator = availablePositions.iterator();
 
@@ -174,6 +176,7 @@ public class PieceMoves {
                     }
 
                     Board.revertToPreviousBoard();
+                    piece.revertToPreviousPosition();
                 }
 
                 if (availablePositions.size() > 0) flag = true;
@@ -190,16 +193,16 @@ public class PieceMoves {
         this.c = c;
     }
 
-    public static void scanningSwitch() {
-        scanning = !scanning;
-    }
-
     public int getR() {return r;}
 
     public int getC() {return c;}
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
+    }
+
+    public static void scanningSwitch() {
+        scanning = !scanning;
     }
 
     public void setAvailablePositions(ArrayList<int[]> availablePositions) { this.availablePositions = availablePositions; }

@@ -8,6 +8,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
     private boolean promotion = false;
     private boolean scanning = false;
     private int[] currentPosition;
+    private int[] savedPosition;
     private ArrayList<int[]> availablePositions;
 
     public Pawn(int[] currentPosition, String color) {
@@ -23,7 +24,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
         this.starting = copy.starting;
         this.promotion = copy.promotion;
         this.scanning = copy.scanning;
-        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])}; //still referring to the same position so when it accesses the white pawn that moved, it refers to the new Board.getPieces() copy, which still has the pawn that remained still
+        this.currentPosition = copy.currentPosition;
         this.availablePositions = copy.availablePositions;
     }
 
@@ -39,6 +40,7 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
         int r = currentPosition[0];
         int c = currentPosition[1];
+
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
@@ -291,6 +293,15 @@ public class Pawn extends PieceMoves implements ChessPiece{
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
+    }
+
+    public void saveCurrentPosition() {
+        savedPosition = new int[]{currentPosition[0], currentPosition[1]};
+    }
+
+    public void revertToPreviousPosition() {
+        currentPosition[0] = savedPosition[0];
+        currentPosition[1] = savedPosition[1];
     }
 
     public int[] getCurrentPosition() { return currentPosition; }

@@ -4,6 +4,7 @@ public class King extends PieceMoves implements ChessPiece {
     private String color;
     private String name;
     private int[] currentPosition;
+    private int[] savedPosition;
     private boolean starting = true;
     private boolean scanning = false;
     private ArrayList<int[]> availablePositions;
@@ -17,7 +18,7 @@ public class King extends PieceMoves implements ChessPiece {
     public King(King copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
+        this.currentPosition = copy.currentPosition;
         this.starting = copy.starting;
         this.scanning = copy.scanning;
         this.availablePositions = copy.availablePositions;
@@ -30,6 +31,7 @@ public class King extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
+        if (scanning) System.out.printf("%s Pre Current Position: (%d, %d)", color, currentPosition[0], currentPosition[1]);
         //we keep this in the move method.
         //rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 2 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)
         if (starting) {
@@ -61,6 +63,12 @@ public class King extends PieceMoves implements ChessPiece {
         setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
 
         boolean moveAvailable = move(rInput, cInput);
+
+        if (moveAvailable && scanning) {
+            System.out.printf("%s Input: (%d, %d)", color, rInput, cInput);
+            System.out.printf("%s Post Current Position: (%d, %d)", color, currentPosition[0], currentPosition[1]);
+            System.out.printf("White King Position: (%d, %d)", Board.getWhiteKing()[0], Board.getWhiteKing()[1]);
+        }
         if (moveAvailable && !scanning) return true;
 
         if (!scanning) starting = false;
@@ -158,6 +166,15 @@ public class King extends PieceMoves implements ChessPiece {
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
+    }
+
+    public void saveCurrentPosition() {
+        savedPosition = new int[]{currentPosition[0], currentPosition[1]};
+    }
+
+    public void revertToPreviousPosition() {
+        currentPosition[0] = savedPosition[0];
+        currentPosition[1] = savedPosition[1];
     }
 
     public int[] getCurrentPosition() {

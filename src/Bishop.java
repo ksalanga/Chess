@@ -4,6 +4,7 @@ public class Bishop extends PieceMoves implements ChessPiece {
     private String color;
     private String name;
     private int[] currentPosition;
+    private int[] savedPosition;
     private ArrayList<int[]> availablePositions;
 
     public Bishop(int[] currentPosition, String color) {
@@ -15,7 +16,7 @@ public class Bishop extends PieceMoves implements ChessPiece {
     public Bishop(Bishop copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
+        this.currentPosition = copy.currentPosition;
         this.availablePositions = copy.availablePositions;
     }
 
@@ -58,6 +59,15 @@ public class Bishop extends PieceMoves implements ChessPiece {
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
+    }
+
+    public void saveCurrentPosition() {
+        savedPosition = new int[]{currentPosition[0], currentPosition[1]};
+    }
+
+    public void revertToPreviousPosition() {
+        currentPosition[0] = savedPosition[0];
+        currentPosition[1] = savedPosition[1];
     }
 
     public int[] getCurrentPosition() { return currentPosition; }

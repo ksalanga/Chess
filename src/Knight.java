@@ -4,6 +4,7 @@ public class Knight extends PieceMoves implements ChessPiece {
     private String color;
     private String name;
     private int[] currentPosition;
+    private int[] savedPosition;
     private ArrayList<int[]> availablePositions;
 
     public Knight(int[] currentPosition, String color) {
@@ -15,7 +16,7 @@ public class Knight extends PieceMoves implements ChessPiece {
     public Knight(Knight copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
+        this.currentPosition = copy.currentPosition;
         this.availablePositions = copy.availablePositions;
     }
 
@@ -27,7 +28,8 @@ public class Knight extends PieceMoves implements ChessPiece {
         int cInput = inputPosition[1];
 
         setCurrentPosition(currentPosition); setInputPosition(inputPosition); setR(r); setC(c); setAvailablePositions(availablePositions); setCaptures(captures);
-        return move(rInput, cInput);
+        boolean move = move(rInput, cInput);
+        return move;
     }
 
     public void findPositions() {
@@ -54,6 +56,15 @@ public class Knight extends PieceMoves implements ChessPiece {
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
+    }
+
+    public void saveCurrentPosition() {
+        savedPosition = new int[]{currentPosition[0], currentPosition[1]};
+    }
+
+    public void revertToPreviousPosition() {
+        currentPosition[0] = savedPosition[0];
+        currentPosition[1] = savedPosition[1];
     }
 
     public int[] getCurrentPosition() { return currentPosition; }

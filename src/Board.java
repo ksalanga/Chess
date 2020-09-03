@@ -19,6 +19,9 @@ public class Board {
 
     private static boolean flipped;
 
+    //Board.saveCurrentBoard();
+    //                    Board.scanWhitePiece(piece, position);
+    //revertToPreviousBoard
 
     public Board() {
         Pieces = new ChessPiece[8][8];
@@ -105,6 +108,7 @@ public class Board {
 
     public static void printScanner() {
         for (int i = 0; i < boardScanner.length; i++) {
+            System.out.print(8 - i + "\t");
             for (int j = 0; j < boardScanner[i].length; j++) {
                 if (boardScanner[i][j].isBlackMove()) {
                     System.out.format("%s\t", "B");
@@ -114,7 +118,10 @@ public class Board {
             }
             System.out.println();
         }
-        System.out.println();
+        System.out.print("\t");
+        for (int i = 0; i < 8; i++) {
+            System.out.format("%s\t", (char) (65 + i));
+        }
     }
 
     public static void flipBoard() {

@@ -11,6 +11,10 @@ public interface ChessPiece {
 
     public ArrayList<int[]> getAvailablePositions();
 
+    public void saveCurrentPosition();
+
+    public void revertToPreviousPosition();
+
     public int[] getCurrentPosition(); //for optimization purposes, probably should convert String to int array [column, row] that way, storage is not dynamic;
 
     public String getColor();

@@ -4,6 +4,7 @@ public class Rook extends PieceMoves implements ChessPiece {
     private String color;
     private String name;
     private int[] currentPosition;
+    private int[] savedPosition;
     private boolean starting = true;
     private boolean scanning = false;
     private ArrayList<int[]> availablePositions;
@@ -17,7 +18,7 @@ public class Rook extends PieceMoves implements ChessPiece {
     public Rook(Rook copy) {
         this.color = copy.color;
         this.name = copy.name;
-        this.currentPosition = new int[]{addressChange(copy.currentPosition[0]), addressChange(copy.currentPosition[1])};
+        this.currentPosition = copy.currentPosition;
         this.starting = copy.starting;
         this.scanning = copy.scanning;
         this.availablePositions = copy.availablePositions;
@@ -79,6 +80,15 @@ public class Rook extends PieceMoves implements ChessPiece {
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
+    }
+
+    public void saveCurrentPosition() {
+        savedPosition = new int[]{currentPosition[0], currentPosition[1]};
+    }
+
+    public void revertToPreviousPosition() {
+        currentPosition[0] = savedPosition[0];
+        currentPosition[1] = savedPosition[1];
     }
 
     public int[] getCurrentPosition() {
