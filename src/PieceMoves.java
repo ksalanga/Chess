@@ -7,7 +7,6 @@ public class PieceMoves {
     private int c;
     private ArrayList<int[]> availablePositions;
     private ArrayList<ChessPiece> captures;
-    private static boolean scanning = false;
     private int[] currentPosition;
     private int[] inputPosition;
 
@@ -53,10 +52,10 @@ public class PieceMoves {
                 if (captures != null) captures.add(board[rInput][cInput]);
             }
             board[rInput][cInput] = board[r][c];
-//            if (!scanning) {
-                currentPosition[0] = rInput;
-                currentPosition[1] = cInput;
-//            }
+
+            currentPosition[0] = rInput;
+            currentPosition[1] = cInput;
+
             board[r][c] = null;
             return true;
         } else {
@@ -109,31 +108,23 @@ public class PieceMoves {
         if (whitesTurn) {
             for (int i = 0; i < Board.getWhitePieces().size(); i++) {
                 ChessPiece piece = Board.getWhitePieces().get(i);
+                if (piece instanceof King) Board.scanBlackAttacks();
                 piece.findPositions();
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
                 piece.saveCurrentPosition();
 
-                System.out.println("STATUS");
-                Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
-                System.out.println("---------------------------------");
-
                 Iterator<int[]> iterator = availablePositions.iterator();
 
                 while (iterator.hasNext()) {
-
-                    if (piece instanceof King) System.out.println("King Move Here");
                     int[] position = iterator.next();
 
                     Board.saveCurrentBoard();
                     Board.scanWhitePiece(piece, position);
-                    Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
 
                     Board.reInitialize();
 
                     Board.scanBlackAttacks(); //this method is going to change
-
-                    Board.printScanner();
 
                     int kingRow = Board.getWhiteKing()[0];
                     int kingColumn = Board.getWhiteKing()[1];
@@ -142,7 +133,6 @@ public class PieceMoves {
                     }
                     Board.revertToPreviousBoard();
                     piece.revertToPreviousPosition();
-//                    Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
                 }
 
                 if (availablePositions.size() > 0) flag = true;
@@ -150,6 +140,7 @@ public class PieceMoves {
         } else {
             for (int i = 0; i < Board.getBlackPieces().size(); i++) {
                 ChessPiece piece = Board.getBlackPieces().get(i);
+                if (piece instanceof King) Board.scanWhiteAttacks();
                 piece.findPositions();
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
@@ -174,9 +165,9 @@ public class PieceMoves {
                     if (Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove()) {
                         iterator.remove();
                     }
-
                     Board.revertToPreviousBoard();
                     piece.revertToPreviousPosition();
+
                 }
 
                 if (availablePositions.size() > 0) flag = true;
@@ -199,10 +190,6 @@ public class PieceMoves {
 
     public ArrayList<int[]> getAvailablePositions() {
         return availablePositions;
-    }
-
-    public static void scanningSwitch() {
-        scanning = !scanning;
     }
 
     public void setAvailablePositions(ArrayList<int[]> availablePositions) { this.availablePositions = availablePositions; }
