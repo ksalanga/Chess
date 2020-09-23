@@ -254,7 +254,6 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
             int kingColumn = Board.getBlackKing()[1];
 
             Board.scanWhiteAttacks();
-            Board.printScanner();
             check = Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove();
         }
 

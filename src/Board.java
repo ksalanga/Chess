@@ -272,27 +272,19 @@ public class Board {
             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
             if (piece instanceof Pawn) {
-                if (piece.getCurrentPosition()[1] == 4 || piece.getCurrentPosition()[0] < 6) {
-                    for (int i = 0; i < availablePositions.size(); i++) {
-                        System.out.printf("Pawn Position %d: (%d, %d)\n", i, availablePositions.get(i)[0], availablePositions.get(i)[1]);
-                        if (i > 0) {
-                            System.out.println("I GREATER THAN 0 HERE");
-                            Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
-                        }
-                    }
-                }
-
                 for (int[] position: availablePositions) {
                     int r = position[0];
                     int c = position[1];
 
-                    if (Math.abs(piece.getCurrentPosition()[0] - r) == 1) {
+                    if (Math.abs(piece.getCurrentPosition()[0] - r) == 1 && piece.getCurrentPosition()[1] == c) {
                         if (c - 1 >= 0) {
                             Board.getBoardScanner()[r][c - 1].whiteMove();
                         }
                         if (c + 1 < 8) {
                             Board.getBoardScanner()[r][c + 1].whiteMove();
                         }
+                    } else if(Math.abs(piece.getCurrentPosition()[0] - r) != 2) {
+                        Board.getBoardScanner()[r][c].whiteMove();
                     }
 //                    if (c != piece.getCurrentPosition()[1]) { //captures sideways
 //                        Board.getBoardScanner()[r][c].whiteMove();
@@ -328,13 +320,15 @@ public class Board {
                     int r = position[0];
                     int c = position[1];
 
-                    if (Math.abs(piece.getCurrentPosition()[0] - r) == 1) {
+                    if (Math.abs(piece.getCurrentPosition()[0] - r) == 1 && piece.getCurrentPosition()[1] == c) {
                         if (c - 1 >= 0) {
                             Board.getBoardScanner()[r][c - 1].blackMove();
                         }
                         if (c + 1 < 8) {
                             Board.getBoardScanner()[r][c + 1].blackMove();
                         }
+                    } else if(Math.abs(piece.getCurrentPosition()[0] - r) != 2) {
+                        Board.getBoardScanner()[r][c].blackMove();
                     }
 //                    if (c != piece.getCurrentPosition()[1]) { //captures sideways
 //                        Board.getBoardScanner()[r][c].blackMove();
