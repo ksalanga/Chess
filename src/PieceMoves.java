@@ -140,7 +140,7 @@ public class PieceMoves {
         } else {
             for (int i = 0; i < Board.getBlackPieces().size(); i++) {
                 ChessPiece piece = Board.getBlackPieces().get(i);
-                if (piece instanceof King) Board.scanWhiteAttacks();
+//                if (piece instanceof King) Board.scanWhiteAttacks();
                 piece.findPositions();
 
                 ArrayList<int[]> availablePositions = piece.getAvailablePositions();
@@ -158,7 +158,7 @@ public class PieceMoves {
 
                     Board.reInitialize();
 
-                    Board.scanWhiteAttacks(); //this method is going to change
+//                    Board.scanWhiteAttacks();
 
                     int kingRow = Board.getBlackKing()[0];
                     int kingColumn = Board.getBlackKing()[1];

@@ -31,7 +31,7 @@ public class King extends PieceMoves implements ChessPiece {
         int rInput = inputPosition[0];
         int cInput = inputPosition[1];
 
-        if (scanning) System.out.printf("%s Pre Current Position: (%d, %d)", color, currentPosition[0], currentPosition[1]);
+//        if (scanning) System.out.printf("%s Pre Current Position: (%d, %d)", color, currentPosition[0], currentPosition[1]);
         //we keep this in the move method.
         //rInput == r && (starting && c + 2 == cInput && Board.getPieces()[r][cInput + 1] instanceof Rook) || (starting && c - 2 == cInput && Board.getPieces()[r][cInput - 1] instanceof Rook)
         if (starting) {
@@ -64,11 +64,11 @@ public class King extends PieceMoves implements ChessPiece {
 
         boolean moveAvailable = move(rInput, cInput);
 
-        if (moveAvailable && scanning) {
-            System.out.printf("%s Input: (%d, %d)", color, rInput, cInput);
-            System.out.printf("%s Post Current Position: (%d, %d)", color, currentPosition[0], currentPosition[1]);
-            System.out.printf("White King Position: (%d, %d)", Board.getWhiteKing()[0], Board.getWhiteKing()[1]);
-        }
+//        if (moveAvailable && scanning) {
+//            System.out.printf("%s Input: (%d, %d)", color, rInput, cInput);
+//            System.out.printf("%s Post Current Position: (%d, %d)", color, currentPosition[0], currentPosition[1]);
+//            System.out.printf("White King Position: (%d, %d)", Board.getWhiteKing()[0], Board.getWhiteKing()[1]);
+//        }
         if (moveAvailable && !scanning) return true;
 
         if (!scanning) starting = false;

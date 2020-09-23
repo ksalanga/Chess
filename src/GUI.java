@@ -7,31 +7,38 @@ import java.util.HashMap;
 
 public class GUI extends JPanel implements ActionListener { //a GUI version of Game Class.
     private JButton[][] buttons = new JButton[8][8];
-    private Board board;
     private ArrayList<int[]> selections;
     private HashMap<JButton, ChessPiece> boardConnector;
     private JFrame f;
     private JPanel GUIboard;
+    private JScrollPane gameHistory;
     private boolean whitesTurn;
     private PieceMoves pm;
     private boolean check = false;
+    ChessPiece[][] currentBoard;
     private ArrayList<ChessPiece> whiteCaptures = new ArrayList<>();
     private ArrayList<ChessPiece> blackCaptures = new ArrayList<>();
-    private int counter = 0;
+    private JScrollPane wCaptures;
+    private JScrollPane bCaptures;
+    private int selection = 0;
 
     public GUI() {
+        currentBoard = Board.getPieces();
         boardConnector = new HashMap<>();
         selections = new ArrayList<>();
-        board = new Board();
+        Board board = new Board();
         board.setPositions();
         pm = new PieceMoves();
         whitesTurn = true;
+        wCaptures = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        bCaptures = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 //        ImageIcon knight = new ImageIcon("images/BlackKnight.png");
 //        Image img = knight.getImage();
 //
 //        Image newimg = img.getScaledInstance(70,70,0);
         GUIboard = new JPanel();
+        gameHistory = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         GUIboard.setSize(new Dimension(800,800));
         GUIboard.setLayout(new GridLayout(8,8));
 
@@ -61,8 +68,10 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
         f.add(GUIboard);//adding button in JFrame
 //        f.add(button);
 //        button.setBackground(new Color(225, 197, 158));
+        f.add(wCaptures);
+        f.add(bCaptures);
         f.add(flip);
-
+        f.add(gameHistory);
         f.setSize(1920,1080);//400 width and 500 height
         f.setLayout(null);//using no layout managers
         f.setVisible(true);//making the frame visible
@@ -75,15 +84,20 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
     }
 
     private void updateBoard() {
+        boolean isCurrentBoard = Board.getGameHistory().size() == selection;
+
+        if (isCurrentBoard) currentBoard = Board.getPieces();
+        else currentBoard = Board.getGameHistory().get(selection);
+
         GUIboard.removeAll();
         Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
         boolean legalMoveAvailable = pm.legalMoveAvailable(whitesTurn);
         if(!legalMoveAvailable && check) System.out.println("checkmate :)");
         if (!legalMoveAvailable && !check) System.out.println("stalemate :)");
 
+        //Board Panel
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-
                 buttons[i][j] = new JButton(new AbstractAction() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -96,7 +110,6 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                                 if (buttons[i][j].equals(button)) {
                                     if (selections.size() == 0 && Board.getPieces()[i][j] != null) {
                                         String color = Board.getPieces()[i][j].getColor();
-
                                         if ((color.equals("black") && whitesTurn)
                                                 || (color.equals("white") && !whitesTurn)) return;
                                     }
@@ -135,10 +148,10 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
                                 //updating hashmap values
                                 whitesTurn = !whitesTurn;
 
+                                Board.addToGameHistory();
                                 check();
                                 f.repaint();
                             }
-
                             updateBoard();
                             selections.clear();
                         }
@@ -168,43 +181,60 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
             }
         }
 
-        for (int i = 0; i < whiteCaptures.size(); i++) {
-            ChessPiece piece = whiteCaptures.get(i);
+        //GameHistory Panel
+        JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
+
+        for (int i = 0; i < Board.getGameHistory().size(); i++) {
+            JButton b = new JButton(String.valueOf(i + 1));
+            b.setSize(100, 100);
+            b.setVisible(true);
+            p.add(b);
+        }
+
+        gameHistory.setBounds(1600, 200, 300, 300);
+        gameHistory.setViewportView(p);
+
+        //Captures Panel
+
+        if(!Board.isFlipped()) {
+            wCaptures.setBounds(800, 0, 137, 400);
+            bCaptures.setBounds(800, 400, 137, 400);
+        } else {
+            bCaptures.setBounds(800, 0, 137, 400);
+            wCaptures.setBounds(800, 400, 137, 400);
+        }
+
+        JPanel wCapturesPanel = new JPanel();
+        JPanel bCapturesPanel = new JPanel();
+        wCapturesPanel.setLayout(new BoxLayout(wCapturesPanel, BoxLayout.PAGE_AXIS));
+        wCapturesPanel.setSize(100, 400);
+        bCapturesPanel.setLayout(new BoxLayout(bCapturesPanel, BoxLayout.PAGE_AXIS));
+        bCapturesPanel.setSize(100, 400);
+
+        for (ChessPiece piece : whiteCaptures) {
             JButton caps = new JButton();
 
-            int x = 800 + (i * 100);
-            int y;
-
-            if (Board.isFlipped()) {
-                y = i > 7 ? 300 : 200;
-            } else {
-                y = i > 7 ? 500 : 600;
-            }
-            caps.setBounds(x, y, 100, 100);
+            caps.setSize(100, 100);
             caps.setBackground(Color.white);
             caps.setIcon(getImage(piece, caps));
             caps.setVisible(true);
-            f.add(caps);
+            wCapturesPanel.add(caps);
         }
 
-        for (int i = 0; i < blackCaptures.size(); i++) {
-            ChessPiece piece = blackCaptures.get(i);
+        for (ChessPiece piece : blackCaptures) {
             JButton caps = new JButton();
 
-            int x = 800 + (i * 100);
-            int y;
-
-            if (Board.isFlipped()) {
-                y = i > 7 ? 500 : 600;
-            } else {
-                y = i > 7 ? 300 : 200;
-            }
-            caps.setBounds(x, y, 100, 100);
+            caps.setSize(100, 100);
             caps.setBackground(Color.black);
             caps.setIcon(getImage(piece, caps));
             caps.setVisible(true);
-            f.add(caps);
+            bCapturesPanel.add(caps);
         }
+
+        wCaptures.setViewportView(wCapturesPanel);
+        bCaptures.setViewportView(bCapturesPanel);
+
         GUIboard.revalidate();
         GUIboard.repaint();
     }
@@ -224,6 +254,7 @@ public class GUI extends JPanel implements ActionListener { //a GUI version of G
             int kingColumn = Board.getBlackKing()[1];
 
             Board.scanWhiteAttacks();
+            Board.printScanner();
             check = Board.getBoardScanner()[kingRow][kingColumn].isWhiteMove();
         }
 

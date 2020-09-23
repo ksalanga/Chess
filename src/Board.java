@@ -9,6 +9,8 @@ public class Board {
 
     private static ArrayList<ChessPiece> whitePieces;
     private static ArrayList<ChessPiece> blackPieces;
+    private static ArrayList<ChessPiece[][]> gameHistory;
+    private static ArrayList<Boolean> flipStatus;
 
     private static ChessPiece[][] boardCopy;
 
@@ -29,13 +31,13 @@ public class Board {
         reInitialize();
         whitePieces = new ArrayList<ChessPiece>();
         blackPieces = new ArrayList<ChessPiece>();
+        gameHistory = new ArrayList<ChessPiece[][]>();
         boardCopy = new ChessPiece[8][8];
         boardScannerCopy = new BoardScanner[8][8];
         flipped = false;
     }
 
     public void setPositions() {
-
         //setting Kings
         Pieces[7][4] = new King(new int[] {7, 4}, "white"); whitePieces.add(Pieces[7][4]);
         Pieces[0][4] = new King(new int[] {0, 4}, "black"); blackPieces.add(Pieces[0][4]);
@@ -110,8 +112,8 @@ public class Board {
         for (int i = 0; i < boardScanner.length; i++) {
             System.out.print(8 - i + "\t");
             for (int j = 0; j < boardScanner[i].length; j++) {
-                if (boardScanner[i][j].isBlackMove()) {
-                    System.out.format("%s\t", "B");
+                if (boardScanner[i][j].isWhiteMove()) {
+                    System.out.format("%s\t", "W");
                 } else {
                     System.out.format("%s\t", "⬛");
                 }
@@ -172,6 +174,11 @@ public class Board {
         return tile;
     }
 
+    public static void addToGameHistory() {
+        copyBoard();
+        gameHistory.add(boardCopy);
+    }
+
     public static void pawnPromotion(boolean whitesTurn, Scanner sc) {
         if (whitesTurn) {
             for (int i = 0; i < whitePieces.size(); i++) {
@@ -212,7 +219,7 @@ public class Board {
                 ChessPiece piece = blackPieces.get(i);
                 int[] currentPosition = piece.getCurrentPosition();
                 if (piece instanceof Pawn && currentPosition[0] == 7) {
-                    System.out.println("1) Queen, 2) Rook, 3) Bishop, 4)Knight");
+                    System.out.println("1) Queen, 2) Rook, 3) Bishop, 4) Knight");
                     int selection = sc.nextInt();
                     while (!(selection > 0 && selection < 5)) {
                         System.out.println("1) Queen, 2) Rook, 3) Bishop, 4) Knight");
@@ -265,6 +272,16 @@ public class Board {
             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
             if (piece instanceof Pawn) {
+                if (piece.getCurrentPosition()[1] == 4 || piece.getCurrentPosition()[0] < 6) {
+                    for (int i = 0; i < availablePositions.size(); i++) {
+                        System.out.printf("Pawn Position %d: (%d, %d)\n", i, availablePositions.get(i)[0], availablePositions.get(i)[1]);
+                        if (i > 0) {
+                            System.out.println("I GREATER THAN 0 HERE");
+                            Board.printBoard(new ArrayList<ChessPiece>(), new ArrayList<ChessPiece>());
+                        }
+                    }
+                }
+
                 for (int[] position: availablePositions) {
                     int r = position[0];
                     int c = position[1];
@@ -306,7 +323,6 @@ public class Board {
             piece.findPositions();
             ArrayList<int[]> availablePositions = piece.getAvailablePositions();
 
-            //just add special case for pawns and king and you should be finished
             if (piece instanceof Pawn) {
                 for (int[] position: availablePositions) {
                     int r = position[0];
@@ -388,6 +404,10 @@ public class Board {
                 piece.move(position, null);
                 break;
         }
+    }
+
+    public static ArrayList<ChessPiece[][]> getGameHistory() {
+        return gameHistory;
     }
 
     public static void saveCurrentBoard() {
@@ -484,16 +504,7 @@ public class Board {
     private static void setBoardScanner(BoardScanner[][] newScanner) {
         boardScanner = newScanner;
     }
-    //im gonna time how fast my program runs with/ without multithreading.
-    //board can find the originating source of the attack and return that arraylist of positions, because the board is the one showing the tiles to the pieces
 
-    //go across the board +r, same c; -r, same c; -c, same r; c, same r; +c, +c; -c + c
-
-    //multithread potentially calculate the +c, -c, +r, -r,
-
-    //could add multithreading to scanning all the pieces too.
-
-    //could make a mathematical equation to find the origin of the attack of the piece
     public static ArrayList<ChessPiece> getWhitePieces() {
         return whitePieces;
     }
