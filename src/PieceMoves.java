@@ -107,6 +107,7 @@ public class PieceMoves {
 
         if (whitesTurn) {
             for (int i = 0; i < Board.getWhitePieces().size(); i++) {
+                Board.saveCurrentBoard();
                 ChessPiece piece = Board.getWhitePieces().get(i);
                 if (piece instanceof King) Board.scanBlackAttacks();
                 piece.findPositions();
@@ -135,10 +136,12 @@ public class PieceMoves {
                     piece.revertToPreviousPosition();
                 }
 
+                Board.revertToPreviousBoard();
                 if (availablePositions.size() > 0) flag = true;
             }
         } else {
             for (int i = 0; i < Board.getBlackPieces().size(); i++) {
+                Board.saveCurrentBoard();
                 ChessPiece piece = Board.getBlackPieces().get(i);
                 if (piece instanceof King) Board.scanWhiteAttacks();
                 piece.findPositions();
@@ -170,6 +173,7 @@ public class PieceMoves {
 
                 }
 
+                Board.revertToPreviousBoard();
                 if (availablePositions.size() > 0) flag = true;
             }
         }
